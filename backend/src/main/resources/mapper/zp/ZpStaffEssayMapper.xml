@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.zp.dao.ZpStaffEssayMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffEssay">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="staffId" property="staffId"/>
+        <result column="lwlzmc" property="lwlzmc"/>
+        <result column="zzname" property="zzname"/>
+        <result column="fbqk" property="fbqk"/>
+        <result column="fbcbny" property="fbcbny"/>
+        <result column="slqk" property="slqk"/>
+        <result column="yxyz" property="yxyz"/>
+        <result column="tycs" property="tycs"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="jcrfq" property="jcrfq"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, userid, staffId, lwlzmc, zzname, fbqk, fbcbny, slqk, yxyz, tycs, currencyField, MODIFY_TIME, CREATE_TIME, jcrfq
+    </sql>
+    <update id="updateZpStaffEssay" parameterType="cc.mrbird.febs.zp.entity.ZpStaffEssay">
+        update zp_staff_essay
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userid != null">userid=#{userid},</if>
+            <if test="staffId != null">staffId=#{staffId},</if>
+            <if test="lwlzmc != null">lwlzmc=#{lwlzmc},</if>
+            <if test="zzname != null">zzname=#{zzname},</if>
+            <if test="fbqk != null">fbqk=#{fbqk},</if>
+            <if test="fbcbny != null">fbcbny=#{fbcbny},</if>
+            <if test="slqk != null">slqk=#{slqk},</if>
+            <if test="yxyz != null">yxyz=#{yxyz},</if>
+            <if test="tycs != null">tycs=#{tycs},</if>
+            <if test="currencyField != null">currencyField=#{currencyField},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
+            <if test="jcrfq != null">jcrfq=#{jcrfq},</if>
+        </trim>
+        where id=#{id}
+
+    </update>
+    <select id="findZpStaffEssay" resultType="cc.mrbird.febs.zp.entity.ZpStaffEssay"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffEssay">
+        select * from zp_staff_essay
+        where 1=1
+        <if test="zpStaffEssay.id != null and zpStaffEssay.id != ''">and id =#{ zpStaffEssay.id}</if>
+        <if test="zpStaffEssay.staffId != null and zpStaffEssay.staffId != ''">and staffId like concat('%',
+            #{ zpStaffEssay.staffId} ,'%')
+        </if>
+        <if test="zpStaffEssay.lwlzmc != null and zpStaffEssay.lwlzmc != ''">and lwlzmc like concat('%',
+            #{ zpStaffEssay.lwlzmc} ,'%')
+        </if>
+        <if test="zpStaffEssay.zzname != null and zpStaffEssay.zzname != ''">and zzname like concat('%',
+            #{ zpStaffEssay.zzname} ,'%')
+        </if>
+        <if test="zpStaffEssay.fbqk != null and zpStaffEssay.fbqk != ''">and fbqk like concat('%', #{ zpStaffEssay.fbqk}
+            ,'%')
+        </if>
+        <if test="zpStaffEssay.fbcbny != null and zpStaffEssay.fbcbny != ''">and fbcbny like concat('%',
+            #{ zpStaffEssay.fbcbny} ,'%')
+        </if>
+        <if test="zpStaffEssay.slqk != null and zpStaffEssay.slqk != ''">and slqk like concat('%', #{ zpStaffEssay.slqk}
+            ,'%')
+        </if>
+        <if test="zpStaffEssay.yxyz != null and zpStaffEssay.yxyz != ''">and yxyz like concat('%', #{ zpStaffEssay.yxyz}
+            ,'%')
+        </if>
+        <if test="zpStaffEssay.tycs != null and zpStaffEssay.tycs != ''">and tycs like concat('%', #{ zpStaffEssay.tycs}
+            ,'%')
+        </if>
+        <if test="zpStaffEssay.currencyField != null and zpStaffEssay.currencyField != ''">and currencyField like
+            concat('%', #{ zpStaffEssay.currencyField} ,'%')
+        </if>
+    </select>
+
+    <select id="findEssayByPosterIdAndSs" resultType="cc.mrbird.febs.zp.entity.ZpStaffEssay">
+        SELECT
+            ey.*
+        FROM
+            zp_staff_apply sa
+        left join zp_staff_essay ey on
+            sa.staffId = ey.staffId
+        WHERE
+            sa.posterId = #{posterId}
+        <if test="state!=null">
+            AND sa.state = #{state}
+        </if>
+        <if test="idList!=null and idList.size()>0">
+            AND sa.staffId in
+            <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+</mapper>

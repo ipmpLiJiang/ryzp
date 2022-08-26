@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.zp.dao.ZpStaffEducationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffEducation">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="staffId" property="staffId"/>
+        <result column="xlxw" property="xlxw"/>
+        <result column="srtdat" property="srtdat"/>
+        <result column="enddat" property="enddat"/>
+        <result column="yxname" property="yxname"/>
+        <result column="sxzy" property="sxzy"/>
+        <result column="yjfx" property="yjfx"/>
+        <result column="dsxx" property="dsxx"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, userid, staffId, xlxw, srtdat, enddat, yxname, sxzy, yjfx, dsxx, currencyField, MODIFY_TIME, CREATE_TIME
+    </sql>
+    <update id="updateZpStaffEducation" parameterType="cc.mrbird.febs.zp.entity.ZpStaffEducation">
+        update zp_staff_education
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userid != null">userid=#{userid},</if>
+            <if test="staffId != null">staffId=#{staffId},</if>
+            <if test="xlxw != null">xlxw=#{xlxw},</if>
+            <if test="srtdat != null">srtdat=#{srtdat},</if>
+            <if test="enddat != null">enddat=#{enddat},</if>
+            <if test="yxname != null">yxname=#{yxname},</if>
+            <if test="sxzy != null">sxzy=#{sxzy},</if>
+            <if test="yjfx != null">yjfx=#{yjfx},</if>
+            <if test="dsxx != null">dsxx=#{dsxx},</if>
+            <if test="currencyField != null">currencyField=#{currencyField},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
+        </trim>
+        where id=#{id}
+
+    </update>
+    <select id="findZpStaffEducation" resultType="cc.mrbird.febs.zp.entity.ZpStaffEducation"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffEducation">
+        select * from zp_staff_education
+        where 1=1
+        <if test="zpStaffEducation.id != null and zpStaffEducation.id != ''">and id =#{ zpStaffEducation.id}</if>
+        <if test="zpStaffEducation.staffId != null and zpStaffEducation.staffId != ''">and staffId like concat('%',
+            #{ zpStaffEducation.staffId} ,'%')
+        </if>
+        <if test="zpStaffEducation.xlxw != null and zpStaffEducation.xlxw != ''">and xlxw like concat('%',
+            #{ zpStaffEducation.xlxw} ,'%')
+        </if>
+        <if test="zpStaffEducation.srtdatFrom!= null">
+            AND zpStaffEducation.srtdat <![CDATA[ >= ]]>  srtdatFrom}
+        </if>
+        <if test="zpStaffEducation.srtdatTo!= null">
+            AND zpStaffEducation.srtdat <![CDATA[ <= ]]>  srtdatTo}
+        </if>
+        <if test="zpStaffEducation.enddatFrom!= null">
+            AND zpStaffEducation.enddat <![CDATA[ >= ]]>  enddatFrom}
+        </if>
+        <if test="zpStaffEducation.enddatTo!= null">
+            AND zpStaffEducation.enddat <![CDATA[ <= ]]>  enddatTo}
+        </if>
+        <if test="zpStaffEducation.yxname != null and zpStaffEducation.yxname != ''">and yxname like concat('%',
+            #{ zpStaffEducation.yxname} ,'%')
+        </if>
+        <if test="zpStaffEducation.sxzy != null and zpStaffEducation.sxzy != ''">and sxzy like concat('%',
+            #{ zpStaffEducation.sxzy} ,'%')
+        </if>
+        <if test="zpStaffEducation.yjfx != null and zpStaffEducation.yjfx != ''">and yjfx like concat('%',
+            #{ zpStaffEducation.yjfx} ,'%')
+        </if>
+        <if test="zpStaffEducation.dsxx != null and zpStaffEducation.dsxx != ''">and dsxx like concat('%',
+            #{ zpStaffEducation.dsxx} ,'%')
+        </if>
+        <if test="zpStaffEducation.currencyField != null and zpStaffEducation.currencyField != ''">and currencyField
+            like concat('%', #{ zpStaffEducation.currencyField} ,'%')
+        </if>
+    </select>
+
+    <select id="findEducationByPosterIdAndSs" resultType="cc.mrbird.febs.zp.entity.ZpStaffEducation">
+        SELECT
+        ed.*
+        FROM
+        zp_staff_apply sa
+        left join zp_staff_education ed on
+        sa.staffId = ed.staffId
+        WHERE
+        sa.posterId = #{posterId}
+        <if test="state!=null">
+            AND sa.state = #{state}
+        </if>
+        <if test="idList!=null and idList.size()>0">
+            AND sa.staffId in
+            <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.zp.dao.ZpRecruitPosterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpRecruitPoster">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="fbr" property="fbr"/>
+        <result column="ly" property="ly"/>
+        <result column="srtdat" property="srtdat"/>
+        <result column="enddat" property="enddat"/>
+        <result column="crtdat" property="crtdat"/>
+        <result column="ptit" property="ptit"/>
+        <result column="pnr" property="pnr"/>
+        <result column="pzw" property="pzw"/>
+        <result column="state" property="state"/>
+        <result column="isend" property="isend"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, userid, fbr, ly, srtdat, enddat, crtdat, ptit, pnr, pzw, state, isend, currencyField, MODIFY_TIME, CREATE_TIME
+    </sql>
+    <update id="updateZpRecruitPoster" parameterType="cc.mrbird.febs.zp.entity.ZpRecruitPoster">
+        update zp_recruit_poster
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userid != null">userid=#{userid},</if>
+            <if test="fbr != null">fbr=#{fbr},</if>
+            <if test="ly != null">ly=#{ly},</if>
+            <if test="srtdat != null">srtdat=#{srtdat},</if>
+            <if test="enddat != null">enddat=#{enddat},</if>
+            <if test="crtdat != null">crtdat=#{crtdat},</if>
+            <if test="ptit != null">ptit=#{ptit},</if>
+            <if test="pnr != null">pnr=#{pnr},</if>
+            <if test="pzw != null">pzw=#{pzw},</if>
+            <if test="state != null">state=#{state},</if>
+            <if test="isend != null">isend=#{isend},</if>
+            <if test="currencyField != null">currencyField=#{currencyField},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
+        </trim>
+        where id=#{id}
+
+    </update>
+    <select id="findZpRecruitPoster" resultType="cc.mrbird.febs.zp.entity.ZpRecruitPoster"
+            parameterType="cc.mrbird.febs.zp.entity.ZpRecruitPoster">
+        SELECT
+        *
+        FROM
+        zp_recruit_poster
+        where
+        state = 1
+        AND isend = 0
+        AND srtdat <![CDATA[ <= ]]> now( )
+        AND enddat <![CDATA[ >= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </select>
+
+</mapper>

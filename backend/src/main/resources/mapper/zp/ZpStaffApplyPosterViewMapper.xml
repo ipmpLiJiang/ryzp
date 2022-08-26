@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.zp.dao.ZpStaffApplyPosterViewMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffApplyPosterView">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="fbr" property="fbr"/>
+        <result column="ly" property="ly"/>
+        <result column="srtdat" property="srtdat"/>
+        <result column="enddat" property="enddat"/>
+        <result column="crtdat" property="crtdat"/>
+        <result column="ptit" property="ptit"/>
+        <result column="pnr" property="pnr"/>
+        <result column="pzw" property="pzw"/>
+        <result column="state" property="state"/>
+        <result column="isend" property="isend"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="applydat" property="applydat"/>
+        <result column="applyState" property="applyState"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, userid, fbr, ly, srtdat, enddat, crtdat, ptit, pnr, pzw, state, isend, currencyField,
+        applydat,applyState
+    </sql>
+    <select id="findStaffApplyPosterView" resultType="cc.mrbird.febs.zp.entity.ZpStaffApplyPosterView"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffApplyPosterView">
+        SELECT
+            zrp.id,
+            zrp.userid,
+            zrp.fbr,
+            zrp.ly,
+            zrp.srtdat,
+            zrp.enddat,
+            zrp.crtdat,
+            zrp.ptit,
+            zrp.pnr,
+            zrp.pzw,
+            zrp.state,
+            zrp.isend,
+            zrp.currencyField,
+            zsa.crtdat applydat,
+            zsa.state applyState
+        FROM
+            zp_recruit_poster zrp
+            left join zp_staff_apply zsa on
+                zrp.id = zsa.posterId
+                AND zsa.staffId = #{staffId}
+            left join zp_staff_info info on
+                zsa.staffId = info.id
+            where
+                zrp.state = 1
+                <if test="key != null and key != ''">
+                    and (zrp.ptit like concat('%', #{key} ,'%') or zrp.pzw like concat('%', #{key} ,'%'))
+                </if>
+                AND (
+                    (zsa.id is not null OR  zrp.isend = 0) AND zrp.srtdat <![CDATA[ <= ]]> now( )
+                    AND zrp.enddat > DATE_FORMAT(DATE_ADD(NOW(),INTERVAL -1 DAY),'%Y-%m-%d')
+                )
+    </select>
+
+    <select id="findMyStaffApplyPosterView" resultType="cc.mrbird.febs.zp.entity.ZpStaffApplyPosterView"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffApplyPosterView">
+        SELECT
+        zrp.id,
+        zrp.userid,
+        zrp.fbr,
+        zrp.ly,
+        zrp.srtdat,
+        zrp.enddat,
+        zrp.crtdat,
+        zrp.ptit,
+        zrp.pnr,
+        zrp.pzw,
+        zrp.state,
+        zrp.isend,
+        zrp.currencyField,
+        zsa.crtdat applydat,
+        zsa.state applyState
+        FROM
+        zp_recruit_poster zrp
+        left join zp_staff_apply zsa on
+            zrp.id = zsa.posterId
+        where
+        zrp.state = 1
+        <if test="staffId != null">
+        AND zsa.staffId = #{staffId}
+        </if>
+        <if test="staffId == null">
+        AND 1=2
+        </if>
+    </select>
+
+</mapper>

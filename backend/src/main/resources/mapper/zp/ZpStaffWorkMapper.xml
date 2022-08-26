@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.zp.dao.ZpStaffWorkMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffWork">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="staffId" property="staffId"/>
+        <result column="srtdat" property="srtdat"/>
+        <result column="enddat" property="enddat"/>
+        <result column="wkdw" property="wkdw"/>
+        <result column="wkzw" property="wkzw"/>
+        <result column="wkxl" property="wkxl"/>
+        <result column="dsxx" property="dsxx"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, userid, staffId, srtdat, enddat, wkdw, wkzw, wkxl, dsxx, currencyField, MODIFY_TIME, CREATE_TIME, remark
+    </sql>
+    <update id="updateZpStaffWork" parameterType="cc.mrbird.febs.zp.entity.ZpStaffWork">
+        update zp_staff_work
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userid != null">userid=#{userid},</if>
+            <if test="staffId != null">staffId=#{staffId},</if>
+            <if test="srtdat != null">srtdat=#{srtdat},</if>
+            <if test="enddat != null">enddat=#{enddat},</if>
+            <if test="wkdw != null">wkdw=#{wkdw},</if>
+            <if test="wkzw != null">wkzw=#{wkzw},</if>
+            <if test="wkxl != null">wkxl=#{wkxl},</if>
+            <if test="dsxx != null">dsxx=#{dsxx},</if>
+            <if test="currencyField != null">currencyField=#{currencyField},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+        </trim>
+        where id=#{id}
+
+    </update>
+    <select id="findZpStaffWork" resultType="cc.mrbird.febs.zp.entity.ZpStaffWork"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffWork">
+        select * from zp_staff_work
+        where 1=1
+        <if test="zpStaffWork.id != null and zpStaffWork.id != ''">and id =#{ zpStaffWork.id}</if>
+        <if test="zpStaffWork.staffId != null and zpStaffWork.staffId != ''">and staffId like concat('%',
+            #{ zpStaffWork.staffId} ,'%')
+        </if>
+        <if test="zpStaffWork.srtdatFrom!= null">
+            AND zpStaffWork.srtdat <![CDATA[ >= ]]>  srtdatFrom}
+        </if>
+        <if test="zpStaffWork.srtdatTo!= null">
+            AND zpStaffWork.srtdat <![CDATA[ <= ]]>  srtdatTo}
+        </if>
+        <if test="zpStaffWork.enddatFrom!= null">
+            AND zpStaffWork.enddat <![CDATA[ >= ]]>  enddatFrom}
+        </if>
+        <if test="zpStaffWork.enddatTo!= null">
+            AND zpStaffWork.enddat <![CDATA[ <= ]]>  enddatTo}
+        </if>
+        <if test="zpStaffWork.wkdw != null and zpStaffWork.wkdw != ''">and wkdw like concat('%', #{ zpStaffWork.wkdw}
+            ,'%')
+        </if>
+        <if test="zpStaffWork.wkzw != null and zpStaffWork.wkzw != ''">and wkzw like concat('%', #{ zpStaffWork.wkzw}
+            ,'%')
+        </if>
+        <if test="zpStaffWork.wkxl != null and zpStaffWork.wkxl != ''">and wkxl like concat('%',
+            #{ zpStaffWork.wkxl} ,'%')
+        </if>
+        <if test="zpStaffWork.dsxx != null and zpStaffWork.dsxx != ''">and dsxx like concat('%', #{ zpStaffWork.dsxx}
+            ,'%')
+        </if>
+        <if test="zpStaffWork.currencyField != null and zpStaffWork.currencyField != ''">and currencyField like
+            concat('%', #{ zpStaffWork.currencyField} ,'%')
+        </if>
+    </select>
+
+    <select id="findWorkByPosterIdAndSs" resultType="cc.mrbird.febs.zp.entity.ZpStaffWork">
+        SELECT
+            sw.*
+        FROM
+            zp_staff_apply sa
+        left join zp_staff_work sw on
+            sa.staffId = sw.staffId
+        WHERE
+            sa.posterId = #{posterId}
+        <if test="state!=null">
+            AND sa.state = #{state}
+        </if>
+        <if test="idList!=null and idList.size()>0">
+            AND sa.staffId in
+            <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

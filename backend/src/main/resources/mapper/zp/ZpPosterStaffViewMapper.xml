@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.zp.dao.ZpPosterStaffViewMapper">
+
+
+    <select id="findZpPosterStaffView" resultType="cc.mrbird.febs.zp.entity.ZpPosterStaffView"
+            parameterType="cc.mrbird.febs.zp.entity.ZpPosterStaffView">
+    SELECT
+        zsa.id,
+        zsi.id staffId,
+        zsi.ryname,
+        zsi.sex,
+        zsi.csdat,
+        zsi.idnumber,
+        zsi.jkzt,
+        zsi.zhrjg,
+        zsi.zhrsg,
+        zsi.zhrtz,
+        zsi.zhrxx,
+        zsi.zhrmz,
+        zsi.isfcdj,
+        zsi.zzmm,
+        zsi.hyzt,
+        zsi.zngs,
+        zsi.zyks1,
+        zsi.zyks2,
+        zsi.zgxl,
+        zsi.wysp,
+        zsi.wyspfs,
+        zsi.jsjsp,
+        zsi.tel,
+        zsi.jtzz,
+        zsi.xjdz,
+        zsi.hjdz,
+        zsi.jjlxr,
+        zsi.lxrtel,
+        zsi.email,
+        zsi.indw,
+        zsi.wechatNo,
+        zsi.isyszgz,
+        zsi.zylx,
+        zsi.isbysqdzyys,
+        zsi.isssjdszhy,
+        zsi.ywjwbs,
+        zse.yxname,
+        zsa.posterId,
+        zsa.state applystate,
+        zsa.CREATE_TIME,
+        zsa.crtdat
+    FROM
+        zp_staff_apply zsa
+        INNER JOIN zp_staff_info zsi on
+            zsa.staffId = zsi.id
+        LEFT JOIN zp_staff_education zse on
+            zsi.id = zse.staffId
+            and zse.xlxw = zsi.zgxl
+    WHERE
+        zsa.posterId = #{zpPosterStaffView.posterId}
+        <if test="zpPosterStaffView.applystate != null">
+        and zsa.state = #{zpPosterStaffView.applystate}
+        </if>
+        <if test="zpPosterStaffView.currencyField != null">
+            and zsi.ryname like concat('%', #{zpPosterStaffView.currencyField} ,'%')
+        </if>
+    </select>
+
+
+</mapper>

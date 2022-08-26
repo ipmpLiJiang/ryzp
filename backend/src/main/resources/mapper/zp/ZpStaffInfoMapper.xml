@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.zp.dao.ZpStaffInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffInfo">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="ryname" property="ryname"/>
+        <result column="sex" property="sex"/>
+        <result column="csdat" property="csdat"/>
+        <result column="idnumber" property="idnumber"/>
+        <result column="zhrjg" property="zhrjg"/>
+        <result column="jkzt" property="jkzt"/>
+        <result column="zhrsg" property="zhrsg"/>
+        <result column="zhrtz" property="zhrtz"/>
+        <result column="zhrxx" property="zhrxx"/>
+        <result column="zhrmz" property="zhrmz"/>
+        <result column="isfcdj" property="isfcdj"/>
+        <result column="zzmm" property="zzmm"/>
+        <result column="hyzt" property="hyzt"/>
+        <result column="zngs" property="zngs"/>
+        <result column="zyks1" property="zyks1"/>
+        <result column="zyks2" property="zyks2"/>
+        <result column="zgxl" property="zgxl"/>
+        <result column="wysp" property="wysp"/>
+        <result column="wyspfs" property="wyspfs"/>
+        <result column="jsjsp" property="jsjsp"/>
+        <result column="tel" property="tel"/>
+        <result column="jtzz" property="jtzz"/>
+        <result column="hjdz" property="hjdz"/>
+        <result column="xjdz" property="xjdz"/>
+        <result column="jjlxr" property="jjlxr"/>
+        <result column="lxrtel" property="lxrtel"/>
+        <result column="email" property="email"/>
+        <result column="indw" property="indw"/>
+        <result column="wechatNo" property="wechatNo"/>
+        <result column="isyszgz" property="isyszgz"/>
+        <result column="zylx" property="zylx"/>
+        <result column="isbysqdzyys" property="isbysqdzyys"/>
+        <result column="isssjdszhy" property="isssjdszhy"/>
+        <result column="ywjwbs" property="ywjwbs"/>
+        <result column="zwjs" property="zwjs"/>
+        <result column="zxhjqk" property="zxhjqk"/>
+        <result column="issub" property="issub"/>
+        <result column="comments" property="comments"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, userid, ryname, sex, csdat, idnumber, zhrjg, jkzt, zhrsg, zhrtz, zhrxx, zhrmz, isfcdj, zzmm, hyzt, zngs, zyks1, zyks2, zgxl, wysp, wyspfs, jsjsp, tel, jtzz, hjdz, xjdz, jjlxr, lxrtel, email, indw, wechatNo, isyszgz, zylx, isbysqdzyys, isssjdszhy, ywjwbs, zwjs, zxhjqk, issub, comments, currencyField, MODIFY_TIME, CREATE_TIME
+    </sql>
+    <update id="updateZpStaffInfo" parameterType="cc.mrbird.febs.zp.entity.ZpStaffInfo">
+        update zp_staff_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userid != null">userid=#{userid},</if>
+            <if test="ryname != null">ryname=#{ryname},</if>
+            <if test="sex != null">sex=#{sex},</if>
+            <if test="csdat != null">csdat=#{csdat},</if>
+            <if test="idnumber != null">idnumber=#{idnumber},</if>
+            <if test="zhrjg != null">zhrjg=#{zhrjg},</if>
+            <if test="jkzt != null">jkzt=#{jkzt},</if>
+            <if test="zhrsg != null">zhrsg=#{zhrsg},</if>
+            <if test="zhrtz != null">zhrtz=#{zhrtz},</if>
+            <if test="zhrxx != null">zhrxx=#{zhrxx},</if>
+            <if test="zhrmz != null">zhrmz=#{zhrmz},</if>
+            <if test="isfcdj != null">isfcdj=#{isfcdj},</if>
+            <if test="zzmm != null">zzmm=#{zzmm},</if>
+            <if test="hyzt != null">hyzt=#{hyzt},</if>
+            <if test="zngs != null">zngs=#{zngs},</if>
+            <if test="zyks1 != null">zyks1=#{zyks1},</if>
+            <if test="zyks2 != null">zyks2=#{zyks2},</if>
+            <if test="zgxl != null">zgxl=#{zgxl},</if>
+            <if test="wysp != null">wysp=#{wysp},</if>
+            <if test="wyspfs != null">wyspfs=#{wyspfs},</if>
+            <if test="jsjsp != null">jsjsp=#{jsjsp},</if>
+            <if test="tel != null">tel=#{tel},</if>
+            <if test="jtzz != null">jtzz=#{jtzz},</if>
+            <if test="hjdz != null">hjdz=#{hjdz},</if>
+            <if test="xjdz != null">xjdz=#{xjdz},</if>
+            <if test="jjlxr != null">jjlxr=#{jjlxr},</if>
+            <if test="lxrtel != null">lxrtel=#{lxrtel},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="indw != null">indw=#{indw},</if>
+            <if test="wechatNo != null">wechatNo=#{wechatNo},</if>
+            <if test="isyszgz != null">isyszgz=#{isyszgz},</if>
+            <if test="zylx != null">zylx=#{zylx},</if>
+            <if test="isbysqdzyys != null">isbysqdzyys=#{isbysqdzyys},</if>
+            <if test="isssjdszhy != null">isssjdszhy=#{isssjdszhy},</if>
+            <if test="ywjwbs != null">ywjwbs=#{ywjwbs},</if>
+            <if test="zwjs != null">zwjs=#{zwjs},</if>
+            <if test="zxhjqk != null">zxhjqk=#{zxhjqk},</if>
+            <if test="issub != null">issub=#{issub},</if>
+            <if test="comments != null">comments=#{comments},</if>
+            <if test="currencyField != null">currencyField=#{currencyField},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
+        </trim>
+        where id=#{id}
+
+    </update>
+    <select id="findZpStaffInfo" resultType="cc.mrbird.febs.zp.entity.ZpStaffInfo"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffInfo">
+        select * from zp_staff_info
+        where 1=1
+        <if test="zpStaffInfo.id != null and zpStaffInfo.id != ''">and id =#{ zpStaffInfo.id}</if>
+        <if test="zpStaffInfo.ryname != null and zpStaffInfo.ryname != ''">and ryname like concat('%',
+            #{ zpStaffInfo.ryname} ,'%')
+        </if>
+        <if test="zpStaffInfo.csdatFrom!= null">
+            AND zpStaffInfo.csdat <![CDATA[ >= ]]>  csdatFrom}
+        </if>
+        <if test="zpStaffInfo.csdatTo!= null">
+            AND zpStaffInfo.csdat <![CDATA[ <= ]]>  csdatTo}
+        </if>
+        <if test="zpStaffInfo.idnumber != null and zpStaffInfo.idnumber != ''">and idnumber like concat('%',
+            #{ zpStaffInfo.idnumber} ,'%')
+        </if>
+        <if test="zpStaffInfo.zhrjg != null and zpStaffInfo.zhrjg != ''">and zhrjg like concat('%',
+            #{ zpStaffInfo.zhrjg} ,'%')
+        </if>
+        <if test="zpStaffInfo.jkzt != null and zpStaffInfo.jkzt != ''">and jkzt like concat('%', #{ zpStaffInfo.jkzt}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.zhrsg != null">and zhrsg =#{ zpStaffInfo.zhrsg}</if>
+        <if test="zpStaffInfo.zhrtz != null">and zhrtz =#{ zpStaffInfo.zhrtz}</if>
+        <if test="zpStaffInfo.zhrxx != null and zpStaffInfo.zhrxx != ''">and zhrxx like concat('%',
+            #{ zpStaffInfo.zhrxx} ,'%')
+        </if>
+        <if test="zpStaffInfo.zhrmz != null and zpStaffInfo.zhrmz != ''">and zhrmz like concat('%',
+            #{ zpStaffInfo.zhrmz} ,'%')
+        </if>
+        <if test="zpStaffInfo.zzmm != null and zpStaffInfo.zzmm != ''">and zzmm like concat('%', #{ zpStaffInfo.zzmm}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.hyzt != null and zpStaffInfo.hyzt != ''">and hyzt like concat('%', #{ zpStaffInfo.hyzt}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.zyks1 != null and zpStaffInfo.zyks1 != ''">and zyks1 like concat('%',
+            #{ zpStaffInfo.zyks1} ,'%')
+        </if>
+        <if test="zpStaffInfo.zyks2 != null and zpStaffInfo.zyks2 != ''">and zyks2 like concat('%',
+            #{ zpStaffInfo.zyks2} ,'%')
+        </if>
+        <if test="zpStaffInfo.wysp != null and zpStaffInfo.wysp != ''">and wysp like concat('%', #{ zpStaffInfo.wysp}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.wyspfs != null">and wyspfs =#{ zpStaffInfo.wyspfs}</if>
+        <if test="zpStaffInfo.jsjsp != null and zpStaffInfo.jsjsp != ''">and jsjsp like concat('%',
+            #{ zpStaffInfo.jsjsp} ,'%')
+        </if>
+        <if test="zpStaffInfo.tel != null and zpStaffInfo.tel != ''">and tel like concat('%', #{ zpStaffInfo.tel}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.jtzz != null and zpStaffInfo.jtzz != ''">and jtzz like concat('%', #{ zpStaffInfo.jtzz}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.xjdz != null and zpStaffInfo.xjdz != ''">and xjdz like concat('%', #{ zpStaffInfo.xjdz}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.jjlxr != null and zpStaffInfo.jjlxr != ''">and jjlxr like concat('%',
+            #{ zpStaffInfo.jjlxr} ,'%')
+        </if>
+        <if test="zpStaffInfo.lxrtel != null and zpStaffInfo.lxrtel != ''">and lxrtel like concat('%',
+            #{ zpStaffInfo.lxrtel} ,'%')
+        </if>
+        <if test="zpStaffInfo.email != null and zpStaffInfo.email != ''">and email like concat('%',
+            #{ zpStaffInfo.email} ,'%')
+        </if>
+        <if test="zpStaffInfo.indw != null and zpStaffInfo.indw != ''">and indw like concat('%', #{ zpStaffInfo.indw}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.wechatNo != null and zpStaffInfo.wechatNo != ''">and wechatNo like concat('%',
+            #{ zpStaffInfo.wechatNo} ,'%')
+        </if>
+        <if test="zpStaffInfo.zylx != null and zpStaffInfo.zylx != ''">and zylx like concat('%', #{ zpStaffInfo.zylx}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.ywjwbs != null and zpStaffInfo.ywjwbs != ''">and ywjwbs like concat('%',
+            #{ zpStaffInfo.ywjwbs} ,'%')
+        </if>
+        <if test="zpStaffInfo.zwjs != null and zpStaffInfo.zwjs != ''">and zwjs like concat('%', #{ zpStaffInfo.zwjs}
+            ,'%')
+        </if>
+        <if test="zpStaffInfo.zxhjqk != null and zpStaffInfo.zxhjqk != ''">and zxhjqk like concat('%',
+            #{ zpStaffInfo.zxhjqk} ,'%')
+        </if>
+        <if test="zpStaffInfo.comments != null and zpStaffInfo.comments != ''">and comments like concat('%',
+            #{ zpStaffInfo.comments} ,'%')
+        </if>
+        <if test="zpStaffInfo.currencyField != null and zpStaffInfo.currencyField != ''">and currencyField like
+            concat('%', #{ zpStaffInfo.currencyField} ,'%')
+        </if>
+        <if test="zpStaffInfo.modifyTimeFrom!= null">
+            AND zpStaffInfo.MODIFY_TIME <![CDATA[ >= ]]>  modifyTimeFrom}
+        </if>
+        <if test="zpStaffInfo.modifyTimeTo!= null">
+            AND zpStaffInfo.MODIFY_TIME <![CDATA[ <= ]]>  modifyTimeTo}
+        </if>
+        <if test="zpStaffInfo.createTimeFrom!= null">
+            AND zpStaffInfo.CREATE_TIME <![CDATA[ >= ]]>  createTimeFrom}
+        </if>
+        <if test="zpStaffInfo.createTimeTo!= null">
+            AND zpStaffInfo.CREATE_TIME <![CDATA[ <= ]]>  createTimeTo}
+        </if>
+    </select>
+
+</mapper>
