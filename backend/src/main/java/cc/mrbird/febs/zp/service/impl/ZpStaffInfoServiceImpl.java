@@ -66,6 +66,15 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
     @Autowired
     IComTypeService iComTypeService;
 
+    @Autowired
+    IZpStaffFamilyService iZpStaffFamilyService;
+
+    @Autowired
+    IZpStaffProjectService iZpStaffProjectService;
+
+    @Autowired
+    IZpStaffAwardService iZpStaffAwardService;
+
     @Override
     public IPage<ZpStaffInfo> findZpStaffInfos(QueryRequest request, ZpStaffInfo zpStaffInfo) {
         try {
@@ -170,6 +179,18 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
                 ZpStaffEssay item = this.iZpStaffEssayService.saveInitStaffEssay(zpStaffInfo, thisDate);
                 id = item.getId();
             }
+            if (type.equals("F")) {
+                ZpStaffFamily item = this.iZpStaffFamilyService.saveInitStaffFamily(zpStaffInfo, thisDate);
+                id = item.getId();
+            }
+            if (type.equals("A")) {
+                ZpStaffAward item = this.iZpStaffAwardService.saveInitStaffAward(zpStaffInfo, thisDate);
+                id = item.getId();
+            }
+            if (type.equals("P")) {
+                ZpStaffProject item = this.iZpStaffProjectService.saveInitStaffProject(zpStaffInfo, thisDate);
+                id = item.getId();
+            }
             LambdaQueryWrapper<ZpStaffInfo> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(ZpStaffInfo::getId, zpStaffInfo.getId());
             ZpStaffInfo update = new ZpStaffInfo();
@@ -191,6 +212,15 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         }
         if (type.equals("Y")) {
             this.iZpStaffEssayService.removeById(id);
+        }
+        if (type.equals("F")) {
+            this.iZpStaffFamilyService.removeById(id);
+        }
+        if (type.equals("A")) {
+            this.iZpStaffAwardService.removeById(id);
+        }
+        if (type.equals("P")) {
+            this.iZpStaffProjectService.removeById(id);
         }
         List<ComFile> fileList = iComFileService.findListComFile(id, null);
 
@@ -225,6 +255,9 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         List<ZpStaffEducation> educationList = new ArrayList<>();
         List<ZpStaffWork> workList = new ArrayList<>();
         List<ZpStaffEssay> essayList = new ArrayList<>();
+        List<ZpStaffFamily> familyList = new ArrayList<>();
+        List<ZpStaffProject> projectList = new ArrayList<>();
+        List<ZpStaffAward> awardList = new ArrayList<>();
 //        if (staffInfoList.size() > 0) {
 //            ZpStaffInfo zpStaffInfo = staffInfoList.get(0);
         staffInfo.setId(zpStaffInfo.getId());
@@ -339,6 +372,18 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         staffEssayWrapper.eq(ZpStaffEssay::getStaffId, zpStaffInfo.getId());
         essayList = this.iZpStaffEssayService.list(staffEssayWrapper);
 
+        LambdaQueryWrapper<ZpStaffFamily> staffFamilyWrapper = new LambdaQueryWrapper<>();
+        staffFamilyWrapper.eq(ZpStaffFamily::getStaffId, zpStaffInfo.getId());
+        familyList = this.iZpStaffFamilyService.list(staffFamilyWrapper);
+
+        LambdaQueryWrapper<ZpStaffProject> staffProjectWrapper = new LambdaQueryWrapper<>();
+        staffProjectWrapper.eq(ZpStaffProject::getStaffId, zpStaffInfo.getId());
+        projectList = this.iZpStaffProjectService.list(staffProjectWrapper);
+
+        LambdaQueryWrapper<ZpStaffAward> staffAwardWrapper = new LambdaQueryWrapper<>();
+        staffAwardWrapper.eq(ZpStaffAward::getStaffId, zpStaffInfo.getId());
+        awardList = this.iZpStaffAwardService.list(staffAwardWrapper);
+
 //        } else {
 //            staffInfo.setId(UUID.randomUUID().toString());
 //            staffInfo.setRyname(user.getXmname());
@@ -355,9 +400,21 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         if (essayList.size() > 0) {
             essayList = essayList.stream().sorted(Comparator.comparing(ZpStaffEssay::getCreateTime)).collect(Collectors.toList());
         }
+        if (familyList.size() > 0) {
+            familyList = familyList.stream().sorted(Comparator.comparing(ZpStaffFamily::getCreateTime)).collect(Collectors.toList());
+        }
+        if (projectList.size() > 0) {
+            projectList = projectList.stream().sorted(Comparator.comparing(ZpStaffProject::getCreateTime)).collect(Collectors.toList());
+        }
+        if (awardList.size() > 0) {
+            awardList = awardList.stream().sorted(Comparator.comparing(ZpStaffAward::getCreateTime)).collect(Collectors.toList());
+        }
         staffInfo.setEducations(this.getStaffEducation(educationList));
         staffInfo.setWorks(this.getStaffWork(workList));
         staffInfo.setEssays(this.getStaffEssay(essayList));
+        staffInfo.setFamilys(this.getStaffFamily(familyList));
+        staffInfo.setProjects(this.getStaffProject(projectList));
+        staffInfo.setAwards(this.getStaffAward(awardList));
         return staffInfo;
     }
 
@@ -382,6 +439,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         }
         return this.getStaffWork(workList);
     }
+
 
     @Override
     public List<StaffEssay> getEssayList(String staffId) {
@@ -415,6 +473,39 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
     }
 
     @Override
+    public List<StaffFamily> getFamilyList(String staffId) {
+        LambdaQueryWrapper<ZpStaffFamily> staffFamilyWrapper = new LambdaQueryWrapper<>();
+        staffFamilyWrapper.eq(ZpStaffFamily::getStaffId, staffId);
+        List<ZpStaffFamily> familyList = this.iZpStaffFamilyService.list(staffFamilyWrapper);
+        if (familyList.size() > 0) {
+            familyList = familyList.stream().sorted(Comparator.comparing(ZpStaffFamily::getCreateTime)).collect(Collectors.toList());
+        }
+        return this.getStaffFamily(familyList);
+    }
+
+    @Override
+    public List<StaffProject> getProjectList(String staffId) {
+        LambdaQueryWrapper<ZpStaffProject> staffProjectWrapper = new LambdaQueryWrapper<>();
+        staffProjectWrapper.eq(ZpStaffProject::getStaffId, staffId);
+        List<ZpStaffProject> projectList = this.iZpStaffProjectService.list(staffProjectWrapper);
+        if (projectList.size() > 0) {
+            projectList = projectList.stream().sorted(Comparator.comparing(ZpStaffProject::getCreateTime)).collect(Collectors.toList());
+        }
+        return this.getStaffProject(projectList);
+    }
+
+    @Override
+    public List<StaffAward> getAwardList(String staffId) {
+        LambdaQueryWrapper<ZpStaffAward> staffAwardWrapper = new LambdaQueryWrapper<>();
+        staffAwardWrapper.eq(ZpStaffAward::getStaffId, staffId);
+        List<ZpStaffAward> awardList = this.iZpStaffAwardService.list(staffAwardWrapper);
+        if (awardList.size() > 0) {
+            awardList = awardList.stream().sorted(Comparator.comparing(ZpStaffAward::getCreateTime)).collect(Collectors.toList());
+        }
+        return this.getStaffAward(awardList);
+    }
+
+    @Override
     public void updateStaffInfo(StaffInfo staffInfo) throws ParseException {
         Date thisDate = new Date();
         ZpStaffInfo update = new ZpStaffInfo();
@@ -423,7 +514,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
 ////        update.setEmail(staffInfo.getEmail());
         update.setSex(staffInfo.getSex());
         update.setCsdat(staffInfo.getCsdat()); //出生
-        if (staffInfo.getCsdats() != null && !staffInfo.getCsdats().equals("")) {
+        if (StringUtils.isNotBlank(staffInfo.getCsdats())) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             update.setCsdat(sdf.parse(staffInfo.getCsdats()));
         }
@@ -475,26 +566,68 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             this.update(update, queryWrapper);
         }
 
-        if (staffInfo.getEducations().size() > 0) {
+        if (staffInfo.getFamilys() !=null && staffInfo.getFamilys().size() > 0) {
+            List<ZpStaffFamily> list = this.getZpStaffFamily(staffInfo, thisDate);
+            for (ZpStaffFamily item : list) {
+                iZpStaffFamilyService.saveOrUpdate(item);
+            }
+        }
+
+        if (staffInfo.getEducations() !=null && staffInfo.getEducations().size() > 0) {
             List<ZpStaffEducation> list = this.getZpStaffEducation(staffInfo, thisDate);
             for (ZpStaffEducation item : list) {
                 iZpStaffEducationService.saveOrUpdate(item);
             }
         }
 
-        if (staffInfo.getWorks().size() > 0) {
+        if (staffInfo.getWorks() !=null && staffInfo.getWorks().size() > 0) {
             List<ZpStaffWork> list = this.getZpStaffWork(staffInfo, thisDate);
             for (ZpStaffWork item : list) {
                 iZpStaffWorkService.saveOrUpdate(item);
             }
         }
 
-        if (staffInfo.getEssays().size() > 0) {
+        if (staffInfo.getEssays() !=null && staffInfo.getEssays().size() > 0) {
             List<ZpStaffEssay> list = this.getZpStaffEssay(staffInfo, thisDate);
             for (ZpStaffEssay item : list) {
                 iZpStaffEssayService.saveOrUpdate(item);
             }
         }
+
+        if (staffInfo.getProjects() !=null && staffInfo.getProjects().size() > 0) {
+            List<ZpStaffProject> list = this.getZpStaffProject(staffInfo, thisDate);
+            for (ZpStaffProject item : list) {
+                iZpStaffProjectService.saveOrUpdate(item);
+            }
+        }
+
+        if (staffInfo.getAwards() !=null && staffInfo.getAwards().size() > 0) {
+            List<ZpStaffAward> list = this.getZpStaffAward(staffInfo, thisDate);
+            for (ZpStaffAward item : list) {
+                iZpStaffAwardService.saveOrUpdate(item);
+            }
+        }
+    }
+
+    private List<ZpStaffFamily> getZpStaffFamily(StaffInfo staffInfo, Date thisDate) throws ParseException {
+        List<ZpStaffFamily> familyList = new ArrayList<>();
+        for (StaffFamily item : staffInfo.getFamilys()) {
+            ZpStaffFamily update = new ZpStaffFamily();
+            update.setId(item.getId());
+            update.setStaffId(staffInfo.getId());
+            update.setUserid(staffInfo.getUserid());
+            update.setWcname(item.getWcname());
+            update.setXmname(item.getXmname());
+            update.setZzmm(item.getZzmm());
+            if (StringUtils.isNotBlank(item.getCsdats())) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                update.setCsdat(sdf.parse(item.getCsdats()));
+            }
+            update.setGzdwjzw(item.getGzdwjzw());
+            update.setModifyTime(thisDate);
+            familyList.add(update);
+        }
+        return familyList;
     }
 
     private List<ZpStaffEducation> getZpStaffEducation(StaffInfo staffInfo, Date thisDate) {
@@ -592,6 +725,42 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         return essayList;
     }
 
+    private List<ZpStaffProject> getZpStaffProject(StaffInfo staffInfo, Date thisDate) {
+        List<ZpStaffProject> projectList = new ArrayList<>();
+        for (StaffProject item : staffInfo.getProjects()) {
+            ZpStaffProject update = new ZpStaffProject();
+            update.setId(item.getId());
+            update.setStaffId(staffInfo.getId());
+            update.setUserid(staffInfo.getUserid());
+            update.setProjectname(item.getProjectname());
+            update.setSrtdat(item.getSrtdat()); // 起始时间
+            update.setEnddat(item.getEnddat()); // 终止时间
+            update.setXbly(item.getXbly());
+            update.setJf(item.getJf());
+            update.setBrpm(item.getBrpm());
+            update.setModifyTime(thisDate);
+            projectList.add(update);
+        }
+        return projectList;
+    }
+
+    private List<ZpStaffAward> getZpStaffAward(StaffInfo staffInfo, Date thisDate) {
+        List<ZpStaffAward> awardList = new ArrayList<>();
+        for (StaffAward item : staffInfo.getAwards()) {
+            ZpStaffAward update = new ZpStaffAward();
+            update.setId(item.getId());
+            update.setStaffId(staffInfo.getId());
+            update.setUserid(staffInfo.getUserid());
+            update.setJxname(item.getJxname());
+            update.setMc(item.getMc());
+            update.setHjdat(item.getHjdat());
+            update.setRemark(item.getRemark());
+            update.setModifyTime(thisDate);
+            awardList.add(update);
+        }
+        return awardList;
+    }
+
     private List<StaffEssay> getStaffEssay(List<ZpStaffEssay> list) {
         List<StaffEssay> essayList = new ArrayList<>();
         for (ZpStaffEssay item : list) {
@@ -608,6 +777,56 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             essayList.add(insert);
         }
         return essayList;
+    }
+
+    private List<StaffFamily> getStaffFamily(List<ZpStaffFamily> list) {
+        List<StaffFamily> familyList = new ArrayList<>();
+        for (ZpStaffFamily item : list) {
+            StaffFamily insert = new StaffFamily();
+            insert.setId(item.getId());
+            insert.setWcname(item.getWcname());
+            insert.setXmname(item.getXmname());
+            insert.setZzmm(item.getZzmm());
+            insert.setCsdat(item.getCsdat());
+            if (item.getCsdat() != null) {
+                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                insert.setCsdats(sdf.format(item.getCsdat()));
+            }
+            insert.setGzdwjzw(item.getGzdwjzw());
+
+            familyList.add(insert);
+        }
+        return familyList;
+    }
+
+    private List<StaffProject> getStaffProject(List<ZpStaffProject> list) {
+        List<StaffProject> projectList = new ArrayList<>();
+        for (ZpStaffProject item : list) {
+            StaffProject insert = new StaffProject();
+            insert.setId(item.getId());
+            insert.setProjectname(item.getProjectname());
+            insert.setSrtdat(item.getSrtdat());
+            insert.setEnddat(item.getEnddat());
+            insert.setXbly(item.getXbly());
+            insert.setJf(item.getJf());
+            insert.setBrpm(item.getBrpm());
+            projectList.add(insert);
+        }
+        return projectList;
+    }
+
+    private List<StaffAward> getStaffAward(List<ZpStaffAward> list) {
+        List<StaffAward> awardList = new ArrayList<>();
+        for (ZpStaffAward item : list) {
+            StaffAward insert = new StaffAward();
+            insert.setId(item.getId());
+            insert.setJxname(item.getJxname());
+            insert.setMc(item.getMc());
+            insert.setHjdat(item.getHjdat());
+            insert.setRemark(item.getRemark());
+            awardList.add(insert);
+        }
+        return awardList;
     }
 
     @Override

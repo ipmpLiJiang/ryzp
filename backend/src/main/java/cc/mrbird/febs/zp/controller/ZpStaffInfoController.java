@@ -259,6 +259,68 @@ public class ZpStaffInfoController extends BaseController {
         return new FebsResponse().data(map);
     }
 
+    @GetMapping("findStaffProject")
+    @RequiresPermissions("zpStaffInfo:view")
+    public FebsResponse findStaffProject(String staffId) {
+        ModelMap map = new ModelMap();
+        int success = 0;
+        List<StaffProject> projectList = new ArrayList<>();
+        try {
+//            User currentUser = FebsUtil.getCurrentUser();
+            projectList = this.iZpStaffInfoService.getProjectList(staffId);
+            success = 1;
+        } catch (Exception e) {
+            message = "查询失败.";
+            log.error(message, e);
+        }
+
+        map.put("success", success);
+        map.put("message", message);
+        map.put("data", projectList);
+        return new FebsResponse().data(map);
+    }
+
+    @GetMapping("findStaffFamily")
+    @RequiresPermissions("zpStaffInfo:view")
+    public FebsResponse findStaffFamily(String staffId) {
+        ModelMap map = new ModelMap();
+        int success = 0;
+        List<StaffFamily> familyList = new ArrayList<>();
+        try {
+//            User currentUser = FebsUtil.getCurrentUser();
+            familyList = this.iZpStaffInfoService.getFamilyList(staffId);
+            success = 1;
+        } catch (Exception e) {
+            message = "查询失败.";
+            log.error(message, e);
+        }
+
+        map.put("success", success);
+        map.put("message", message);
+        map.put("data", familyList);
+        return new FebsResponse().data(map);
+    }
+
+    @GetMapping("findStaffAward")
+    @RequiresPermissions("zpStaffInfo:view")
+    public FebsResponse findStaffAward(String staffId) {
+        ModelMap map = new ModelMap();
+        int success = 0;
+        List<StaffAward> awardList = new ArrayList<>();
+        try {
+//            User currentUser = FebsUtil.getCurrentUser();
+            awardList = this.iZpStaffInfoService.getAwardList(staffId);
+            success = 1;
+        } catch (Exception e) {
+            message = "查询失败.";
+            log.error(message, e);
+        }
+
+        map.put("success", success);
+        map.put("message", message);
+        map.put("data", awardList);
+        return new FebsResponse().data(map);
+    }
 
     /**
      * 添加

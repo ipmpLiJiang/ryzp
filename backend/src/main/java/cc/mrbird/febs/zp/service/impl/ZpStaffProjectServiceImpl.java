@@ -2,6 +2,7 @@ package cc.mrbird.febs.zp.service.impl;
 
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
+import cc.mrbird.febs.zp.entity.ZpStaffInfo;
 import cc.mrbird.febs.zp.entity.ZpStaffProject;
 import cc.mrbird.febs.zp.dao.ZpStaffProjectMapper;
 import cc.mrbird.febs.zp.service.IZpStaffProjectService;
@@ -72,6 +73,18 @@ public class ZpStaffProjectServiceImpl extends ServiceImpl<ZpStaffProjectMapper,
         zpStaffProject.setCreateTime(new Date());
 //        zpStaffProject.setIsDeletemark(1);
         this.save(zpStaffProject);
+    }
+
+    @Override
+    @Transactional
+    public ZpStaffProject saveInitStaffProject(ZpStaffInfo zpStaffInfo, Date thisDate) {
+        ZpStaffProject project = new ZpStaffProject();
+        project.setId(UUID.randomUUID().toString());
+        project.setUserid(zpStaffInfo.getUserid());
+        project.setStaffId(zpStaffInfo.getId());
+        project.setCreateTime(thisDate);
+        this.save(project);
+        return project;
     }
 
     @Override

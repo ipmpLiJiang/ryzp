@@ -2,11 +2,11 @@
   <div>
     <a-row>
       <a-col :span="21">
-        <b><font style="font-size:16px;padding-right: 10px;">工作经历Work experience</font></b>
+        <b><font style="font-size:16px;padding-right: 10px;">工作经历</font></b>
         (<font style="color:red">请按照时间正序填写全职经历，再按照时间正序填写兼职经历，兼职请备注*</font>)
       </a-col>
       <a-col :span="3" style="text-align:right">
-        <a-button class="editable-add-btn" @click="handleAdd"> +增加工作经 </a-button>
+        <a-button class="editable-add-btn" @click="handleAdd"> +增加工作经历 </a-button>
       </a-col>
     </a-row>
     <a-table
@@ -59,7 +59,7 @@
           @confirm="() => onDelete(record.id)"
         >
           <!-- <a-icon type="delete" theme="twoTone" /> -->
-          <a style="color:red" href="javascript:;">delete</a>
+          <a style="color:red" href="javascript:;">删除</a>
         </a-popconfirm>
       </template>
     </a-table>

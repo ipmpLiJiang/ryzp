@@ -4,6 +4,7 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.zp.entity.ZpStaffFamily;
 import cc.mrbird.febs.zp.dao.ZpStaffFamilyMapper;
+import cc.mrbird.febs.zp.entity.ZpStaffInfo;
 import cc.mrbird.febs.zp.service.IZpStaffFamilyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
@@ -72,6 +73,18 @@ public class ZpStaffFamilyServiceImpl extends ServiceImpl<ZpStaffFamilyMapper, Z
         zpStaffFamily.setCreateTime(new Date());
 //        zpStaffFamily.setIsDeletemark(1);
         this.save(zpStaffFamily);
+    }
+
+    @Override
+    @Transactional
+    public ZpStaffFamily saveInitStaffFamily(ZpStaffInfo zpStaffInfo, Date thisDate) {
+        ZpStaffFamily family = new ZpStaffFamily();
+        family.setId(UUID.randomUUID().toString());
+        family.setUserid(zpStaffInfo.getUserid());
+        family.setStaffId(zpStaffInfo.getId());
+        family.setCreateTime(thisDate);
+        this.save(family);
+        return family;
     }
 
     @Override

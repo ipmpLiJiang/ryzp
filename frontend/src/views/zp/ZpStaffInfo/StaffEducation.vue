@@ -4,7 +4,7 @@
       <a-col :span="21">
         <b
           ><font style="font-size: 16px; padding-right: 10px"
-            >教育经历Education experience</font
+            >教育经历</font
           ></b
         >
         (<font style="color: red">从本科起，按时间正序填写*</font>)
@@ -65,7 +65,7 @@
           @confirm="() => onDelete(record.id)"
         >
           <!-- <a-icon type="delete" theme="twoTone" /> -->
-          <a style="color: red" href="javascript:;">delete</a>
+          <a style="color: red" href="javascript:;">删除</a>
         </a-popconfirm>
       </template>
     </a-table>

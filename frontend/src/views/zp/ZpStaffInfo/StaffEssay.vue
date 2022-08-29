@@ -69,7 +69,7 @@
           @confirm="() => onDelete(record.id)"
         >
           <!-- <a-icon type="delete" theme="twoTone" /> -->
-          <a style="color:red" href="javascript:;">delete</a>
+          <a style="color:red" href="javascript:;">删除</a>
         </a-popconfirm>
       </template>
     </a-table>

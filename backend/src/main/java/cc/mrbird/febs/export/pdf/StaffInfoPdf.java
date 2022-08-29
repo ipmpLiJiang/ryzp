@@ -69,7 +69,7 @@ public class StaffInfoPdf {
 
 
     public void writeStaffPdf(String fileName, String mergeFileName, List<String> mergeAddPdfList, String imgUrl, StaffInfo staffInfo) throws Exception {
-        Document document = new Document(PageSize.A4, 30, 30, 20, 20);
+        Document document = new Document(PageSize.A4, 20, 20, 20, 20);
         FileOutputStream out = new FileOutputStream(fileName);
         PdfWriter.getInstance(document, out);
 
@@ -79,20 +79,21 @@ public class StaffInfoPdf {
         Font fontTitle = new Font(baseFontChinese, 10, normal, black);
         Font fontValue = new Font(baseFontChinese, 9, normal, black);
 
-        Float contentHeightStaff = 25f;
+        Float contentHeightStaff = 28f;
+        Float contentHeightStaff2 = 50f;
         Float faddingSize = 5f;
 
         int numColumns = 25;
-        int totalWidth = 520;
+        int totalWidth = 540;
         int[] setWids = new int[numColumns];
         PdfPTable table = null;
         PdfPCell cell;
 
-        String titleCover_1 = "协和医院高层次人才招聘信息登记表";
+        String titleCover_1 = "人才招聘信息登记表";
         Font fontCover1 = new Font(baseFontChinese, 16, normal, black);
         String titleCover = " ";
         Font fontCover = new Font(baseFontChinese, 10, normal, black);
-        String titleCover_jbxx = "基本信息Brief introduction";
+        String titleCover_jbxx = "基本信息";
         Font titleFontCover = new Font(baseFontChinese, 12, normal, black);
 
         //region 第一页
@@ -141,45 +142,71 @@ public class StaffInfoPdf {
         //region 基本信息Brief introduction
         String title1_1_1 = "姓名";
         String title1_1_2 = "性别";
-        String title1_2_1 = "出生年月";
-        String title1_2_2 = "国籍";
-        String title1_3_1 = "出生地";
-        String title1_3_2 = "现工作国家\n地区";
-        String title1_4_1 = "现任职单位";
-        String title1_4_2 = "现任职务";
-        String title1_5_1 = "专业方向";
-        String title1_5_2 = "最高学历";
-        String title1_5_3 = "是否医师资格证";
-        String title1_6_1 = "意向学科1";
-        String title1_6_2 = "意向学科2、3";
-        String title1_7_1 = "邮箱";
-        String title1_7_2 = "联系电话";
-        String title1_7_3 = "微信号";
-        String title1_8_1 = "申请人类别";
+        String title1_2_1 = "出生日期";
+        String title1_2_2 = "身份证号";
+        String title1_3_1 = "籍贯";
+        String title1_3_2 = "健康状态";
+        String title1_4_1 = "身高cm";
+        String title1_4_2 = "体重kg";
+        String title1_5_1 = "血型";
+        String title1_5_2 = "民族";
+        String title1_5_3 = "是否服从调剂";
+        String title1_6_1 = "政治面貌";
+        String title1_6_2 = "婚姻状况";
+        String title1_6_3 = "子女个数";
+        String title1_7_1 = "第一志愿科室";
+        String title1_7_2 = "第二志愿科室";
+        String title1_7_3 = "最高学历";
+        String title1_8_1 = "外语水平";
+        String title1_8_2 = "外语水平分数";
+        String title1_8_3 = "计算机水平";
+        String title1_9_1 = "电子邮箱";
+        String title1_9_2 = "手机号码";
+        String title1_9_3 = "微信号码";
+        String title1_10_1 = "家庭住址";
+        String title1_10_2 = "户籍地址";
+        String title1_10_3 = "现居地址";
+        String title1_11_1 = "紧急联系人";
+        String title1_11_2 = "联系人号码";
+        String title1_11_3 = "是否医师资格证";
+        String title1_12_1 = "职业类型";
+        String title1_12_2 = "毕业时是否取得住院医师规范化培训合格证";
+        String title1_12_3 = "硕士阶段是否四证合一";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String value1_1_1 = staffInfo.getRyname();
         String value1_1_2 = staffInfo.getSex() == null || staffInfo.getSex() == 0 ? "男" : "女";
         String value1_2_1 = dateFormat.format(staffInfo.getCsdat());
-        String value1_2_2 = staffInfo.getJkzt();
+        String value1_2_2 = staffInfo.getIdnumber();
         String value1_3_1 = staffInfo.getZhrjg();
-        String value1_3_2 = "";
-        String value1_4_1 = "";
-        String value1_4_2 = "";
-        String value1_5_1 = "";
-        String value1_5_2 = "";
-        String value1_5_3 = staffInfo.getIsyszgz() == 0 ? "否" : "是";
-        String value1_6_1 = staffInfo.getZyks1();
-        String value1_6_2 = staffInfo.getZyks2();
-        String value1_7_1 = staffInfo.getEmail();
-        String value1_7_2 = staffInfo.getTel();
-        String value1_7_3 = staffInfo.getWechatNo();
-        // 学术带头人   □青年学者（已有人才项目）   □青年学者（申报海外优青）   □青年学者（无人才项目）
-        String xsdtr = true ? "学术带头人   " : "";
-        String yyrcxm = true ? "青年学者（已有人才项目）   " : "";
-        String sbhwyq = true ? "青年学者（申报海外优青）   " : "";
-        String wrcxm = true ? "青年学者（无人才项目）   " : "";
-        String value1_8_1 = xsdtr + yyrcxm + sbhwyq + wrcxm;
+        String value1_3_2 = staffInfo.getJkzt();
+        String value1_4_1 = staffInfo.getZhrsg() == null ? "" : staffInfo.getZhrsg().toString();
+        String value1_4_2 = staffInfo.getZhrtz() == null ? "" : staffInfo.getZhrtz().toString();
+        String value1_5_1 = staffInfo.getZhrxx();
+        String value1_5_2 = staffInfo.getZhrmzName();
+        String value1_5_3 = staffInfo.getIsfcdj() == 0 ? "否" : "是";
+        String value1_6_1 = staffInfo.getZzmmName();
+        String value1_6_2 = staffInfo.getHyztName();
+        String value1_6_3 = staffInfo.getZngs() == null ? "" : staffInfo.getZngs().toString();
+        String value1_7_1 = staffInfo.getZyks1();
+        String value1_7_2 = staffInfo.getZyks2();
+        String value1_7_3 = staffInfo.getZgxl();
+        String value1_8_1 = staffInfo.getWyspName();
+        String value1_8_2 = staffInfo.getWyspfs() == null ? "" : staffInfo.getWyspfs().toString();
+        String value1_8_3 = staffInfo.getJsjspName();
+        String value1_9_1 = staffInfo.getEmail();
+        String value1_9_2 = staffInfo.getTel();
+        String value1_9_3 = staffInfo.getWechatNo();
+        String value1_10_1 = staffInfo.getJtzz();
+        String value1_10_2 = staffInfo.getHjdz();
+        String value1_10_3 = staffInfo.getXjdz();
+        String value1_11_1 = staffInfo.getJjlxr();
+        String value1_11_2 = staffInfo.getLxrtel();
+        String value1_11_3 = staffInfo.getIsyszgz() == 0 ? "否" : "是";
+        String value1_12_1 = staffInfo.getZylxName();
+        String value1_12_2 = staffInfo.getIsbysqdzyys() == 0 ? "否" : "是";
+        String value1_12_3 = staffInfo.getIsssjdszhy() == 0 ? "否" : "是";
+
         //列一
         //姓名
         cell = new PdfPCell(new Phrase(title1_1_1, fontTitle));
@@ -192,28 +219,28 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_1_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(6);
         table.addCell(cell);
         //性别
         cell = new PdfPCell(new Phrase(title1_1_2, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(3);
         table.addCell(cell);
         //value1_1_2
         cell = new PdfPCell(new Phrase(value1_1_2, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(8);
         table.addCell(cell);
 
         Image zjImage = loadingPicture(imgUrl);
-        cell.setPhrase(new Paragraph(new Chunk(zjImage, 10, -40)));
+        cell.setPhrase(new Paragraph(new Chunk(zjImage, 14, -48)));
 //        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 //        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 //        cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(5);
         cell.setRowspan(4);
         table.addCell(cell);
         //列二
@@ -228,24 +255,24 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_2_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(6);
         table.addCell(cell);
-        //国籍"
+        //身份证号码
         cell = new PdfPCell(new Phrase(title1_2_2, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(3);
         table.addCell(cell);
-        //出生地
+        //value1_2_2
         cell = new PdfPCell(new Phrase(value1_2_2, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(8);
         table.addCell(cell);
 
         //列三
-        //现工作国家地区
+        //籍贯
         cell = new PdfPCell(new Phrase(title1_3_1, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -256,23 +283,23 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_3_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(6);
         table.addCell(cell);
-        //现从事专业及专长
+        //健康状态
         cell = new PdfPCell(new Phrase(title1_3_2, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(3);
         table.addCell(cell);
         //value1_3_2
         cell = new PdfPCell(new Phrase(value1_3_2, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(8);
         table.addCell(cell);
         //列四
-        //现任职单位
+        //身高cm
         cell = new PdfPCell(new Phrase(title1_4_1, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -283,23 +310,23 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_4_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(6);
         table.addCell(cell);
-        //现任职务
+        //体重
         cell = new PdfPCell(new Phrase(title1_4_2, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(3);
         table.addCell(cell);
         //value1_4_2
         cell = new PdfPCell(new Phrase(value1_4_2, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(8);
         table.addCell(cell);
         //列五
-        //专业方向
+        //血型
         cell = new PdfPCell(new Phrase(title1_5_1, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -310,36 +337,36 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_5_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(6);
         table.addCell(cell);
-        //最高学历
+        //民族
         cell = new PdfPCell(new Phrase(title1_5_2, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(3);
         table.addCell(cell);
         //value1_5_2
         cell = new PdfPCell(new Phrase(value1_5_2, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(5);
         table.addCell(cell);
-        //是否医师资格证
+        //是否服从调剂
         cell = new PdfPCell(new Phrase(title1_5_3, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(3);
         table.addCell(cell);
         //value1_5_3
         cell = new PdfPCell(new Phrase(value1_5_3, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(3);
+        cell.setColspan(5);
         table.addCell(cell);
         //列六
-        //意向学科1
+        //政治面貌
         cell = new PdfPCell(new Phrase(title1_6_1, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -350,23 +377,36 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_6_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(6);
         table.addCell(cell);
-        //意向学科2、3
+        //婚姻状况
         cell = new PdfPCell(new Phrase(title1_6_2, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(3);
         table.addCell(cell);
         //value1_6_2
         cell = new PdfPCell(new Phrase(value1_6_2, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(11);
+        cell.setColspan(5);
+        table.addCell(cell);
+        //子女个数
+        cell = new PdfPCell(new Phrase(title1_6_3, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_6_3
+        cell = new PdfPCell(new Phrase(value1_6_3, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
         table.addCell(cell);
         //列七
-        //邮箱
+        //第一志愿科室
         cell = new PdfPCell(new Phrase(title1_7_1, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -377,22 +417,22 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_7_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(7);
+        cell.setColspan(6);
         table.addCell(cell);
-        //联系电话
+        //第二志愿科室
         cell = new PdfPCell(new Phrase(title1_7_2, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(3);
         table.addCell(cell);
         //value1_7_2
         cell = new PdfPCell(new Phrase(value1_7_2, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(5);
         table.addCell(cell);
-        //微信号
+        //最高学历
         cell = new PdfPCell(new Phrase(title1_7_3, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -403,10 +443,11 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_7_3, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(4);
+        cell.setColspan(5);
         table.addCell(cell);
+
         //列八
-        //申请人类别
+        //外语水平
         cell = new PdfPCell(new Phrase(title1_8_1, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -417,9 +458,198 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(value1_8_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
-        cell.setColspan(22);
+        cell.setColspan(6);
+        table.addCell(cell);
+        //外语水平分数
+        cell = new PdfPCell(new Phrase(title1_8_2, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_8_2
+        cell = new PdfPCell(new Phrase(value1_8_2, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
+        table.addCell(cell);
+        //计算机水平
+        cell = new PdfPCell(new Phrase(title1_8_3, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_8_3
+        cell = new PdfPCell(new Phrase(value1_8_3, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
         table.addCell(cell);
 
+        //列九
+        //电子邮箱
+        cell = new PdfPCell(new Phrase(title1_9_1, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_9_1
+        cell = new PdfPCell(new Phrase(value1_9_1, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(6);
+        table.addCell(cell);
+        //手机号码
+        cell = new PdfPCell(new Phrase(title1_9_2, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_9_2
+        cell = new PdfPCell(new Phrase(value1_9_2, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
+        table.addCell(cell);
+        //微信号码
+        cell = new PdfPCell(new Phrase(title1_9_3, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_9_3
+        cell = new PdfPCell(new Phrase(value1_9_3, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
+        table.addCell(cell);
+
+        //列十
+        //家庭住址
+        cell = new PdfPCell(new Phrase(title1_10_1, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_10_1
+        cell = new PdfPCell(new Phrase(value1_10_1, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(6);
+        table.addCell(cell);
+        //户籍地址
+        cell = new PdfPCell(new Phrase(title1_10_2, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_10_2
+        cell = new PdfPCell(new Phrase(value1_10_2, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
+        table.addCell(cell);
+        //现居地址
+        cell = new PdfPCell(new Phrase(title1_10_3, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_10_3
+        cell = new PdfPCell(new Phrase(value1_10_3, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
+        table.addCell(cell);
+
+        //列十一
+        //紧急联系人
+        cell = new PdfPCell(new Phrase(title1_11_1, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_11_1
+        cell = new PdfPCell(new Phrase(value1_11_1, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(6);
+        table.addCell(cell);
+        //联系人号码
+        cell = new PdfPCell(new Phrase(title1_11_2, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_11_2
+        cell = new PdfPCell(new Phrase(value1_11_2, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
+        table.addCell(cell);
+        //是否医师资格证
+        cell = new PdfPCell(new Phrase(title1_11_3, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_11_3
+        cell = new PdfPCell(new Phrase(value1_11_3, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff);
+        cell.setColspan(5);
+        table.addCell(cell);
+
+        //列十二
+        //职业类型
+        cell = new PdfPCell(new Phrase(title1_12_1, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff2);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_12_1
+        cell = new PdfPCell(new Phrase(value1_12_1, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff2);
+        cell.setColspan(6);
+        table.addCell(cell);
+        //毕业时是否取得住院医师规范化培训合格证
+        cell = new PdfPCell(new Phrase(title1_12_2, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff2);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_12_2
+        cell = new PdfPCell(new Phrase(value1_12_2, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff2);
+        cell.setColspan(5);
+        table.addCell(cell);
+        //硕士阶段是否四证合一
+        cell = new PdfPCell(new Phrase(title1_12_3, fontTitle));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff2);
+        cell.setColspan(3);
+        table.addCell(cell);
+        //value1_12_3
+        cell = new PdfPCell(new Phrase(value1_12_3, fontValue));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setFixedHeight(contentHeightStaff2);
+        cell.setColspan(5);
+        table.addCell(cell);
         //endregion
 
         // 空一行
@@ -430,9 +660,9 @@ public class StaffInfoPdf {
         cell.setColspan(numColumns);
         table.addCell(cell);
 
-        //region 教育经历Education experience
-        String titleCover_jyjl = "教育经历Education experience";
-        // 教育经历Education experience
+        //region 教育经历
+        String titleCover_jyjl = "教育经历";
+        // 教育经历
         cell = new PdfPCell(new Phrase(titleCover_jyjl, titleFontCover));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -486,8 +716,8 @@ public class StaffInfoPdf {
         cell.setFixedHeight(contentHeightStaff);
         cell.setColspan(4);
         table.addCell(cell);
-        //国家地区
-        cell = new PdfPCell(new Phrase("国家地区", fontTitle));
+        //研究方向
+        cell = new PdfPCell(new Phrase("研究方向", fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setFixedHeight(contentHeightStaff);
@@ -564,8 +794,8 @@ public class StaffInfoPdf {
         cell.setColspan(numColumns);
         table.addCell(cell);
 
-        //region 工作经历Work experience
-        String titleCover_gzjl = "工作经历Work experience";
+        //region 工作经历
+        String titleCover_gzjl = "工作经历";
         cell = new PdfPCell(new Phrase(titleCover_gzjl, titleFontCover));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -695,8 +925,8 @@ public class StaffInfoPdf {
         cell.setColspan(numColumns);
         table.addCell(cell);
 
-        //region 代表性著作、论文
-        String titleCover_zzlw = "代表性著作、论文";
+        //region 文章信息
+        String titleCover_zzlw = "文章信息";
         cell = new PdfPCell(new Phrase(titleCover_zzlw, titleFontCover));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -985,7 +1215,7 @@ public class StaffInfoPdf {
         File file = new File(picUrl);
         byte[] by = File2byte(file);
         Image image = Image.getInstance(by);
-        image.scaleAbsolute(60, 80);// 调整图片大小(宽度 高度)
+        image.scaleAbsolute(75, 100);// 调整图片大小(宽度 高度)
         return image;
     }
 

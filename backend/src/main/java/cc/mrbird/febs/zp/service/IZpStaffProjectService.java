@@ -1,7 +1,10 @@
 package cc.mrbird.febs.zp.service;
 
+import cc.mrbird.febs.zp.entity.ZpStaffInfo;
 import cc.mrbird.febs.zp.entity.ZpStaffProject;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Date;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -21,6 +24,8 @@ public interface IZpStaffProjectService extends IService<ZpStaffProject> {
         IPage<ZpStaffProject> findZpStaffProjects(QueryRequest request, ZpStaffProject zpStaffProject);
 
         IPage<ZpStaffProject> findZpStaffProjectList(QueryRequest request, ZpStaffProject zpStaffProject);
+
+        ZpStaffProject saveInitStaffProject(ZpStaffInfo zpStaffInfo, Date thisDate);
 
         void createZpStaffProject(ZpStaffProject zpStaffProject);
 

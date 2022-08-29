@@ -4,6 +4,7 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.zp.entity.ZpStaffAward;
 import cc.mrbird.febs.zp.dao.ZpStaffAwardMapper;
+import cc.mrbird.febs.zp.entity.ZpStaffInfo;
 import cc.mrbird.febs.zp.service.IZpStaffAwardService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
@@ -72,6 +73,18 @@ public class ZpStaffAwardServiceImpl extends ServiceImpl<ZpStaffAwardMapper, ZpS
         zpStaffAward.setCreateTime(new Date());
 //        zpStaffAward.setIsDeletemark(1);
         this.save(zpStaffAward);
+    }
+
+    @Override
+    @Transactional
+    public ZpStaffAward saveInitStaffAward(ZpStaffInfo zpStaffInfo, Date thisDate) {
+        ZpStaffAward award = new ZpStaffAward();
+        award.setId(UUID.randomUUID().toString());
+        award.setUserid(zpStaffInfo.getUserid());
+        award.setStaffId(zpStaffInfo.getId());
+        award.setCreateTime(thisDate);
+        this.save(award);
+        return award;
     }
 
     @Override

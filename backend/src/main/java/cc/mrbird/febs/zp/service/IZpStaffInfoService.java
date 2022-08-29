@@ -37,6 +37,7 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
 
     void deleteZpStaffInfos(String[] Ids);
 
+
     StaffInfo getStaffInfo(ZpStaffInfo zpStaffInfo);
 
     void updateStaffInfo(StaffInfo staffInfo) throws ParseException;
@@ -52,6 +53,10 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
     List<StaffEducation> getEducationList(String staffId);
     List<StaffWork> getWorkList(String staffId);
     List<StaffEssay> getEssayList(String staffId);
+
+    List<StaffAward> getAwardList(String staffId);
+    List<StaffProject> getProjectList(String staffId);
+    List<StaffFamily> getFamilyList(String staffId);
 
 
     boolean applyStateUpdate(String applyId, int state);

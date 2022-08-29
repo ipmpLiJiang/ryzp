@@ -318,5 +318,9 @@ public class StaffInfo  {
 
     List<StaffEssay> essays;
 
+    List<StaffProject> projects;
 
+    List<StaffFamily> familys;
+
+    List<StaffAward> awards;
 }

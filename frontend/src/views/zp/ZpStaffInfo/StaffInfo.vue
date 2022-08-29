@@ -635,6 +635,8 @@
       </tr>
     </table>
     <br />
+    <!-- 家庭成员 -->
+    <staff-family ref="staffFamily"> </staff-family>
     <!-- 学历 -->
     <staff-education ref="staffEducation"> </staff-education>
     <br />
@@ -728,6 +730,7 @@
 
 <script>
 import moment from 'moment'
+import StaffFamily from './StaffFamily'
 import StaffEducation from './StaffEducation'
 import StaffWork from './StaffWork'
 import StaffEssay from './StaffEssay'
@@ -748,6 +751,7 @@ export default {
   name: 'StaffInfo',
   components: {
     StaffInfoLook,
+    StaffFamily,
     StaffEducation,
     StaffWork,
     StaffEssay,
@@ -772,7 +776,10 @@ export default {
         id: '',
         educations: [],
         works: [],
-        essays: []
+        essays: [],
+        familys: [],
+        projects: [],
+        awards: []
       }
     }
   },
@@ -961,6 +968,7 @@ export default {
           }
           // console.log(sInfo)
           this.setFormValues(sInfo)
+          this.$refs.staffFamily.setFieldValues(staffInfoData.familys, staffInfoData.id)
           this.$refs.staffEducation.setFieldValues(staffInfoData.educations, staffInfoData.id)
           this.$refs.staffWork.setFieldValues(staffInfoData.works, staffInfoData.id)
           this.$refs.staffEssay.setFieldValues(staffInfoData.essays, staffInfoData.id)
@@ -987,6 +995,7 @@ export default {
           this.staffInfo.educations = this.$refs.staffEducation.getFieldValues()
           this.staffInfo.works = this.$refs.staffWork.getFieldValues()
           this.staffInfo.essays = this.$refs.staffEssay.getFieldValues()
+          this.staffInfo.familys = this.$refs.staffFamily.getFieldValues()
           this.$put('zpStaffInfo/saveStaffInfo', {
             data: JSON.stringify(this.staffInfo)
           }).then((r) => {
