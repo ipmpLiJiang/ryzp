@@ -565,7 +565,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             queryWrapper.eq(ZpStaffInfo::getId, info.getId());
             this.update(update, queryWrapper);
         }
-
+        /*
         if (staffInfo.getFamilys() !=null && staffInfo.getFamilys().size() > 0) {
             List<ZpStaffFamily> list = this.getZpStaffFamily(staffInfo, thisDate);
             for (ZpStaffFamily item : list) {
@@ -607,6 +607,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
                 iZpStaffAwardService.saveOrUpdate(item);
             }
         }
+         */
     }
 
     private List<ZpStaffFamily> getZpStaffFamily(StaffInfo staffInfo, Date thisDate) throws ParseException {
@@ -827,6 +828,56 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             awardList.add(insert);
         }
         return awardList;
+    }
+    @Override
+    @Transactional
+    public void editZpStaffFamily(StaffFamily staffFamily,User user) {
+        ZpStaffFamily entity = new ZpStaffFamily();
+        if(StringUtils.isNotBlank(staffFamily.getId())) {
+            entity.setId(staffFamily.getId());
+            entity.setModifyTime(new Date());
+        } else {
+            entity.setId(UUID.randomUUID().toString());
+            entity.setUserid(user.getUserId());
+            entity.setStaffId(staffFamily.getStaffId());
+            entity.setCreateTime(new Date());
+        }
+
+        entity.setWcname(staffFamily.getWcname());
+        entity.setXmname(staffFamily.getXmname());
+        entity.setZzmm(staffFamily.getZzmm());
+        entity.setGzdwjzw(staffFamily.getGzdwjzw());
+        if(StringUtils.isNotBlank(staffFamily.getCsdats())) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                entity.setCsdat(sdf.parse(staffFamily.getCsdats()));
+            } catch (Exception e) {
+            }
+        }
+
+        iZpStaffFamilyService.saveOrUpdate(entity);
+    }
+
+    @Override
+    @Transactional
+    public void editZpStaffAward(StaffAward staffAward,User user) {
+        ZpStaffAward entity = new ZpStaffAward();
+        if(StringUtils.isNotBlank(staffAward.getId())) {
+            entity.setId(staffAward.getId());
+            entity.setModifyTime(new Date());
+        } else {
+            entity.setId(UUID.randomUUID().toString());
+            entity.setUserid(user.getUserId());
+            entity.setStaffId(staffAward.getStaffId());
+            entity.setCreateTime(new Date());
+        }
+
+        entity.setJxname(staffAward.getJxname());
+        entity.setMc(staffAward.getMc());
+        entity.setHjdat(staffAward.getHjdat());
+        entity.setRemark(staffAward.getRemark());
+
+        iZpStaffAwardService.saveOrUpdate(entity);
     }
 
     @Override

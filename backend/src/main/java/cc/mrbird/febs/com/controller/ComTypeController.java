@@ -116,6 +116,36 @@ public class ComTypeController extends BaseController {
                 qlist.sort(Comparator.comparing(ComType::getOrderNum));
             }
             result.put("mzList", qlist);
+            // 学历
+            qlist = list.stream().filter(s->s.getCtType().equals(8)).collect(Collectors.toList());
+            if(qlist.size() > 0) {
+                qlist.sort(Comparator.comparing(ComType::getOrderNum));
+            }
+            result.put("xlList", qlist);
+            // 学科类型
+            qlist = list.stream().filter(s->s.getCtType().equals(9)).collect(Collectors.toList());
+            if(qlist.size() > 0) {
+                qlist.sort(Comparator.comparing(ComType::getOrderNum));
+            }
+            result.put("xklxList", qlist);
+            // 刊物级别
+            qlist = list.stream().filter(s->s.getCtType().equals(10)).collect(Collectors.toList());
+            if(qlist.size() > 0) {
+                qlist.sort(Comparator.comparing(ComType::getOrderNum));
+            }
+            result.put("kwjbList", qlist);
+            // 本人排名
+            qlist = list.stream().filter(s->s.getCtType().equals(11)).collect(Collectors.toList());
+            if(qlist.size() > 0) {
+                qlist.sort(Comparator.comparing(ComType::getOrderNum));
+            }
+            result.put("brpmList", qlist);
+            // 发布状态
+            qlist = list.stream().filter(s->s.getCtType().equals(12)).collect(Collectors.toList());
+            if(qlist.size() > 0) {
+                qlist.sort(Comparator.comparing(ComType::getOrderNum));
+            }
+            result.put("fbztList", qlist);
             success = 1;
         } catch (Exception e) {
             message = "数据获取失败";

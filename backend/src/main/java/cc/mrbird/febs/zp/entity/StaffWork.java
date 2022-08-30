@@ -27,7 +27,11 @@ public class StaffWork {
     @ExcelField(value = "Id")
     private String id;
 
-
+    /**
+     * staffId
+     */
+    @ExcelField(value = "staffId")
+    private String staffId;
 
     /**
      * 起始时间

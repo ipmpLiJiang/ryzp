@@ -36,7 +36,7 @@
         <div :key="col">
           <a-input
             style="margin: -5px 0"
-            :maxLength="30"
+            :maxLength="50"
             :value="text"
             @change="(e) => handleChange(e.target.value, record.id, col)"
           />

@@ -27,6 +27,11 @@ public class StaffEducation  {
     @ExcelField(value = "Id")
     private String id;
 
+    /**
+     * staffId
+     */
+    @ExcelField(value = "staffId")
+    private String staffId;
 
     /**
      * 学历/学位

@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.rmi.server.ExportException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -320,6 +322,34 @@ public class ZpStaffInfoController extends BaseController {
         map.put("message", message);
         map.put("data", awardList);
         return new FebsResponse().data(map);
+    }
+
+    @Log("新增/修改")
+    @PostMapping("editZpStaffFamily")
+    public void editZpStaffFamily(@Valid StaffFamily staffFamily) throws FebsException {
+        try {
+            User currentUser = FebsUtil.getCurrentUser();
+
+            this.iZpStaffInfoService.editZpStaffFamily(staffFamily,currentUser);
+        } catch (Exception e) {
+            message = "修改数据失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
+    @Log("新增/修改")
+    @PostMapping("editZpStaffAward")
+    public void editZpStaffFamily(@Valid StaffAward staffAward) throws FebsException {
+        try {
+            User currentUser = FebsUtil.getCurrentUser();
+
+            this.iZpStaffInfoService.editZpStaffAward(staffAward,currentUser);
+        } catch (Exception e) {
+            message = "修改数据失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
     }
 
     /**

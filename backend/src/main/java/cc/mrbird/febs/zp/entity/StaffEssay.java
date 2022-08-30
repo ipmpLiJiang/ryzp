@@ -28,6 +28,11 @@ public class StaffEssay {
     @ExcelField(value = "Id")
     private String id;
 
+    /**
+     * staffId
+     */
+    @ExcelField(value = "staffId")
+    private String staffId;
 
     /**
      * 论文/论著名称

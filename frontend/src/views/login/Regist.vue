@@ -9,7 +9,7 @@
           v-model="username"
           placeholder="账号邮箱"
           v-decorator="[
-            'email',
+            'username',
             {
               rules: [
                 { type: 'email', message: '请输入正确的账号邮箱' },

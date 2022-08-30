@@ -27,7 +27,7 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
 
     ZpStaffInfo findZpStaffInfoByUserId(Integer userId);
 
-    ZpStaffInfo findZpStaffInfoByXmAndIdNumber(String ryName,String idNumber,String email);
+    ZpStaffInfo findZpStaffInfoByXmAndIdNumber(String ryName, String idNumber, String email);
 
     ZpStaffInfo findZpStaffInfoById(String Id);
 
@@ -46,16 +46,20 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
 
     void deleteStaffMx(String id, String type);
 
-    ZpStaffInfo initStaff(User user,String idnumber);
+    ZpStaffInfo initStaff(User user, String idnumber);
 
     ZpStaffInfo findZpStaffInfoByUserId(long userId);
 
     List<StaffEducation> getEducationList(String staffId);
+
     List<StaffWork> getWorkList(String staffId);
+
     List<StaffEssay> getEssayList(String staffId);
 
     List<StaffAward> getAwardList(String staffId);
+
     List<StaffProject> getProjectList(String staffId);
+
     List<StaffFamily> getFamilyList(String staffId);
 
 
@@ -64,8 +68,12 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
     boolean applyStateUpdates(String[] ids, int state);
 
     List<ZpStaffInfo> findStaffByPosterId(String posterId,
-                                               Integer state,
-                                               List<String> idList);
+                                          Integer state,
+                                          List<String> idList);
 
     ZpStaffInfo findByIdnumber(String idnumber);
+
+    void editZpStaffFamily(StaffFamily staffFamily,User user);
+
+    void editZpStaffAward(StaffAward staffAward,User user);
 }

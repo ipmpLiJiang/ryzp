@@ -316,22 +316,18 @@
         <td colspan="2">最高学历<font class="fontColor">*</font></td>
         <td colspan="3">
           <a-form-item>
-            <a-input
-              placeholder="请输入最高学历"
-              :maxLength="20"
+            <a-select
+              style="width: 100%"
+              placeholder="请选择最高学历"
               v-decorator="[
                 'zgxl',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      max: 20,
-                      message: '最高学历不能为空, 长度不能超过20个字符',
-                    },
-                  ],
-                },
+                { rules: [{ required: true, message: '最高学历不能为空' }] },
               ]"
-            />
+            >
+              <a-select-option v-for="xx in dicts.xlList" :key="xx.code">
+                {{ xx.name }}
+              </a-select-option>
+            </a-select>
           </a-form-item>
         </td>
       </tr>
@@ -643,8 +639,14 @@
     <!-- 工作经历 -->
     <staff-work ref="staffWork"> </staff-work>
     <br />
-    <!-- 在校获奖情况 -->
+    <!-- 项目信息 -->
+    <staff-project ref="staffProject"> </staff-project>
+    <br />
+    <!-- 文章信息 -->
     <staff-essay ref="staffEssay"> </staff-essay>
+    <br />
+    <!-- 在校获奖情况 -->
+    <staff-award ref="staffAward"> </staff-award>
     <a-row style="padding: 15px 0px">
       <a-col>
         <b>
@@ -734,6 +736,8 @@ import StaffFamily from './StaffFamily'
 import StaffEducation from './StaffEducation'
 import StaffWork from './StaffWork'
 import StaffEssay from './StaffEssay'
+import StaffProject from './StaffProject'
+import StaffAward from './StaffAward'
 import UploadImgFile from '../../common/UploadImgFile'
 import MutiUploadFile from '../../common/MutiUploadFile'
 import MutiUploadPdf from '../../common/MutiUploadPdf'
@@ -755,6 +759,8 @@ export default {
     StaffEducation,
     StaffWork,
     StaffEssay,
+    StaffProject,
+    StaffAward,
     UploadImgFile,
     MutiUploadFile,
     MutiUploadPdf
@@ -866,6 +872,7 @@ export default {
           let zzmmList = []
           let mzList = []
           let jsjspList = []
+          let xlList = []
           let wxz = { code: '', name: '未选择' }
           wyspList.push(wxz)
           xuexList.push(wxz)
@@ -873,6 +880,7 @@ export default {
           zylxList.push(wxz)
           zzmmList.push(wxz)
           mzList.push(wxz)
+          xlList.push(wxz)
           jsjspList.push(wxz)
           if (r.data.wyspList) {
             r.data.wyspList.forEach(function (k) {
@@ -909,6 +917,11 @@ export default {
               jsjspList.push({ code: k.ctCode, name: k.ctName })
             })
           }
+          if (r.data.xlList) {
+            r.data.xlList.forEach(function (k) {
+              xlList.push({ code: k.ctCode, name: k.ctName })
+            })
+          }
           this.dicts.wyspList = wyspList
           this.dicts.xuexList = xuexList
           this.dicts.hyztList = hyztList
@@ -916,6 +929,7 @@ export default {
           this.dicts.zzmmList = zzmmList
           this.dicts.mzList = mzList
           this.dicts.jsjspList = jsjspList
+          this.dicts.xlList = xlList
         }
       })
     },
@@ -968,10 +982,12 @@ export default {
           }
           // console.log(sInfo)
           this.setFormValues(sInfo)
-          this.$refs.staffFamily.setFieldValues(staffInfoData.familys, staffInfoData.id)
+          this.$refs.staffFamily.setFieldValues(staffInfoData.familys, staffInfoData.id, this.dicts)
           this.$refs.staffEducation.setFieldValues(staffInfoData.educations, staffInfoData.id)
           this.$refs.staffWork.setFieldValues(staffInfoData.works, staffInfoData.id)
+          this.$refs.staffProject.setFieldValues(staffInfoData.projects, staffInfoData.id)
           this.$refs.staffEssay.setFieldValues(staffInfoData.essays, staffInfoData.id)
+          this.$refs.staffAward.setFieldValues(staffInfoData.awards, staffInfoData.id)
         } else {
           // this.$message.error('获取个人简历失败.')
           this.openNotificationIcon('error', '操作提醒', '获取个人简历失败.')
@@ -993,9 +1009,11 @@ export default {
           this.staffInfo.csdats = this.csdats
           // console.log(this.staffInfo.csdat)
           this.staffInfo.educations = this.$refs.staffEducation.getFieldValues()
-          this.staffInfo.works = this.$refs.staffWork.getFieldValues()
-          this.staffInfo.essays = this.$refs.staffEssay.getFieldValues()
           this.staffInfo.familys = this.$refs.staffFamily.getFieldValues()
+          this.staffInfo.works = this.$refs.staffWork.getFieldValues()
+          this.staffInfo.projects = this.$refs.staffProject.getFieldValues()
+          this.staffInfo.essays = this.$refs.staffEssay.getFieldValues()
+          this.staffInfo.awards = this.$refs.staffAward.getFieldValues()
           this.$put('zpStaffInfo/saveStaffInfo', {
             data: JSON.stringify(this.staffInfo)
           }).then((r) => {

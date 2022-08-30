@@ -25,7 +25,7 @@
         <div :key="col">
           <a-input
             style="margin: -5px 0"
-            :maxLength="30"
+            :maxLength="50"
             :value="text"
             @change="(e) => handleChange(e.target.value, record.id, col)"
           />
@@ -43,15 +43,6 @@
           />
         </div>
       </template>
-      <template slot="operationFile" slot-scope="text, record">
-        <mutiUpload-file
-          :baseId="record.id"
-          :baseTime="baseTime"
-          refTab="work"
-          refType="work"
-        >
-        </mutiUpload-file>
-      </template>
       <template slot="operation" slot-scope="text, record">
         <a-popconfirm
           v-if="dataSource.length"
@@ -67,11 +58,9 @@
 </template>
 
 <script>
-import MutiUploadFile from '../../common/MutiUploadFile'
 export default {
   name: 'StaffWork',
   components: {
-    MutiUploadFile
   },
   data () {
     return {
@@ -85,7 +74,7 @@ export default {
           customRender: 'srtdat'
         },
         fixed: 'left',
-        width: 150
+        width: 135
       },
       {
         title: '终止时间',
@@ -94,7 +83,7 @@ export default {
           customRender: 'enddat'
         },
         fixed: 'left',
-        width: 150
+        width: 135
       },
       {
         title: '工作单位',
@@ -136,14 +125,6 @@ export default {
           customRender: 'remark'
         },
         width: 180
-      },
-      {
-        title: '附件',
-        scopedSlots: {
-          customRender: 'operationFile'
-        },
-        fixed: 'right',
-        width: 150
       },
       {
         title: '操作',

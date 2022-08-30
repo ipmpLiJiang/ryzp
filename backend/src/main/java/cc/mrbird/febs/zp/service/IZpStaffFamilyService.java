@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author viki
@@ -21,15 +21,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  */
 public interface IZpStaffFamilyService extends IService<ZpStaffFamily> {
 
-        IPage<ZpStaffFamily> findZpStaffFamilys(QueryRequest request, ZpStaffFamily zpStaffFamily);
+    IPage<ZpStaffFamily> findZpStaffFamilys(QueryRequest request, ZpStaffFamily zpStaffFamily);
 
-        IPage<ZpStaffFamily> findZpStaffFamilyList(QueryRequest request, ZpStaffFamily zpStaffFamily);
+    IPage<ZpStaffFamily> findZpStaffFamilyList(QueryRequest request, ZpStaffFamily zpStaffFamily);
 
-        ZpStaffFamily saveInitStaffFamily(ZpStaffInfo zpStaffInfo, Date thisDate);
+    ZpStaffFamily saveInitStaffFamily(ZpStaffInfo zpStaffInfo, Date thisDate);
 
-        void createZpStaffFamily(ZpStaffFamily zpStaffFamily);
+    void createZpStaffFamily(ZpStaffFamily zpStaffFamily);
 
-        void updateZpStaffFamily(ZpStaffFamily zpStaffFamily);
+    void updateZpStaffFamily(ZpStaffFamily zpStaffFamily);
 
-        void deleteZpStaffFamilys(String[]Ids);
-        }
+    void deleteZpStaffFamilys(String[] Ids);
+
+}
