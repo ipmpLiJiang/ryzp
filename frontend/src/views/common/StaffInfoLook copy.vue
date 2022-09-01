@@ -158,7 +158,7 @@
       </a-row>
       <a-row type="flex" class="contentrow">
         <a-col flex="10">
-          学历/学位：
+          学历：
         </a-col>
         <a-col flex="40">
           {{e.xlxw}}
@@ -172,23 +172,29 @@
       </a-row>
       <a-row type="flex" class="contentrow">
         <a-col flex="10">
-          所学专业：
+          学科专业1：
         </a-col>
         <a-col flex="40">
-          {{e.sxzy}}
+          {{e.xkzy1}}
         </a-col>
+        <a-col flex="10">
+          学科专业2：
+        </a-col>
+        <a-col flex="40">
+          {{e.xkzy2}}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
         <a-col flex="10">
           研究方向：
         </a-col>
         <a-col flex="40">
           {{e.yjfx}}
         </a-col>
-      </a-row>
-      <a-row type="flex" class="contentrow">
         <a-col flex="10">
           附件材料：
         </a-col>
-        <a-col flex="90">
+        <a-col flex="40">
           <mutiUpload-look
             :baseId="e.id"
             :baseTime="baseTime"

@@ -79,10 +79,22 @@ public class ZpStaffEducation implements Serializable, Comparable<ZpStaffEducati
     private String yxname;
 
     /**
-     * 所学专业
+     * 学科专业1
      */
-    @ExcelField(value = "所学专业")
-    private String sxzy;
+    @ExcelField(value = "学科专业1")
+    private String xkzy1;
+
+    /**
+     * 学科专业2
+     */
+    @ExcelField(value = "学科专业2")
+    private String xkzy2;
+
+    /**
+     * 学科类型
+     */
+    @ExcelField(value = "学科类型")
+    private String xklx;
 
     /**
      * 研究方向
@@ -121,6 +133,9 @@ public class ZpStaffEducation implements Serializable, Comparable<ZpStaffEducati
     private transient String createTimeFrom;
     private transient String createTimeTo;
 
+    private transient String xlxwname;
+
+    private transient String xklxname;
 
     public static final String ID = "id";
 
@@ -136,7 +151,11 @@ public class ZpStaffEducation implements Serializable, Comparable<ZpStaffEducati
 
     public static final String YXNAME = "yxname";
 
-    public static final String SXZY = "sxzy";
+    public static final String XKZY1 = "xkzy1";
+
+    public static final String XKZY2 = "xkzy2";
+
+    public static final String XKLX = "xklx";
 
     public static final String YJFX = "yjfx";
 

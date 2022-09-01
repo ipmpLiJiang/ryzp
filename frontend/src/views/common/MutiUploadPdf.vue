@@ -41,7 +41,7 @@ export default {
   },
   watch: {
     baseId: function () {
-      if (this.baseId !== '' && !this.isEdit) {
+      if (this.baseId !== '') {
         var _this = this
         setTimeout(() => {
           _this.findFileList(_this.baseId)
@@ -53,9 +53,6 @@ export default {
   },
   mounted () {
     setTimeout(() => {
-      if (!this.isEdit) {
-        this.isUpload = false
-      }
       this.findFileList(this.baseId)
     }, 200)
   },
@@ -169,8 +166,8 @@ export default {
           data.url = this.$baseURL + data.url
           data.thumbUrl = this.$baseURL + data.thumbUrl
           this.fileList.push(data)
-          this.setBtnVisible()
         }
+        this.setBtnVisible()
       })
     }
   }

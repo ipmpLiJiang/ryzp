@@ -149,8 +149,14 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 if (StrUtil.isNotBlank(list.get(ng).getDsxx())) {
                     value += huanhang + "导师信息：" + list.get(ng).getDsxx();
                 }
-                if (StrUtil.isNotBlank(list.get(ng).getSxzy())) {
-                    value += huanhang + "所学专业：" + list.get(ng).getSxzy();
+                if (StrUtil.isNotBlank(list.get(ng).getXkzy1())) {
+                    value += huanhang + "学科专业1：" + list.get(ng).getXkzy1();
+                }
+                if (StrUtil.isNotBlank(list.get(ng).getXkzy2())) {
+                    value += huanhang + "学科专业2：" + list.get(ng).getXkzy2();
+                }
+                if (StrUtil.isNotBlank(list.get(ng).getXklx())) {
+                    value += huanhang + "学科类型：" + list.get(ng).getXklx();
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getYjfx())) {
                     value += huanhang + "研究方向：" + list.get(ng).getYjfx();
@@ -174,11 +180,11 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 } else if (list.get(ng).getEnddat() != null) {
                     value += huanhang + "工作时间：" + sdf.format(list.get(ng).getEnddat());
                 }
+                if (StrUtil.isNotBlank(list.get(ng).getWkbm())) {
+                    value += huanhang + "工作部门：" + list.get(ng).getWkbm();
+                }
                 if (StrUtil.isNotBlank(list.get(ng).getWkzw())) {
                     value += huanhang + "工作职务：" + list.get(ng).getWkzw();
-                }
-                if (StrUtil.isNotBlank(list.get(ng).getDsxx())) {
-                    value += huanhang + "导师信息：" + list.get(ng).getDsxx();
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getWkxl())) {
                     value += huanhang + "学历：" + list.get(ng).getWkxl();
@@ -192,28 +198,28 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
         String value = "";
         String huanhang = "\n";
         if (list.size() > ng) {
-            if (StrUtil.isNotBlank(list.get(ng).getLwlzmc())) {
-                value = "论文/论著名称：" + list.get(ng).getLwlzmc();
-                if (StrUtil.isNotBlank(list.get(ng).getZzname())) {
-                    value += huanhang + "作者名称：" + list.get(ng).getZzname();
+            if (StrUtil.isNotBlank(list.get(ng).getWzname())) {
+                value = "文章名称：" + list.get(ng).getWzname();
+                if (StrUtil.isNotBlank(list.get(ng).getBrpm())) {
+                    value += huanhang + "本人排名：" + list.get(ng).getBrpm();
                 }
-                if (StrUtil.isNotBlank(list.get(ng).getFbqk())) {
-                    value += huanhang + "发表期刊：" + list.get(ng).getFbqk();
+                if (StrUtil.isNotBlank(list.get(ng).getKwjb())) {
+                    value += huanhang + "刊物级别：" + list.get(ng).getKwjb();
                 }
-                if (StrUtil.isNotBlank(list.get(ng).getFbcbny())) {
-                    value += huanhang + "发表或出版年度：" + list.get(ng).getFbcbny();
+                if (list.get(ng).getCbdat() != null) {
+                    value += huanhang + "出版时间：" + list.get(ng).getCbdat().toString();
                 }
-                if (StrUtil.isNotBlank(list.get(ng).getSlqk())) {
-                    value += huanhang + "收录情况：" + list.get(ng).getSlqk();
+                if (StrUtil.isNotBlank(list.get(ng).getFbzt())) {
+                    value += huanhang + "发布状态：" + list.get(ng).getFbzt();
+                }
+                if (StrUtil.isNotBlank(list.get(ng).getCbkw())) {
+                    value += huanhang + "出版刊物：" + list.get(ng).getCbkw();
+                }
+                if (StrUtil.isNotBlank(list.get(ng).getCbkh())) {
+                    value += huanhang + "出版刊号：" + list.get(ng).getCbkh();
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getYxyz())) {
                     value += huanhang + "影响因子：" + list.get(ng).getYxyz();
-                }
-                if (StrUtil.isNotBlank(list.get(ng).getJcrfq())) {
-                    value += huanhang + "JCR分区：" + list.get(ng).getJcrfq();
-                }
-                if (StrUtil.isNotBlank(list.get(ng).getTycs())) {
-                    value += huanhang + "他引次数：" + list.get(ng).getTycs();
                 }
             }
         }

@@ -49,46 +49,55 @@ public class ZpStaffEssay implements Serializable, Comparable<ZpStaffEssay> {
     private String staffId;
 
     /**
-     * 论文/论著名称
+     * 文章名称
      */
-    @ExcelField(value = "论文/论著名称")
-    private String lwlzmc;
+    @ExcelField(value = "文章名称")
+    private String wzname;
 
     /**
-     * 作者姓名
+     * 本人排名
      */
-    @ExcelField(value = "作者姓名")
-    private String zzname;
+    @ExcelField(value = "本人排名")
+    private String brpm;
 
     /**
-     * 发表期刊
+     * 刊物级别
      */
-    @ExcelField(value = "发表期刊")
-    private String fbqk;
+    @ExcelField(value = "刊物级别")
+    private String kwjb;
+
 
     /**
-     * 发表/出版年月
+     * 出版时间
      */
-    @ExcelField(value = "发表/出版年月")
-    private String fbcbny;
+    @ExcelField(value = "出版时间")
+    private Date cbdat;
+    private transient String cbdatFrom;
+    private transient String cbdatTo;
 
     /**
-     * 收录情况
+     * 发布状态
      */
-    @ExcelField(value = "收录情况")
-    private String slqk;
+    @ExcelField(value = "发布状态")
+    private String fbzt;
+
+    /**
+     * 出版刊物
+     */
+    @ExcelField(value = "出版刊物")
+    private String cbkw;
+
+    /**
+     * 刊号
+     */
+    @ExcelField(value = "刊号")
+    private String cbkh;
 
     /**
      * 影响因子
      */
     @ExcelField(value = "影响因子")
     private String yxyz;
-
-    /**
-     * 他引次数
-     */
-    @ExcelField(value = "他引次数")
-    private String tycs;
 
     /**
      * by
@@ -115,13 +124,9 @@ public class ZpStaffEssay implements Serializable, Comparable<ZpStaffEssay> {
     private transient String createTimeFrom;
     private transient String createTimeTo;
 
-    /**
-     * JCR分区
-     */
-    @TableField("jcrfq")
-    @ExcelField(value = "JCR分区")
-    private String jcrfq;
-
+    private transient String fbztname;
+    private transient String kwjbname;
+    private transient String brpmname;
 
     public static final String ID = "id";
 
@@ -129,27 +134,27 @@ public class ZpStaffEssay implements Serializable, Comparable<ZpStaffEssay> {
 
     public static final String STAFFID = "staffId";
 
-    public static final String LWLZMC = "lwlzmc";
+    public static final String WZNAME = "wzname";
 
-    public static final String ZZNAME = "zzname";
+    public static final String BRPM = "brpm";
 
-    public static final String FBQK = "fbqk";
+    public static final String KWJB = "kwjb";
 
-    public static final String FBCBNY = "fbcbny";
+    public static final String CBDAT = "cbdat";
 
-    public static final String SLQK = "slqk";
+    public static final String FBZT = "fbzt";
+
+    public static final String CBKW = "cbkw";
+
+    public static final String CBKH = "cbkh";
 
     public static final String YXYZ = "yxyz";
-
-    public static final String TYCS = "tycs";
 
     public static final String CURRENCYFIELD = "currencyField";
 
     public static final String MODIFY_TIME = "MODIFY_TIME";
 
     public static final String CREATE_TIME = "CREATE_TIME";
-
-    public static final String JCRFQ = "jcrfq";
 
     @Override
     public int compareTo(ZpStaffEssay o) {

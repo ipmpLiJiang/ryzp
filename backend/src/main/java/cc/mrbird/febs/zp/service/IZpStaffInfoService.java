@@ -75,5 +75,13 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
 
     void editZpStaffFamily(StaffFamily staffFamily,User user);
 
+    void editZpStaffWork(StaffWork staffWork,User user);
+
     void editZpStaffAward(StaffAward staffAward,User user);
+
+    void editZpStaffEducation(StaffEducation staffEducation,User user);
+
+    void editZpStaffProject(StaffProject staffProject,User user);
+
+    void editZpStaffEssay(StaffEssay staffEssay,User user);
 }

@@ -106,15 +106,15 @@ public class ZpStaffInfoController extends BaseController {
 
     @GetMapping("getId")
     @RequiresPermissions("zpStaffInfo:update")
-    public FebsResponse getIdS(String staffId, String type) {
+    public FebsResponse getIdS() {
         ModelMap map = new ModelMap();
         int success = 0;
         String id = null;
         try {
-            id = this.iZpStaffInfoService.createStaffMx(staffId, type);
+            id = UUID.randomUUID().toString();
             success = 1;
         } catch (Exception e) {
-            message = type + "创建失败.";
+            message = "创建失败.";
             log.error(message, e);
         }
         map.put("success", success);
@@ -339,8 +339,64 @@ public class ZpStaffInfoController extends BaseController {
     }
 
     @Log("新增/修改")
+    @PostMapping("editZpStaffEducation")
+    public void editZpStaffEducation(@Valid StaffEducation staffEducation) throws FebsException {
+        try {
+            User currentUser = FebsUtil.getCurrentUser();
+
+            this.iZpStaffInfoService.editZpStaffEducation(staffEducation,currentUser);
+        } catch (Exception e) {
+            message = "修改数据失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
+    @Log("新增/修改")
+    @PostMapping("editZpStaffWork")
+    public void editZpStaffWork(@Valid StaffWork staffWork) throws FebsException {
+        try {
+            User currentUser = FebsUtil.getCurrentUser();
+
+            this.iZpStaffInfoService.editZpStaffWork(staffWork,currentUser);
+        } catch (Exception e) {
+            message = "修改数据失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
+    @Log("新增/修改")
+    @PostMapping("editZpStaffProject")
+    public void editZpStaffProject(@Valid StaffProject staffProject) throws FebsException {
+        try {
+            User currentUser = FebsUtil.getCurrentUser();
+
+            this.iZpStaffInfoService.editZpStaffProject(staffProject,currentUser);
+        } catch (Exception e) {
+            message = "修改数据失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
+    @Log("新增/修改")
+    @PostMapping("editZpStaffEssay")
+    public void editZpStaffEssay(@Valid StaffEssay staffEssay) throws FebsException {
+        try {
+            User currentUser = FebsUtil.getCurrentUser();
+
+            this.iZpStaffInfoService.editZpStaffEssay(staffEssay,currentUser);
+        } catch (Exception e) {
+            message = "修改数据失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
+    @Log("新增/修改")
     @PostMapping("editZpStaffAward")
-    public void editZpStaffFamily(@Valid StaffAward staffAward) throws FebsException {
+    public void editZpStaffAward(@Valid StaffAward staffAward) throws FebsException {
         try {
             User currentUser = FebsUtil.getCurrentUser();
 

@@ -70,7 +70,7 @@
         <td colspan="2">第二志愿科室<font class="fontColor">*</font></td>
         <td colspan="3">{{ staffInfo.zyks2 }}</td>
         <td colspan="2">最高学历<font class="fontColor">*</font></td>
-        <td colspan="3">{{ staffInfo.zgxl }}</td>
+        <td colspan="3">{{ staffInfo.zgxlname }}</td>
       </tr>
       <tr>
         <td colspan="2">外语水平<font class="fontColor">*</font></td>
@@ -135,6 +135,58 @@
       </tr>
     </table>
     <br />
+    <!-- 家庭成员 -->
+    <a-row type="flex" class="mxrow">
+      <a-col class="titlerowcol1" flex="5px"> </a-col>
+      <a-col class="titlerowcol2" flex="auto">
+        <b>
+          <font style="font-size: 16px">家庭成员</font>
+        </b>
+      </a-col>
+    </a-row>
+    <a-row class="mxrowcol" v-for="f in staffInfo.familys" :key="f.id">
+      <a-row type="flex" class="contentrowtop">
+        <a-col flex="12">
+          称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;谓：
+        </a-col>
+        <a-col flex="38">
+          {{ f.wcname }}
+        </a-col>
+        <a-col flex="12">
+          姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：
+        </a-col>
+        <a-col flex="38">
+          {{ f.xmname }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 政治面貌： </a-col>
+        <a-col flex="38">
+          {{ f.zzmmname }}
+        </a-col>
+        <a-col flex="12"> 出生年月： </a-col>
+        <a-col flex="38">
+          {{ setDateFormat(f.csdat) }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 工作单位及职务： </a-col>
+        <a-col flex="38">
+          {{ f.gzdwjzw }}
+        </a-col>
+        <a-col flex="12"> 附件材料： </a-col>
+        <a-col flex="38">
+          <mutiUpload-look
+            :baseId="f.id"
+            :baseTime="baseTime"
+            refTab="family"
+            refType="family"
+          >
+          </mutiUpload-look>
+        </a-col>
+      </a-row>
+    </a-row>
+    <br />
     <!-- 学历 -->
     <a-row type="flex" class="mxrow">
       <a-col class="titlerowcol1" flex="5px"> </a-col>
@@ -146,7 +198,7 @@
     </a-row>
     <a-row class="mxrowcol" v-for="e in staffInfo.educations" :key="e.id">
       <a-row type="flex" class="contentrowtop">
-        <a-col flex="10">
+        <a-col flex="12">
           院&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;校：
         </a-col>
         <a-col flex="90">
@@ -154,38 +206,48 @@
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 起始时间： </a-col>
-        <a-col flex="40">
+        <a-col flex="12"> 起始时间： </a-col>
+        <a-col flex="38">
           {{ setDateFormat(e.srtdat) }}
         </a-col>
-        <a-col flex="10"> 终止时间： </a-col>
-        <a-col flex="40">
+        <a-col flex="12"> 终止时间： </a-col>
+        <a-col flex="38">
           {{ setDateFormat(e.enddat) }}
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 学历/学位： </a-col>
-        <a-col flex="40">
-          {{ e.xlxw }}
+        <a-col flex="12"> 学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历： </a-col>
+        <a-col flex="38">
+          {{ e.xlxwname }}
         </a-col>
-        <a-col flex="10"> 导师信息： </a-col>
-        <a-col flex="40">
+        <a-col flex="12"> 导师信息： </a-col>
+        <a-col flex="38">
           {{ e.dsxx }}
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 所学专业： </a-col>
-        <a-col flex="40">
-          {{ e.sxzy }}
+        <a-col flex="12"> 学科专业1： </a-col>
+        <a-col flex="38">
+          {{ e.xkzy1 }}
         </a-col>
-        <a-col flex="10"> 研究方向： </a-col>
-        <a-col flex="40">
+        <a-col flex="12"> 学科专业2： </a-col>
+        <a-col flex="38">
+          {{ e.xkzy2 }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 学科类型： </a-col>
+        <a-col flex="38">
+          {{ e.xklxname }}
+        </a-col>
+        <a-col flex="12"> 研究方向： </a-col>
+        <a-col flex="38">
           {{ e.yjfx }}
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 附件材料： </a-col>
-        <a-col flex="90">
+        <a-col flex="12"> 附件材料： </a-col>
+        <a-col flex="38">
           <mutiUpload-look
             :baseId="e.id"
             :baseTime="baseTime"
@@ -193,6 +255,10 @@
             refType="education"
           >
           </mutiUpload-look>
+        </a-col>
+        <a-col flex="12"> &nbsp; </a-col>
+        <a-col flex="38">
+          &nbsp;
         </a-col>
       </a-row>
     </a-row>
@@ -208,44 +274,38 @@
     </a-row>
     <a-row class="mxrowcol" v-for="w in staffInfo.works" :key="w.id">
       <a-row type="flex" class="contentrowtop">
-        <a-col flex="10"> 工作单位： </a-col>
-        <a-col flex="90">
+        <a-col flex="12"> 工作单位： </a-col>
+        <a-col flex="88">
           {{ w.wkdw }}
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 起始时间： </a-col>
-        <a-col flex="40">
+        <a-col flex="12"> 起始时间： </a-col>
+        <a-col flex="38">
           {{ setDateFormat(w.srtdat) }}
         </a-col>
-        <a-col flex="10"> 终止时间： </a-col>
-        <a-col flex="40">
+        <a-col flex="12"> 终止时间： </a-col>
+        <a-col flex="38">
           {{ setDateFormat(w.enddat) }}
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 工作职务： </a-col>
-        <a-col flex="40">
+        <a-col flex="12"> 工作部门： </a-col>
+        <a-col flex="38">
+          {{ w.wkbm }}
+        </a-col>
+        <a-col flex="12"> 职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务： </a-col>
+        <a-col flex="38">
           {{ w.wkzw }}
         </a-col>
-        <a-col flex="10"> 导师信息： </a-col>
-        <a-col flex="40">
-          {{ w.dsxx }}
-        </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 学历： </a-col>
-        <a-col flex="40">
-          {{ w.wkxl }}
+        <a-col flex="12"> 学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历： </a-col>
+        <a-col flex="38">
+          {{ w.wkxlname }}
         </a-col>
-        <a-col flex="10"> 备注： </a-col>
-        <a-col flex="40">
-          {{ w.remark }}
-        </a-col>
-      </a-row>
-      <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 附件材料： </a-col>
-        <a-col flex="90">
+        <a-col flex="12"> 附件材料： </a-col>
+        <a-col flex="38">
           <mutiUpload-look
             :baseId="w.id"
             :baseTime="baseTime"
@@ -257,7 +317,61 @@
       </a-row>
     </a-row>
     <br />
-    <!-- 著作论文 -->
+    <!-- 项目信息 -->
+    <a-row type="flex" class="mxrow">
+      <a-col class="titlerowcol1" flex="5px"> </a-col>
+      <a-col class="titlerowcol2" flex="auto">
+        <b>
+          <font style="font-size: 16px">项目信息</font>
+        </b>
+      </a-col>
+    </a-row>
+    <a-row class="mxrowcol" v-for="p in staffInfo.projects" :key="p.id">
+      <a-row type="flex" class="contentrowtop">
+        <a-col flex="12"> 项目名称 </a-col>
+        <a-col flex="88">
+          {{ p.projectname }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 开始日期： </a-col>
+        <a-col flex="38">
+          {{ setDateFormat(p.srtdat) }}
+        </a-col>
+        <a-col flex="12"> 结束日期： </a-col>
+        <a-col flex="38">
+          {{ setDateFormat(p.enddat) }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 项目类别/来源： </a-col>
+        <a-col flex="38">
+          {{ p.xbly }}
+        </a-col>
+        <a-col flex="12"> 经费(万)： </a-col>
+        <a-col flex="38">
+          {{ p.jf }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 本人排名： </a-col>
+        <a-col flex="38">
+          {{ p.brpm }}
+        </a-col>
+        <a-col flex="12"> 附件材料： </a-col>
+        <a-col flex="38">
+          <mutiUpload-look
+            :baseId="p.id"
+            :baseTime="baseTime"
+            refTab="project"
+            refType="project"
+          >
+          </mutiUpload-look>
+        </a-col>
+      </a-row>
+    </a-row>
+    <br />
+    <!-- 文章信息 -->
     <a-row type="flex" class="mxrow">
       <a-col class="titlerowcol1" flex="5px"> </a-col>
       <a-col class="titlerowcol2" flex="auto">
@@ -266,52 +380,52 @@
         </b>
       </a-col>
     </a-row>
-    <a-row class="mxrowcol" v-for="y in staffInfo.essays" :key="y.id">
+    <a-row class="mxrowcol" v-for="e in staffInfo.essays" :key="e.id">
       <a-row type="flex" class="contentrowtop">
-        <a-col flex="15"> 文章名称： </a-col>
-        <a-col flex="90">
-          {{ y.lwlzmc }}
+        <a-col flex="12"> 文章名称： </a-col>
+        <a-col flex="88">
+          {{ e.wzname }}
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="15"> 作者名称： </a-col>
-        <a-col flex="40">
-          {{ y.zzname }}
+        <a-col flex="12"> 刊物级别： </a-col>
+        <a-col flex="38">
+          {{ e.kwjbname }}
         </a-col>
-        <a-col flex="10"> 发表期刊： </a-col>
-        <a-col flex="40">
-          {{ y.fbqk }}
-        </a-col>
-      </a-row>
-      <a-row type="flex" class="contentrow">
-        <a-col flex="15"> 发表或出版年度： </a-col>
-        <a-col flex="40">
-          {{ y.fbcbny }}
-        </a-col>
-        <a-col flex="10"> 收录情况： </a-col>
-        <a-col flex="40">
-          {{ y.slqk }}
+        <a-col flex="12"> 本人排名： </a-col>
+        <a-col flex="38">
+          {{ e.brpmname }}
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="15"> 影响因子： </a-col>
-        <a-col flex="40">
-          {{ y.yxyz }}
+        <a-col flex="12"> 出版时间： </a-col>
+        <a-col flex="38">
+          {{ setDateFormat(e.cbdat) }}
         </a-col>
-        <a-col flex="10"> JCR分区： </a-col>
-        <a-col flex="40">
-          {{ y.jcrfq }}
+        <a-col flex="12"> 发布状态： </a-col>
+        <a-col flex="38">
+          {{ e.fbztname }}
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="15"> 他引次数： </a-col>
-        <a-col flex="40">
-          {{ y.tycs }}
+        <a-col flex="12"> 出版刊物： </a-col>
+        <a-col flex="38">
+          {{ e.cbkw }}
         </a-col>
-        <a-col flex="10"> 附件材料： </a-col>
-        <a-col flex="40">
+        <a-col flex="12"> 刊号： </a-col>
+        <a-col flex="38">
+          {{ e.cbkh }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 影响因子： </a-col>
+        <a-col flex="38">
+          {{ e.yxyz }}
+        </a-col>
+        <a-col flex="12"> 附件材料： </a-col>
+        <a-col flex="38">
           <mutiUpload-look
-            :baseId="y.id"
+            :baseId="e.id"
             :baseTime="baseTime"
             refTab="essay"
             refType="essay"
@@ -320,7 +434,50 @@
         </a-col>
       </a-row>
     </a-row>
-
+    <br />
+    <!-- 获奖情况 -->
+    <a-row type="flex" class="mxrow">
+      <a-col class="titlerowcol1" flex="5px"> </a-col>
+      <a-col class="titlerowcol2" flex="auto">
+        <b>
+          <font style="font-size: 16px">获奖情况</font>
+        </b>
+      </a-col>
+    </a-row>
+    <a-row class="mxrowcol" v-for="a in staffInfo.awards" :key="a.id">
+      <a-row type="flex" class="contentrowtop">
+        <a-col flex="12"> 奖项名称： </a-col>
+        <a-col flex="88">
+          {{ a.jxname }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;次： </a-col>
+        <a-col flex="38">
+          {{ a.mc }}
+        </a-col>
+        <a-col flex="12"> 获奖时间： </a-col>
+        <a-col flex="38">
+          {{ setDateFormat(a.hjdat) }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
+        <a-col flex="12"> 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注： </a-col>
+        <a-col flex="38">
+          {{ a.remark }}
+        </a-col>
+        <a-col flex="12"> 附件材料： </a-col>
+        <a-col flex="38">
+          <mutiUpload-look
+            :baseId="a.id"
+            :baseTime="baseTime"
+            refTab="award"
+            refType="award"
+          >
+          </mutiUpload-look>
+        </a-col>
+      </a-row>
+    </a-row>
     <br />
     <a-row v-if="staffInfo.comments" type="flex" class="mxrow">
       <a-col class="titlerowcol1" flex="5px"> </a-col>

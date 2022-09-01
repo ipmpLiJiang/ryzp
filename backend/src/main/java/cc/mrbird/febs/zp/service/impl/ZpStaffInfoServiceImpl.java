@@ -121,11 +121,11 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
     }
 
     @Override
-    public ZpStaffInfo findZpStaffInfoByXmAndIdNumber(String ryName,String idNumber,String email) {
+    public ZpStaffInfo findZpStaffInfoByXmAndIdNumber(String ryName, String idNumber, String email) {
         LambdaQueryWrapper<ZpStaffInfo> staffInfoWrapper = new LambdaQueryWrapper<>();
         staffInfoWrapper.eq(ZpStaffInfo::getRyname, ryName);
-        staffInfoWrapper.eq(ZpStaffInfo::getIdnumber,idNumber);
-        staffInfoWrapper.eq(ZpStaffInfo::getEmail,email);
+        staffInfoWrapper.eq(ZpStaffInfo::getIdnumber, idNumber);
+        staffInfoWrapper.eq(ZpStaffInfo::getEmail, email);
         List<ZpStaffInfo> staffInfoList = this.list(staffInfoWrapper);
         if (staffInfoList.size() > 0) {
             return staffInfoList.get(0);
@@ -136,7 +136,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
 
     @Override
     @Transactional
-    public ZpStaffInfo initStaff(User user,String idnumber) {
+    public ZpStaffInfo initStaff(User user, String idnumber) {
         Date thisDate = new Date();
         ZpStaffInfo zpStaffInfo = new ZpStaffInfo();
         zpStaffInfo.setId(UUID.randomUUID().toString());
@@ -243,9 +243,9 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
 
     @Override
     public StaffInfo getStaffInfo(ZpStaffInfo zpStaffInfo) {
-        ComType qct= new ComType();
+        ComType qct = new ComType();
         qct.setIsDeletemark(1);
-        List<ComType> typeList =  iComTypeService.findComTypeList(qct);
+        List<ComType> typeList = iComTypeService.findComTypeList(qct);
         List<ComType> qCtlist = new ArrayList<>();
         StaffInfo staffInfo = new StaffInfo();
 //        LambdaQueryWrapper<ZpStaffInfo> staffInfoWrapper = new LambdaQueryWrapper<>();
@@ -315,6 +315,14 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         staffInfo.setZyks1(zpStaffInfo.getZyks1());  // 第一志愿科室
         staffInfo.setZyks2(zpStaffInfo.getZyks2());  // 第二志愿科室
         staffInfo.setZgxl(zpStaffInfo.getZgxl()); //最高学历
+        if (StringUtils.isNotBlank(zpStaffInfo.getZgxl())) {
+            qCtlist = typeList.stream().filter(s -> s.getCtType().equals(8) && s.getCtCode().equals(zpStaffInfo.getZgxl())).collect(Collectors.toList());
+            if (qCtlist.size() > 0) {
+                staffInfo.setZgxlname(qCtlist.get(0).getCtName());
+            } else {
+                staffInfo.setZgxlname(zpStaffInfo.getZgxl());
+            }
+        }
         staffInfo.setWysp(zpStaffInfo.getWysp()); // 外语水平
         if (StringUtils.isNotBlank(zpStaffInfo.getWysp())) {
             qCtlist = typeList.stream().filter(s -> s.getCtType().equals(3) && s.getCtCode().equals(zpStaffInfo.getWysp())).collect(Collectors.toList());
@@ -364,17 +372,85 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         staffEducationWrapper.eq(ZpStaffEducation::getStaffId, zpStaffInfo.getId());
         educationList = this.iZpStaffEducationService.list(staffEducationWrapper);
 
+        for (ZpStaffEducation item : educationList) {
+            if (StringUtils.isNotBlank(item.getXlxw())) {
+                qCtlist = typeList.stream().filter(s -> s.getCtType().equals(8) && s.getCtCode().equals(item.getXlxw())).collect(Collectors.toList());
+                if (qCtlist.size() > 0) {
+                    item.setXlxwname(qCtlist.get(0).getCtName());
+                } else {
+                    item.setXlxwname(item.getXlxw());
+                }
+            }
+            if (StringUtils.isNotBlank(item.getXklx())) {
+                qCtlist = typeList.stream().filter(s -> s.getCtType().equals(9) && s.getCtCode().equals(item.getXklx())).collect(Collectors.toList());
+                if (qCtlist.size() > 0) {
+                    item.setXklxname(qCtlist.get(0).getCtName());
+                } else {
+                    item.setXklxname(item.getXlxw());
+                }
+            }
+        }
+
         LambdaQueryWrapper<ZpStaffWork> staffWorkWrapper = new LambdaQueryWrapper<>();
         staffWorkWrapper.eq(ZpStaffWork::getStaffId, zpStaffInfo.getId());
         workList = this.iZpStaffWorkService.list(staffWorkWrapper);
+
+        for (ZpStaffWork item : workList) {
+            if (StringUtils.isNotBlank(item.getWkxl())) {
+                qCtlist = typeList.stream().filter(s -> s.getCtType().equals(8) && s.getCtCode().equals(item.getWkxl())).collect(Collectors.toList());
+                if (qCtlist.size() > 0) {
+                    item.setWkxlname(qCtlist.get(0).getCtName());
+                } else {
+                    item.setWkxlname(item.getWkxl());
+                }
+            }
+        }
 
         LambdaQueryWrapper<ZpStaffEssay> staffEssayWrapper = new LambdaQueryWrapper<>();
         staffEssayWrapper.eq(ZpStaffEssay::getStaffId, zpStaffInfo.getId());
         essayList = this.iZpStaffEssayService.list(staffEssayWrapper);
 
+        for (ZpStaffEssay item : essayList) {
+            if (StringUtils.isNotBlank(item.getBrpm())) {
+                qCtlist = typeList.stream().filter(s -> s.getCtType().equals(11) && s.getCtCode().equals(item.getBrpm())).collect(Collectors.toList());
+                if (qCtlist.size() > 0) {
+                    item.setBrpmname(qCtlist.get(0).getCtName());
+                } else {
+                    item.setBrpmname(item.getBrpm());
+                }
+            }
+            if (StringUtils.isNotBlank(item.getKwjb())) {
+                qCtlist = typeList.stream().filter(s -> s.getCtType().equals(10) && s.getCtCode().equals(item.getKwjb())).collect(Collectors.toList());
+                if (qCtlist.size() > 0) {
+                    item.setKwjbname(qCtlist.get(0).getCtName());
+                } else {
+                    item.setKwjbname(item.getKwjb());
+                }
+            }
+            if (StringUtils.isNotBlank(item.getFbzt())) {
+                qCtlist = typeList.stream().filter(s -> s.getCtType().equals(12) && s.getCtCode().equals(item.getFbzt())).collect(Collectors.toList());
+                if (qCtlist.size() > 0) {
+                    item.setFbztname(qCtlist.get(0).getCtName());
+                } else {
+                    item.setFbztname(item.getFbzt());
+                }
+            }
+        }
+
         LambdaQueryWrapper<ZpStaffFamily> staffFamilyWrapper = new LambdaQueryWrapper<>();
         staffFamilyWrapper.eq(ZpStaffFamily::getStaffId, zpStaffInfo.getId());
         familyList = this.iZpStaffFamilyService.list(staffFamilyWrapper);
+
+        for (ZpStaffFamily item : familyList) {
+            if (StringUtils.isNotBlank(item.getZzmm())) {
+                qCtlist = typeList.stream().filter(s -> s.getCtType().equals(6) && s.getCtCode().equals(item.getZzmm())).collect(Collectors.toList());
+                if (qCtlist.size() > 0) {
+                    item.setZzmmname(qCtlist.get(0).getCtName());
+                } else {
+                    item.setZzmmname(item.getZzmm());
+                }
+            }
+        }
 
         LambdaQueryWrapper<ZpStaffProject> staffProjectWrapper = new LambdaQueryWrapper<>();
         staffProjectWrapper.eq(ZpStaffProject::getStaffId, zpStaffInfo.getId());
@@ -642,7 +718,9 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             update.setSrtdat(item.getSrtdat()); // 起始时间
             update.setEnddat(item.getEnddat()); // 终止时间
             update.setYxname(item.getYxname()); // 院校
-            update.setSxzy(item.getSxzy()); // 所学专业
+            update.setXkzy1(item.getXkzy1()); // 学科专业1
+            update.setXkzy2(item.getXkzy2()); // 学科专业2
+            update.setXklx(item.getXklx()); // 学科类型
             update.setYjfx(item.getYjfx()); // 研究方向
             update.setDsxx(item.getDsxx()); // 导师信息
             update.setModifyTime(thisDate);
@@ -657,10 +735,14 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             StaffEducation insert = new StaffEducation();
             insert.setId(item.getId());
             insert.setXlxw(item.getXlxw());// 学历/学位
+            insert.setXlxwname(item.getXlxwname());
             insert.setSrtdat(item.getSrtdat()); // 起始时间
             insert.setEnddat(item.getEnddat()); // 终止时间
             insert.setYxname(item.getYxname()); // 院校
-            insert.setSxzy(item.getSxzy()); // 所学专业
+            insert.setXkzy1(item.getXkzy1()); // 学科专业1
+            insert.setXkzy2(item.getXkzy2()); // 学科专业2
+            insert.setXklx(item.getXklx()); // 学科类型
+            insert.setXklxname(item.getXklxname());
             insert.setYjfx(item.getYjfx()); // 研究方向
             insert.setDsxx(item.getDsxx()); // 导师信息
             educationList.add(insert);
@@ -680,7 +762,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             update.setWkdw(item.getWkdw()); // 工作单位
             update.setWkzw(item.getWkzw()); // 工作职务
             update.setWkxl(item.getWkxl()); // 工作学历
-            update.setDsxx(item.getDsxx()); // 导师信息
+            update.setWkbm(item.getWkbm()); // 工作部门
             update.setRemark(item.getRemark());
             update.setModifyTime(thisDate);
             workList.add(update);
@@ -698,8 +780,9 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             insert.setWkdw(item.getWkdw()); // 工作单位
             insert.setWkzw(item.getWkzw()); // 工作职务
             insert.setWkxl(item.getWkxl()); // 工作学历
-            insert.setDsxx(item.getDsxx()); // 导师信息
-            insert.setRemark(item.getRemark()); // 导师信息
+            insert.setWkxlname(item.getWkxlname());
+            insert.setWkbm(item.getWkbm()); // 工作部门
+            insert.setRemark(item.getRemark());
             workList.add(insert);
         }
         return workList;
@@ -712,14 +795,14 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             update.setId(item.getId());
             update.setStaffId(staffInfo.getId());
             update.setUserid(staffInfo.getUserid());
-            update.setLwlzmc(item.getLwlzmc()); // 论文/论著名称
-            update.setZzname(item.getZzname()); // 作者名称
-            update.setFbqk(item.getFbqk()); // 发表期刊
-            update.setFbcbny(item.getFbcbny()); // 发表或出版年度
-            update.setSlqk(item.getSlqk()); // 收录情况
+            update.setWzname(item.getWzname()); // 文章名称
+            update.setBrpm(item.getBrpm()); // 本人排名
+            update.setKwjb(item.getKwjb()); // 刊物级别
+            update.setCbdat(item.getCbdat()); // 出版时间
+            update.setFbzt(item.getFbzt()); // 发布状态
+            update.setCbkw(item.getCbkw()); // 出版刊物
+            update.setCbkh(item.getCbkh()); // 出版刊号
             update.setYxyz(item.getYxyz()); // 影响因子
-            update.setJcrfq(item.getJcrfq()); // JCR分区
-            update.setTycs(item.getTycs()); // 他引次数
             update.setModifyTime(thisDate);
             essayList.add(update);
         }
@@ -767,14 +850,17 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         for (ZpStaffEssay item : list) {
             StaffEssay insert = new StaffEssay();
             insert.setId(item.getId());
-            insert.setLwlzmc(item.getLwlzmc()); // 论文/论著名称
-            insert.setZzname(item.getZzname()); // 作者名称
-            insert.setFbqk(item.getFbqk()); // 发表期刊
-            insert.setFbcbny(item.getFbcbny()); // 发表或出版年度
-            insert.setSlqk(item.getSlqk()); // 收录情况
+            insert.setWzname(item.getWzname()); // 文章名称
+            insert.setBrpm(item.getBrpm()); // 本人排名
+            insert.setBrpmname(item.getBrpmname());
+            insert.setKwjb(item.getKwjb()); // 刊物级别
+            insert.setKwjbname(item.getKwjbname());
+            insert.setCbdat(item.getCbdat()); // 出版时间
+            insert.setFbzt(item.getFbzt()); // 发布状态
+            insert.setFbztname(item.getFbztname());
+            insert.setCbkw(item.getCbkw()); // 出版刊物
+            insert.setCbkh(item.getCbkh()); // 出版刊号
             insert.setYxyz(item.getYxyz()); // 影响因子
-            insert.setJcrfq(item.getJcrfq()); // JCR分区
-            insert.setTycs(item.getTycs()); // 他引次数
             essayList.add(insert);
         }
         return essayList;
@@ -788,6 +874,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
             insert.setWcname(item.getWcname());
             insert.setXmname(item.getXmname());
             insert.setZzmm(item.getZzmm());
+            insert.setZzmmname(item.getZzmmname());
             insert.setCsdat(item.getCsdat());
             if (item.getCsdat() != null) {
                 DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -829,55 +916,196 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         }
         return awardList;
     }
+
     @Override
     @Transactional
-    public void editZpStaffFamily(StaffFamily staffFamily,User user) {
-        ZpStaffFamily entity = new ZpStaffFamily();
-        if(StringUtils.isNotBlank(staffFamily.getId())) {
-            entity.setId(staffFamily.getId());
-            entity.setModifyTime(new Date());
-        } else {
-            entity.setId(UUID.randomUUID().toString());
-            entity.setUserid(user.getUserId());
-            entity.setStaffId(staffFamily.getStaffId());
-            entity.setCreateTime(new Date());
-        }
+    public void editZpStaffFamily(StaffFamily staffFamily, User user) {
+        if (StringUtils.isNotBlank(staffFamily.getId())) {
+            ZpStaffFamily obj = iZpStaffFamilyService.getById(staffFamily.getId());
+            ZpStaffFamily entity = new ZpStaffFamily();
+            if (obj != null) {
+                entity.setModifyTime(new Date());
+            } else {
+                entity.setId(UUID.randomUUID().toString());
+                entity.setUserid(user.getUserId());
+                entity.setStaffId(staffFamily.getStaffId());
+                entity.setCreateTime(new Date());
+            }
 
-        entity.setWcname(staffFamily.getWcname());
-        entity.setXmname(staffFamily.getXmname());
-        entity.setZzmm(staffFamily.getZzmm());
-        entity.setGzdwjzw(staffFamily.getGzdwjzw());
-        if(StringUtils.isNotBlank(staffFamily.getCsdats())) {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                entity.setCsdat(sdf.parse(staffFamily.getCsdats()));
-            } catch (Exception e) {
+            entity.setId(staffFamily.getId());
+            entity.setWcname(staffFamily.getWcname());
+            entity.setXmname(staffFamily.getXmname());
+            entity.setZzmm(staffFamily.getZzmm());
+            entity.setGzdwjzw(staffFamily.getGzdwjzw());
+            if (StringUtils.isNotBlank(staffFamily.getCsdats())) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    entity.setCsdat(sdf.parse(staffFamily.getCsdats()));
+                } catch (Exception e) {
+                }
+            }
+
+            if (obj != null) {
+                iZpStaffFamilyService.updateById(entity);
+            } else {
+                iZpStaffFamilyService.save(entity);
             }
         }
-
-        iZpStaffFamilyService.saveOrUpdate(entity);
     }
 
     @Override
     @Transactional
-    public void editZpStaffAward(StaffAward staffAward,User user) {
-        ZpStaffAward entity = new ZpStaffAward();
-        if(StringUtils.isNotBlank(staffAward.getId())) {
-            entity.setId(staffAward.getId());
-            entity.setModifyTime(new Date());
-        } else {
-            entity.setId(UUID.randomUUID().toString());
-            entity.setUserid(user.getUserId());
-            entity.setStaffId(staffAward.getStaffId());
-            entity.setCreateTime(new Date());
+    public void editZpStaffEducation(StaffEducation staffEducation, User user) {
+        if (StringUtils.isNotBlank(staffEducation.getId())) {
+            ZpStaffEducation obj = iZpStaffEducationService.getById(staffEducation.getId());
+            ZpStaffEducation entity = new ZpStaffEducation();
+            if (obj != null) {
+                entity.setModifyTime(new Date());
+            } else {
+                entity.setId(UUID.randomUUID().toString());
+                entity.setUserid(user.getUserId());
+                entity.setStaffId(staffEducation.getStaffId());
+                entity.setCreateTime(new Date());
+            }
+
+            entity.setId(staffEducation.getId());
+            entity.setYxname(staffEducation.getYxname());
+            entity.setXlxw(staffEducation.getXlxw());
+            entity.setSrtdat(staffEducation.getSrtdat());
+            entity.setEnddat(staffEducation.getEnddat());
+            entity.setXkzy1(staffEducation.getXkzy1());
+            entity.setXkzy2(staffEducation.getXkzy2());
+            entity.setXklx(staffEducation.getXklx());
+            entity.setYjfx(staffEducation.getYjfx());
+            entity.setDsxx(staffEducation.getDsxx());
+
+            if (obj != null) {
+                iZpStaffEducationService.updateById(entity);
+            } else {
+                iZpStaffEducationService.save(entity);
+            }
         }
+    }
 
-        entity.setJxname(staffAward.getJxname());
-        entity.setMc(staffAward.getMc());
-        entity.setHjdat(staffAward.getHjdat());
-        entity.setRemark(staffAward.getRemark());
+    @Override
+    @Transactional
+    public void editZpStaffWork(StaffWork staffWork, User user) {
+        if (StringUtils.isNotBlank(staffWork.getId())) {
+            ZpStaffWork obj = iZpStaffWorkService.getById(staffWork.getId());
+            ZpStaffWork entity = new ZpStaffWork();
+            if (obj != null) {
+                entity.setModifyTime(new Date());
+            } else {
+                entity.setUserid(user.getUserId());
+                entity.setStaffId(staffWork.getStaffId());
+                entity.setCreateTime(new Date());
+            }
+            entity.setId(staffWork.getId());
+            entity.setSrtdat(staffWork.getSrtdat()); // 起始时间
+            entity.setEnddat(staffWork.getEnddat()); // 终止时间
+            entity.setWkdw(staffWork.getWkdw()); // 工作单位
+            entity.setWkzw(staffWork.getWkzw()); // 工作职务
+            entity.setWkxl(staffWork.getWkxl()); // 工作学历
+            entity.setWkbm(staffWork.getWkbm()); // 工作部门
+            entity.setRemark(staffWork.getRemark());
 
-        iZpStaffAwardService.saveOrUpdate(entity);
+            if (obj != null) {
+                iZpStaffWorkService.updateById(entity);
+            } else {
+                iZpStaffWorkService.save(entity);
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void editZpStaffEssay(StaffEssay staffEssay, User user) {
+        if (StringUtils.isNotBlank(staffEssay.getId())) {
+            ZpStaffEssay obj = iZpStaffEssayService.getById(staffEssay.getId());
+            ZpStaffEssay entity = new ZpStaffEssay();
+            if (obj != null) {
+                entity.setModifyTime(new Date());
+            } else {
+                entity.setUserid(user.getUserId());
+                entity.setStaffId(staffEssay.getStaffId());
+                entity.setCreateTime(new Date());
+            }
+
+            entity.setId(staffEssay.getId());
+            entity.setWzname(staffEssay.getWzname());
+            entity.setKwjb(staffEssay.getKwjb());
+            entity.setBrpm(staffEssay.getBrpm());
+
+            entity.setCbdat(staffEssay.getCbdat());
+            entity.setFbzt(staffEssay.getFbzt());
+            entity.setCbkw(staffEssay.getCbkw());
+            entity.setCbkh(staffEssay.getCbkh());
+            entity.setYxyz(staffEssay.getYxyz()); // 影响因子
+
+            if (obj != null) {
+                iZpStaffEssayService.updateById(entity);
+            } else {
+                iZpStaffEssayService.save(entity);
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void editZpStaffProject(StaffProject staffProject, User user) {
+        if (StringUtils.isNotBlank(staffProject.getId())) {
+            ZpStaffProject obj = iZpStaffProjectService.getById(staffProject.getId());
+            ZpStaffProject entity = new ZpStaffProject();
+            if (obj != null) {
+                entity.setModifyTime(new Date());
+            } else {
+                entity.setUserid(user.getUserId());
+                entity.setStaffId(staffProject.getStaffId());
+                entity.setCreateTime(new Date());
+            }
+
+            entity.setId(staffProject.getId());
+            entity.setProjectname(staffProject.getProjectname());
+            entity.setSrtdat(staffProject.getSrtdat());
+            entity.setEnddat(staffProject.getEnddat());
+            entity.setXbly(staffProject.getXbly());
+            entity.setJf(staffProject.getJf());
+            entity.setBrpm(staffProject.getBrpm());
+
+            if (obj != null) {
+                iZpStaffProjectService.updateById(entity);
+            } else {
+                iZpStaffProjectService.save(entity);
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void editZpStaffAward(StaffAward staffAward, User user) {
+        if (StringUtils.isNotBlank(staffAward.getId())) {
+            ZpStaffAward obj = iZpStaffAwardService.getById(staffAward.getId());
+            ZpStaffAward entity = new ZpStaffAward();
+            if (obj != null) {
+                entity.setModifyTime(new Date());
+            } else {
+                entity.setUserid(user.getUserId());
+                entity.setStaffId(staffAward.getStaffId());
+                entity.setCreateTime(new Date());
+            }
+
+            entity.setId(staffAward.getId());
+            entity.setJxname(staffAward.getJxname());
+            entity.setMc(staffAward.getMc());
+            entity.setHjdat(staffAward.getHjdat());
+            entity.setRemark(staffAward.getRemark());
+
+            if (obj != null) {
+                iZpStaffAwardService.updateById(entity);
+            } else {
+                iZpStaffAwardService.save(entity);
+            }
+        }
     }
 
     @Override

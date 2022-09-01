@@ -63,11 +63,13 @@ public class StaffWork {
     @ExcelField(value = "工作学历")
     private String wkxl;
 
+    private String wkxlname;
+
     /**
      * 合作导师信息
      */
-    @ExcelField(value = "合作导师信息")
-    private String dsxx;
+    @ExcelField(value = "工作部门")
+    private String wkbm;
 
     /**
      * 备注

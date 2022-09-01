@@ -58,10 +58,22 @@ public class StaffEducation  {
     private String yxname;
 
     /**
-     * 所学专业
+     * 学科专业1
      */
-    @ExcelField(value = "所学专业")
-    private String sxzy;
+    @ExcelField(value = "学科专业1")
+    private String xkzy1;
+
+    /**
+     * 学科专业2
+     */
+    @ExcelField(value = "学科专业2")
+    private String xkzy2;
+
+    /**
+     * 学科类型
+     */
+    @ExcelField(value = "学科类型")
+    private String xklx;
 
     /**
      * 研究方向
@@ -76,4 +88,7 @@ public class StaffEducation  {
     private String dsxx;
 
 
+    private String xlxwname;
+
+    private String xklxname;
 }

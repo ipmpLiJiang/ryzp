@@ -873,6 +873,10 @@ export default {
           let mzList = []
           let jsjspList = []
           let xlList = []
+          let xklxList = []
+          let fbztList = []
+          let brpmList = []
+          let kwjbList = []
           let wxz = { code: '', name: '未选择' }
           wyspList.push(wxz)
           xuexList.push(wxz)
@@ -882,6 +886,10 @@ export default {
           mzList.push(wxz)
           xlList.push(wxz)
           jsjspList.push(wxz)
+          xklxList.push(wxz)
+          fbztList.push(wxz)
+          brpmList.push(wxz)
+          kwjbList.push(wxz)
           if (r.data.wyspList) {
             r.data.wyspList.forEach(function (k) {
               wyspList.push({ code: k.ctCode, name: k.ctName })
@@ -922,6 +930,26 @@ export default {
               xlList.push({ code: k.ctCode, name: k.ctName })
             })
           }
+          if (r.data.xklxList) {
+            r.data.xklxList.forEach(function (k) {
+              xklxList.push({ code: k.ctCode, name: k.ctName })
+            })
+          }
+          if (r.data.fbztList) {
+            r.data.fbztList.forEach(function (k) {
+              fbztList.push({ code: k.ctCode, name: k.ctName })
+            })
+          }
+          if (r.data.brpmList) {
+            r.data.brpmList.forEach(function (k) {
+              brpmList.push({ code: k.ctCode, name: k.ctName })
+            })
+          }
+          if (r.data.kwjbList) {
+            r.data.kwjbList.forEach(function (k) {
+              kwjbList.push({ code: k.ctCode, name: k.ctName })
+            })
+          }
           this.dicts.wyspList = wyspList
           this.dicts.xuexList = xuexList
           this.dicts.hyztList = hyztList
@@ -930,6 +958,10 @@ export default {
           this.dicts.mzList = mzList
           this.dicts.jsjspList = jsjspList
           this.dicts.xlList = xlList
+          this.dicts.xklxList = xklxList
+          this.dicts.fbztList = fbztList
+          this.dicts.brpmList = brpmList
+          this.dicts.kwjbList = kwjbList
         }
       })
     },
@@ -983,10 +1015,10 @@ export default {
           // console.log(sInfo)
           this.setFormValues(sInfo)
           this.$refs.staffFamily.setFieldValues(staffInfoData.familys, staffInfoData.id, this.dicts)
-          this.$refs.staffEducation.setFieldValues(staffInfoData.educations, staffInfoData.id)
-          this.$refs.staffWork.setFieldValues(staffInfoData.works, staffInfoData.id)
+          this.$refs.staffEducation.setFieldValues(staffInfoData.educations, staffInfoData.id, this.dicts)
+          this.$refs.staffWork.setFieldValues(staffInfoData.works, staffInfoData.id, this.dicts)
           this.$refs.staffProject.setFieldValues(staffInfoData.projects, staffInfoData.id)
-          this.$refs.staffEssay.setFieldValues(staffInfoData.essays, staffInfoData.id)
+          this.$refs.staffEssay.setFieldValues(staffInfoData.essays, staffInfoData.id, this.dicts)
           this.$refs.staffAward.setFieldValues(staffInfoData.awards, staffInfoData.id)
         } else {
           // this.$message.error('获取个人简历失败.')
@@ -1007,13 +1039,12 @@ export default {
           zpStaffInfo.id = this.staffInfo.id
           this.staffInfo = zpStaffInfo
           this.staffInfo.csdats = this.csdats
-          // console.log(this.staffInfo.csdat)
-          this.staffInfo.educations = this.$refs.staffEducation.getFieldValues()
-          this.staffInfo.familys = this.$refs.staffFamily.getFieldValues()
-          this.staffInfo.works = this.$refs.staffWork.getFieldValues()
-          this.staffInfo.projects = this.$refs.staffProject.getFieldValues()
-          this.staffInfo.essays = this.$refs.staffEssay.getFieldValues()
-          this.staffInfo.awards = this.$refs.staffAward.getFieldValues()
+          // this.staffInfo.educations = this.$refs.staffEducation.getFieldValues()
+          // this.staffInfo.familys = this.$refs.staffFamily.getFieldValues()
+          // this.staffInfo.works = this.$refs.staffWork.getFieldValues()
+          // this.staffInfo.projects = this.$refs.staffProject.getFieldValues()
+          // this.staffInfo.essays = this.$refs.staffEssay.getFieldValues()
+          // this.staffInfo.awards = this.$refs.staffAward.getFieldValues()
           this.$put('zpStaffInfo/saveStaffInfo', {
             data: JSON.stringify(this.staffInfo)
           }).then((r) => {

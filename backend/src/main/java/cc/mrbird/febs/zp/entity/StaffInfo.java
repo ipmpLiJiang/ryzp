@@ -166,6 +166,8 @@ public class StaffInfo  {
     @ExcelField(value = "最高学历")
     private String zgxl;
 
+    private String zgxlname;
+
     /**
      * 外语水平
      */

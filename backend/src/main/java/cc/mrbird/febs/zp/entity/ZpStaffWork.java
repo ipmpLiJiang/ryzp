@@ -87,8 +87,8 @@ public class ZpStaffWork implements Serializable, Comparable<ZpStaffWork> {
     /**
      * 合作导师信息
      */
-    @ExcelField(value = "合作导师信息")
-    private String dsxx;
+    @ExcelField(value = "工作部门")
+    private String wkbm;
 
     /**
      * by
@@ -122,6 +122,7 @@ public class ZpStaffWork implements Serializable, Comparable<ZpStaffWork> {
     @ExcelField(value = "备注")
     private String remark;
 
+    private transient String wkxlname;
 
     public static final String ID = "id";
 
@@ -139,7 +140,7 @@ public class ZpStaffWork implements Serializable, Comparable<ZpStaffWork> {
 
     public static final String WKXL = "wkxl";
 
-    public static final String DSXX = "dsxx";
+    public static final String WKBM = "wkbm";
 
     public static final String CURRENCYFIELD = "currencyField";
 

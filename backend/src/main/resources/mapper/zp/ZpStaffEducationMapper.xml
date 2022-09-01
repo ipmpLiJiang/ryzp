@@ -11,7 +11,9 @@
         <result column="srtdat" property="srtdat"/>
         <result column="enddat" property="enddat"/>
         <result column="yxname" property="yxname"/>
-        <result column="sxzy" property="sxzy"/>
+        <result column="xkzy1" property="xkzy1"/>
+        <result column="xkzy2" property="xkzy2"/>
+        <result column="xklx" property="xklx"/>
         <result column="yjfx" property="yjfx"/>
         <result column="dsxx" property="dsxx"/>
         <result column="currencyField" property="currencyField"/>
@@ -21,7 +23,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, userid, staffId, xlxw, srtdat, enddat, yxname, sxzy, yjfx, dsxx, currencyField, MODIFY_TIME, CREATE_TIME
+        id, userid, staffId, xlxw, srtdat, enddat, yxname, xkzy1, xkzy2, xklx, yjfx, dsxx, currencyField, MODIFY_TIME, CREATE_TIME
     </sql>
     <update id="updateZpStaffEducation" parameterType="cc.mrbird.febs.zp.entity.ZpStaffEducation">
         update zp_staff_education
@@ -32,7 +34,9 @@
             <if test="srtdat != null">srtdat=#{srtdat},</if>
             <if test="enddat != null">enddat=#{enddat},</if>
             <if test="yxname != null">yxname=#{yxname},</if>
-            <if test="sxzy != null">sxzy=#{sxzy},</if>
+            <if test="xkzy1 != null">xkzy1=#{xkzy1},</if>
+            <if test="xkzy2 != null">xkzy2=#{xkzy2},</if>
+            <if test="xklx != null">xklx=#{xklx},</if>
             <if test="yjfx != null">yjfx=#{yjfx},</if>
             <if test="dsxx != null">dsxx=#{dsxx},</if>
             <if test="currencyField != null">currencyField=#{currencyField},</if>
@@ -68,8 +72,11 @@
         <if test="zpStaffEducation.yxname != null and zpStaffEducation.yxname != ''">and yxname like concat('%',
             #{ zpStaffEducation.yxname} ,'%')
         </if>
-        <if test="zpStaffEducation.sxzy != null and zpStaffEducation.sxzy != ''">and sxzy like concat('%',
-            #{ zpStaffEducation.sxzy} ,'%')
+        <if test="zpStaffEducation.xkzy1 != null and zpStaffEducation.xkzy1 != ''">and xkzy1 like concat('%',
+            #{ zpStaffEducation.xkzy1} ,'%')
+        </if>
+        <if test="zpStaffEducation.xkzy2 != null and zpStaffEducation.xkzy2 != ''">and xkzy2 like concat('%',
+            #{ zpStaffEducation.xkzy2} ,'%')
         </if>
         <if test="zpStaffEducation.yjfx != null and zpStaffEducation.yjfx != ''">and yjfx like concat('%',
             #{ zpStaffEducation.yjfx} ,'%')

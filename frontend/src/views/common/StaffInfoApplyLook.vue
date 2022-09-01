@@ -172,9 +172,9 @@
         </a-col>
       </a-row>
       <a-row type="flex" class="contentrow">
-        <a-col flex="10"> 所学专业： </a-col>
+        <a-col flex="10"> 学科专业1： </a-col>
         <a-col flex="40">
-          {{ e.sxzy }}
+          {{ e.xkzy1 }}
         </a-col>
         <a-col flex="10"> 研究方向： </a-col>
         <a-col flex="40">

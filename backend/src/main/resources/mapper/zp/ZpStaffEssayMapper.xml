@@ -7,39 +7,39 @@
         <id column="id" property="id"/>
         <result column="userid" property="userid"/>
         <result column="staffId" property="staffId"/>
-        <result column="lwlzmc" property="lwlzmc"/>
-        <result column="zzname" property="zzname"/>
-        <result column="fbqk" property="fbqk"/>
-        <result column="fbcbny" property="fbcbny"/>
-        <result column="slqk" property="slqk"/>
+        <result column="wzname" property="wzname"/>
+        <result column="brpm" property="brpm"/>
+        <result column="kwjb" property="kwjb"/>
+        <result column="cbdat" property="cbdat"/>
+        <result column="fbzt" property="fbzt"/>
+        <result column="cbkw" property="cbkw"/>
+        <result column="cbkh" property="cbkh"/>
         <result column="yxyz" property="yxyz"/>
-        <result column="tycs" property="tycs"/>
         <result column="currencyField" property="currencyField"/>
         <result column="MODIFY_TIME" property="modifyTime"/>
         <result column="CREATE_TIME" property="createTime"/>
-        <result column="jcrfq" property="jcrfq"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, userid, staffId, lwlzmc, zzname, fbqk, fbcbny, slqk, yxyz, tycs, currencyField, MODIFY_TIME, CREATE_TIME, jcrfq
+        id, userid, staffId, wzname, brpm, kwjb, cbdat, fbzt, cbkw, cbkh, yxyz, currencyField, MODIFY_TIME, CREATE_TIME
     </sql>
     <update id="updateZpStaffEssay" parameterType="cc.mrbird.febs.zp.entity.ZpStaffEssay">
         update zp_staff_essay
         <trim prefix="set" suffixOverrides=",">
             <if test="userid != null">userid=#{userid},</if>
             <if test="staffId != null">staffId=#{staffId},</if>
-            <if test="lwlzmc != null">lwlzmc=#{lwlzmc},</if>
-            <if test="zzname != null">zzname=#{zzname},</if>
-            <if test="fbqk != null">fbqk=#{fbqk},</if>
-            <if test="fbcbny != null">fbcbny=#{fbcbny},</if>
-            <if test="slqk != null">slqk=#{slqk},</if>
+            <if test="wzname != null">wzname=#{wzname},</if>
+            <if test="brpm != null">brpm=#{brpm},</if>
+            <if test="kwjb != null">kwjb=#{kwjb},</if>
+            <if test="cbdat != null">cbdat=#{cbdat},</if>
+            <if test="fbzt != null">fbzt=#{fbzt},</if>
+            <if test="cbkw != null">cbkw=#{cbkw},</if>
+            <if test="cbkh != null">cbkh=#{cbkh},</if>
             <if test="yxyz != null">yxyz=#{yxyz},</if>
-            <if test="tycs != null">tycs=#{tycs},</if>
             <if test="currencyField != null">currencyField=#{currencyField},</if>
             <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
             <if test="createTime != null">CREATE_TIME=#{createTime},</if>
-            <if test="jcrfq != null">jcrfq=#{jcrfq},</if>
         </trim>
         where id=#{id}
 
@@ -52,25 +52,22 @@
         <if test="zpStaffEssay.staffId != null and zpStaffEssay.staffId != ''">and staffId like concat('%',
             #{ zpStaffEssay.staffId} ,'%')
         </if>
-        <if test="zpStaffEssay.lwlzmc != null and zpStaffEssay.lwlzmc != ''">and lwlzmc like concat('%',
-            #{ zpStaffEssay.lwlzmc} ,'%')
+        <if test="zpStaffEssay.wzname != null and zpStaffEssay.wzname != ''">and wzname like concat('%',
+            #{ zpStaffEssay.wzname} ,'%')
         </if>
-        <if test="zpStaffEssay.zzname != null and zpStaffEssay.zzname != ''">and zzname like concat('%',
-            #{ zpStaffEssay.zzname} ,'%')
+        <if test="zpStaffEssay.brpm != null and zpStaffEssay.brpm != ''">and brpm like concat('%',
+            #{ zpStaffEssay.brpm} ,'%')
         </if>
-        <if test="zpStaffEssay.fbqk != null and zpStaffEssay.fbqk != ''">and fbqk like concat('%', #{ zpStaffEssay.fbqk}
+        <if test="zpStaffEssay.kwjb != null and zpStaffEssay.kwjb != ''">and kwjb like concat('%', #{ zpStaffEssay.kwjb}
             ,'%')
         </if>
-        <if test="zpStaffEssay.fbcbny != null and zpStaffEssay.fbcbny != ''">and fbcbny like concat('%',
-            #{ zpStaffEssay.fbcbny} ,'%')
-        </if>
-        <if test="zpStaffEssay.slqk != null and zpStaffEssay.slqk != ''">and slqk like concat('%', #{ zpStaffEssay.slqk}
+        <if test="zpStaffEssay.fbzt != null and zpStaffEssay.fbzt != ''">and fbzt like concat('%', #{ zpStaffEssay.fbzt}
             ,'%')
         </if>
-        <if test="zpStaffEssay.yxyz != null and zpStaffEssay.yxyz != ''">and yxyz like concat('%', #{ zpStaffEssay.yxyz}
+        <if test="zpStaffEssay.cbkw != null and zpStaffEssay.cbkw != ''">and cbkw like concat('%', #{ zpStaffEssay.cbkw}
             ,'%')
         </if>
-        <if test="zpStaffEssay.tycs != null and zpStaffEssay.tycs != ''">and tycs like concat('%', #{ zpStaffEssay.tycs}
+        <if test="zpStaffEssay.cbkh != null and zpStaffEssay.cbkh != ''">and cbkh like concat('%', #{ zpStaffEssay.cbkh}
             ,'%')
         </if>
         <if test="zpStaffEssay.currencyField != null and zpStaffEssay.currencyField != ''">and currencyField like

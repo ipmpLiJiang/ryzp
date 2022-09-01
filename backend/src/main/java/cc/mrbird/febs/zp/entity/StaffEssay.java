@@ -35,34 +35,46 @@ public class StaffEssay {
     private String staffId;
 
     /**
-     * 论文/论著名称
+     * 文章名称
      */
-    @ExcelField(value = "论文/论著名称")
-    private String lwlzmc;
+    @ExcelField(value = "文章名称")
+    private String wzname;
 
     /**
-     * 作者姓名
+     * 本人排名
      */
-    @ExcelField(value = "作者姓名")
-    private String zzname;
+    @ExcelField(value = "本人排名")
+    private String brpm;
 
     /**
-     * 发表期刊
+     * 刊物级别
      */
-    @ExcelField(value = "发表期刊")
-    private String fbqk;
+    @ExcelField(value = "刊物级别")
+    private String kwjb;
 
     /**
-     * 发表/出版年月
+     * 出版时间
      */
-    @ExcelField(value = "发表/出版年月")
-    private String fbcbny;
+    @ExcelField(value = "出版时间")
+    private Date cbdat;
 
     /**
-     * 收录情况
+     * 发布状态
      */
-    @ExcelField(value = "收录情况")
-    private String slqk;
+    @ExcelField(value = "发布状态")
+    private String fbzt;
+
+    /**
+     * 出版刊物
+     */
+    @ExcelField(value = "出版刊物")
+    private String cbkw;
+
+    /**
+     * 刊号
+     */
+    @ExcelField(value = "刊号")
+    private String cbkh;
 
     /**
      * 影响因子
@@ -70,18 +82,8 @@ public class StaffEssay {
     @ExcelField(value = "影响因子")
     private String yxyz;
 
-    /**
-     * 他引次数
-     */
-    @ExcelField(value = "他引次数")
-    private String tycs;
 
-
-    /**
-     * JCR分区
-     */
-    @ExcelField(value = "JCR分区")
-    private String jcrfq;
-
-
+    private String fbztname;
+    private String kwjbname;
+    private String brpmname;
 }

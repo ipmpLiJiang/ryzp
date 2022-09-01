@@ -108,6 +108,7 @@ public class ZpStaffFamily implements Serializable, Comparable<ZpStaffFamily> {
     private transient String createTimeFrom;
     private transient String createTimeTo;
 
+    private transient String zzmmname;
 
     public static final String ID = "id";
 

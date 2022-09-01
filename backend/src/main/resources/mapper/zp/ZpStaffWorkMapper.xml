@@ -12,7 +12,7 @@
         <result column="wkdw" property="wkdw"/>
         <result column="wkzw" property="wkzw"/>
         <result column="wkxl" property="wkxl"/>
-        <result column="dsxx" property="dsxx"/>
+        <result column="wkbm" property="wkbm"/>
         <result column="currencyField" property="currencyField"/>
         <result column="MODIFY_TIME" property="modifyTime"/>
         <result column="CREATE_TIME" property="createTime"/>
@@ -21,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, userid, staffId, srtdat, enddat, wkdw, wkzw, wkxl, dsxx, currencyField, MODIFY_TIME, CREATE_TIME, remark
+        id, userid, staffId, srtdat, enddat, wkdw, wkzw, wkxl, wkbm, currencyField, MODIFY_TIME, CREATE_TIME, remark
     </sql>
     <update id="updateZpStaffWork" parameterType="cc.mrbird.febs.zp.entity.ZpStaffWork">
         update zp_staff_work
@@ -33,7 +33,7 @@
             <if test="wkdw != null">wkdw=#{wkdw},</if>
             <if test="wkzw != null">wkzw=#{wkzw},</if>
             <if test="wkxl != null">wkxl=#{wkxl},</if>
-            <if test="dsxx != null">dsxx=#{dsxx},</if>
+            <if test="wkbm != null">wkbm=#{wkbm},</if>
             <if test="currencyField != null">currencyField=#{currencyField},</if>
             <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
             <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -71,7 +71,7 @@
         <if test="zpStaffWork.wkxl != null and zpStaffWork.wkxl != ''">and wkxl like concat('%',
             #{ zpStaffWork.wkxl} ,'%')
         </if>
-        <if test="zpStaffWork.dsxx != null and zpStaffWork.dsxx != ''">and dsxx like concat('%', #{ zpStaffWork.dsxx}
+        <if test="zpStaffWork.wkbm != null and zpStaffWork.wkbm != ''">and wkbm like concat('%', #{ zpStaffWork.wkbm}
             ,'%')
         </if>
         <if test="zpStaffWork.currencyField != null and zpStaffWork.currencyField != ''">and currencyField like

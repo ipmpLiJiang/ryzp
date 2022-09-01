@@ -19,141 +19,285 @@
       size="small"
       :scroll="{ x: 900 }"
     >
-      <template
-        v-for="col in [
-          'lwlzmc',
-          'zzname',
-          'fbqk',
-          'fbcbny',
-          'slqk',
-          'yxyz',
-          'tycs',
-          'jcrfq',
-        ]"
-        :slot="col"
-        slot-scope="text, record, index"
-      >
-        <div :key="col">
-          <a-input
-            style="margin: -5px 0"
-            :maxLength="50"
-            :value="text"
-            @change="(e) => handleChange(e.target.value, record.id, col)"
-          />
-        </div>
-      </template>
-      <template
-        slot="lwlzmc"
-        slot-scope="text, record, index"
-      >
-        <a-input
-          style="margin: -5px 0"
-          :maxLength="300"
-          :value="text"
-          @change="(e) => handleChange(e.target.value, record.id, 'lwlzmc')"
-        />
-      </template>
       <template slot="operationFile" slot-scope="text, record">
-        <mutiUpload-pdf
+        <mutiUpload-look
           :baseId="record.id"
           :baseTime="baseTime"
           refTab="essay"
           refType="essay"
         >
-        </mutiUpload-pdf>
+        </mutiUpload-look>
       </template>
       <template slot="operation" slot-scope="text, record">
+        <a @click="handleEdit(record)" href="javascript:;">编辑</a>
+        <a-divider type="vertical" />
         <a-popconfirm
           v-if="dataSource.length"
           title="Sure to delete?"
           @confirm="() => onDelete(record.id)"
         >
-          <!-- <a-icon type="delete" theme="twoTone" /> -->
           <a style="color:red" href="javascript:;">删除</a>
         </a-popconfirm>
       </template>
     </a-table>
+    <a-modal
+      class="ant-modal-nofooter"
+      :footer="null"
+      v-model="coreVisible"
+      :title="btnType === 'addBtn' ? '新增文章信息' : '修改文章信息'"
+      :width="700"
+      :maskClosable="false"
+      @ok="handleOk"
+      @cancel="handleOk"
+    >
+      <a-form-model
+        ref="formData"
+        :model="formData"
+        :rules="formDataRules"
+        v-bind="layout"
+      >
+      <a-row>
+        <a-col :span="24">
+          <a-form-model-item label="文章名称" prop="wzname">
+            <a-input
+              placeholder="请输入文章名称"
+              v-model="formData.wzname"
+              :maxLength="300"
+            />
+          </a-form-model-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :span="12">
+          <a-form-model-item label="刊物级别" prop="kwjb" v-bind="layout2">
+            <a-select
+              v-model="formData.kwjb"
+              placeholder="请选择刊物级别"
+            >
+              <a-select-option v-for="xx in kwjbList" :key="xx.code">
+                {{ xx.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-model-item label="本人排名" prop="brpm" v-bind="layout3">
+            <a-select
+              v-model="formData.brpm"
+              placeholder="请选择本人排名"
+            >
+              <a-select-option v-for="xx in brpmList" :key="xx.code">
+                {{ xx.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :span="12">
+          <a-form-model-item label="出版时间" prop="cbdat" v-bind="layout2">
+            <a-date-picker
+              v-model="formData.cbdat"
+            />
+          </a-form-model-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-model-item label="发布状态" prop="fbzt" v-bind="layout3">
+            <a-select
+              v-model="formData.fbzt"
+              placeholder="请选择发布状态"
+            >
+              <a-select-option v-for="xx in fbztList" :key="xx.code">
+                {{ xx.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :span="24">
+          <a-form-model-item label="出版刊物" prop="cbkw">
+            <a-input
+              placeholder="请输入出版刊物"
+              v-model="formData.cbkw"
+              :maxLength="30"
+            />
+          </a-form-model-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :span="24">
+          <a-form-model-item label="刊号" prop="cbkh">
+            <a-input
+              placeholder="请输入刊号"
+              v-model="formData.cbkh"
+              :maxLength="30"
+            />
+          </a-form-model-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :span="24">
+          <a-form-model-item label="影响因子" prop="yxyz">
+            <a-input
+              placeholder="请输入影响因子"
+              v-model="formData.yxyz"
+              :maxLength="30"
+            />
+          </a-form-model-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :span="24">
+          <mutiUpload-pdf
+            :baseId="formData.id"
+            refTab="essay"
+            refType="essay"
+          >
+          </mutiUpload-pdf>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :span="12">
+          &nbsp;
+        </a-col>
+        <a-col :span="12">
+        <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
+          <a-button class="editable-add-btn" @click="resetForm()">
+            重置
+          </a-button>
+          <a-button type="primary" :loading="loading" style="margin-left: 20px;" @click="editSubmit">
+            确认
+          </a-button>
+        </a-form-model-item>
+        </a-col>
+      </a-row>
+      </a-form-model>
+    </a-modal>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import MutiUploadPdf from '../../common/MutiUploadPdf'
+import MutiUploadLook from '../../common/MutiUploadLook'
 export default {
   name: 'StaffEssay',
   components: {
-    MutiUploadPdf
+    MutiUploadPdf, MutiUploadLook
   },
   data () {
     return {
       dataSource: [],
       staffId: '',
       baseTime: new Date().getTime(),
+      fbztList: [],
+      brpmList: [],
+      kwjbList: [],
+      tableFormat: 'YYYY-MM-DD',
+      xlList: [],
+      coreVisible: false,
+      loading: false,
+      btnType: '',
+      formData: {
+        id: '',
+        wzname: '', // 文章名称
+        kwjb: '', // 刊物级别
+        brpm: '', // 本人排名
+        cbdat: '', // 出版时间
+        fbzt: '', // 发布状态
+        cbkw: '', // 出版刊物
+        yxyz: '' // 影响因子
+      },
+      formDataRules: {
+        wzname: [
+          { required: true, message: '请输入文章名称', trigger: 'change' }
+        ],
+        kwjb: [
+          { required: true, message: '请输入刊物级别', trigger: 'change' }
+        ],
+        brpm: [
+          { required: true, message: '请选择本人排名', trigger: 'change' }
+        ],
+        cbdat: [
+          { required: true, message: '请选择出版时间', trigger: 'change' }
+        ],
+        cbkw: [
+          { required: true, message: '请选择出版刊物', trigger: 'change' }
+        ]
+      },
+      layout: {
+        labelCol: { span: 5 },
+        wrapperCol: { span: 18 }
+      },
+      layout2: {
+        labelCol: { span: 10 },
+        wrapperCol: { span: 12 }
+      },
+      layout3: {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 14 }
+      },
       columns: [{
         title: '文章名称',
-        dataIndex: 'lwlzmc',
-        scopedSlots: {
-          customRender: 'lwlzmc'
+        dataIndex: 'wzname',
+        fixed: 'left',
+        width: 300
+      },
+      {
+        title: '刊物级别',
+        dataIndex: 'kwjb',
+        customRender: (text, row, index) => {
+          let option = this.kwjbList.filter(item => item.code === text)[0]
+          return option ? option.name === '未选择' ? '' : option.name : ''
         },
         fixed: 'left',
-        width: 200
+        width: 100
       },
       {
-        title: '作者名称',
-        dataIndex: 'zzname',
-        scopedSlots: {
-          customRender: 'zzname'
+        title: '本人排名',
+        dataIndex: 'brpm',
+        customRender: (text, row, index) => {
+          let option = this.brpmList.filter(item => item.code === text)[0]
+          return option ? option.name === '未选择' ? '' : option.name : ''
         },
         fixed: 'left',
-        width: 160
+        width: 110
       },
       {
-        title: '发表期刊',
-        dataIndex: 'fbqk',
-        scopedSlots: {
-          customRender: 'fbqk'
+        title: '出版时间',
+        dataIndex: 'cbdat',
+        customRender: (text, row, index) => {
+          if (text !== '' && text !== null) {
+            if (isNaN(text) && !isNaN(Date.parse(text))) {
+              return moment(text).format(this.tableFormat)
+            } else {
+              return text
+            }
+          } else {
+            return text
+          }
         },
-        fixed: 'left',
-        width: 160
+        width: 115
       },
       {
-        title: '发表或出版年度',
-        dataIndex: 'fbcbny',
-        scopedSlots: {
-          customRender: 'fbcbny'
+        title: '发布状态',
+        dataIndex: 'fbzt',
+        customRender: (text, row, index) => {
+          let option = this.fbztList.filter(item => item.code === text)[0]
+          return option ? option.name === '未选择' ? '' : option.name : ''
         },
-        width: 160
+        width: 100
       },
       {
-        title: '收录情况',
-        dataIndex: 'slqk',
-        scopedSlots: {
-          customRender: 'slqk'
-        },
-        width: 160
+        title: '出版刊物',
+        dataIndex: 'cbkw',
+        width: 110
       },
       {
-        title: '影响因子',
-        dataIndex: 'yxyz',
-        scopedSlots: {
-          customRender: 'yxyz'
-        },
-        width: 160
-      },
-      {
-        title: 'JCR分区',
-        dataIndex: 'jcrfq',
-        scopedSlots: {
-          customRender: 'jcrfq'
-        },
-        width: 160
-      },
-      {
-        title: '他引次数',
-        dataIndex: 'tycs',
-        scopedSlots: {
-          customRender: 'tycs'
-        },
-        width: 150
+        title: '刊号',
+        dataIndex: 'cbkh',
+        width: 110
       },
       {
         title: '附件(.pdf)',
@@ -170,7 +314,7 @@ export default {
           customRender: 'operation'
         },
         fixed: 'right',
-        width: 85
+        width: 115
       }
       ]
     }
@@ -178,8 +322,55 @@ export default {
   mounted () {
   },
   methods: {
-    setFieldValues (datas, id) {
+    moment,
+    resetForm () {
+      this.formData.wzname = '' // 文章名称
+      this.formData.kwjb = '' // 刊物级别
+      this.formData.brpm = '' // 本人排名
+      this.formData.cbdat = '' // 出版时间
+      this.formData.fbzt = '' // 发布状态
+      this.formData.cbkw = '' // 出版刊物
+      this.formData.cbkh = '' // 刊号
+      this.formData.yxyz = '' // 影响因子
+    },
+    editSubmit () {
+      this.$refs.formData.validate(valid => {
+        if (valid) {
+          let params = {}
+          params.id = this.formData.id
+          params.staffId = this.staffId
+          params.wzname = this.formData.wzname // 文章名称
+          params.kwjb = this.formData.kwjb // 刊物级别
+          params.brpm = this.formData.brpm // 本人排名
+          params.cbdat = this.formData.cbdat // 出版时间
+          params.fbzt = this.formData.fbzt // 发布状态
+          params.cbkw = this.formData.cbkw // 出版刊物
+          params.cbkh = this.formData.cbkh // 刊号
+          params.yxyz = this.formData.yxyz // 影响因子
+
+          this.loading = true
+          this.$post('zpStaffInfo/editZpStaffEssay', {
+            ...params
+          }).then(() => {
+            this.loading = false
+            this.baseTime = new Date().getTime()
+            this.fetch()
+          }).catch(() => {
+            this.loading = false
+          })
+        }
+      })
+    },
+    handleOk () {
+      this.coreVisible = false
+      this.baseTime = new Date().getTime()
+      this.fetch()
+    },
+    setFieldValues (datas, id, dicts) {
       this.dataSource = datas
+      this.fbztList = dicts.fbztList
+      this.brpmList = dicts.brpmList
+      this.kwjbList = dicts.kwjbList
       this.staffId = id
     },
     getFieldValues () {
@@ -189,8 +380,8 @@ export default {
       this.$get('zpStaffInfo/findStaffEssay', {staffId: this.staffId}).then((r) => {
         if (r.data.data.success === 1) {
           this.dataSource = r.data.data.data
+          this.coreVisible = false
         } else {
-          // this.$message.error('获取文章信息失败.')
           this.openNotificationIcon('error', '操作提醒', '获取文章信息失败.')
         }
       })
@@ -202,65 +393,50 @@ export default {
         if (target) {
           this.$get('zpStaffInfo/del', { 'staffId': this.staffId, 'id': key, 'type': 'Y' }).then((r) => {
             if (r.data.data.success === 1) {
-              // const index = newData.indexOf(target)
-              // newData.splice(index, 1)
-              // this.dataSource = newData
               this.openNotificationIcon('success', '操作提醒', '删除文章信息成功.')
               this.dataSource = []
               this.fetch()
             } else {
-              // this.$message.error('删除该文章信息失败.')
               this.openNotificationIcon('error', '操作提醒', '删除该文章信息失败.')
             }
           })
         }
       } else {
-        // this.$message.error('删除文章信息失败,至少存在一条文章信息数据.')
         this.openNotificationIcon('error', '操作提醒', '删除文章信息失败,至少存在一条文章信息数据.')
       }
     },
-    handleChange (value, key, column) {
-      const newData = [...this.dataSource]
-      const target = newData.filter(item => key === item.id)[0]
-      if (target) {
-        target[column] = value
-        this.dataSource = newData
+    handleEdit (record) {
+      this.coreVisible = true
+      this.btnType = 'editBtn'
+      this.formData = {
+        id: record.id,
+        wzname: record.wzname, // 文章名称
+        kwjb: record.kwjb, // 刊物级别
+        brpm: record.brpm, // 本人排名
+        cbdat: moment(record.cbdat), // 出版时间
+        fbzt: record.fbzt, // 发布状态
+        cbkw: record.cbkw, // 出版刊物
+        cbkh: record.cbkh, // 刊号
+        yxyz: record.yxyz // 影响因子
+
       }
     },
     handleAdd () {
-      if (this.dataSource.length < 5) {
-        this.$get('zpStaffInfo/getId', { 'staffId': this.staffId, 'type': 'Y' }).then((r) => {
-          if (r.data.data.success === 1) {
-            let id = r.data.data.data
-            if (id !== null) {
-              const {
-                dataSource
-              } = this
-              const newData = {
-                id: id,
-                lwlzmc: '', // 文章名称
-                zzname: '', // 作者名称
-                fbqk: '', // 发表期刊
-                fbcbny: '', // 发表或出版年度
-                slqk: '', // 收录情况
-                yxyz: '', // 影响因子
-                tycs: '', // 他引次数
-                jcrfq: '' // JCR分区
-              }
-              this.dataSource = [...dataSource, newData]
-            } else {
-              // this.$message.error('增加文章信息失败.')
-              this.openNotificationIcon('error', '操作提醒', '增加文章信息失败.')
-            }
+      this.$get('zpStaffInfo/getId').then((r) => {
+        if (r.data.data.success === 1) {
+          let id = r.data.data.data
+          if (id !== null) {
+            this.formData.id = id
+            this.resetForm()
+            this.coreVisible = true
+            this.btnType = 'addBtn'
           } else {
-            // this.$message.error('增加文章信息失败或异常.')
-            this.openNotificationIcon('error', '操作提醒', '增加文章信息失败或异常.')
+            this.openNotificationIcon('error', '操作提醒', '增加文章信息失败.')
           }
-        })
-      } else {
-        // this.$message.warning('增加文章信息失败，已经有5条文章信息数据了.')
-        this.openNotificationIcon('warning', '操作提醒', '增加文章信息失败，已经有5条文章信息数据了.')
-      }
+        } else {
+          this.openNotificationIcon('error', '操作提醒', '增加文章信息失败或异常.')
+        }
+      })
     },
     openNotificationIcon (type, title, description) {
       // success, info, warning, error
