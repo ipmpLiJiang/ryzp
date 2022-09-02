@@ -94,7 +94,7 @@
         ed.*
         FROM
         zp_staff_apply sa
-        left join zp_staff_education ed on
+        inner join zp_staff_education ed on
         sa.staffId = ed.staffId
         WHERE
         sa.posterId = #{posterId}

@@ -94,7 +94,7 @@
         p.*
         FROM
         zp_staff_apply sa
-        left join zp_staff_project p on
+        inner join zp_staff_project p on
         sa.staffId = p.staffId
         WHERE
         sa.posterId = #{posterId}

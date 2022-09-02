@@ -33,6 +33,7 @@ public class StaffInfoDataExport {
     @ExcelField(value = "性别")
     private String sexName;
 
+
     /**
      * 出生年月
      */
@@ -40,10 +41,10 @@ public class StaffInfoDataExport {
     private String csdats;
 
     /**
-     * 健康状态
+     * 身份证号
      */
-    @ExcelField(value = "健康状态")
-    private String jkzt;
+    @ExcelField(value = "身份证号")
+    private String idnumber;
 
     /**
      * 籍贯
@@ -52,61 +53,135 @@ public class StaffInfoDataExport {
     private String zhrjg;
 
     /**
-     * 现工作国家地区
+     * 健康状态
      */
-    @ExcelField(value = "现工作国家地区")
-    private String ingzgjdq;
+    @ExcelField(value = "健康状态")
+    private String jkzt;
 
     /**
-     * 现任单位
+     * 身高cm
      */
-    @ExcelField(value = "现任单位")
-    private String indw;
+    @ExcelField(value = "身高cm")
+    private Integer zhrsg;
 
     /**
-     * 现任职务
+     * 体重kg
      */
-    @ExcelField(value = "现任职务")
-    private String inzw;
+    @ExcelField(value = "体重kg")
+    private Integer zhrtz;
 
     /**
-     * 专业方向
+     * 血型
      */
-    @ExcelField(value = "专业方向")
-    private String zhrzyfx;
+    @ExcelField(value = "血型")
+    private String zhrxxName;
 
+    /**
+     * 民族
+     */
+    @ExcelField(value = "民族")
+    private String zhrmzName;
+
+
+    /**
+     * 是否服从调剂
+     */
+    @ExcelField(value = "是否服从调剂")
+    private String isfcdjName;
+
+    /**
+     * 政治面貌
+     */
+    @ExcelField(value = "政治面貌")
+    private String zzmmName;
+
+
+    /**
+     * 婚姻状态
+     */
+    @ExcelField(value = "婚姻状态")
+    private String hyztName;
+
+
+    /**
+     * 子女个数
+     */
+    @ExcelField(value = "子女个数")
+    private Integer zngs;
+
+    /**
+     * 第一志愿科室
+     */
+    @ExcelField(value = "第一志愿科室")
+    private String zyks1;
+
+    /**
+     * 第二志愿科室
+     */
+    @ExcelField(value = "第二志愿科室")
+    private String zyks2;
 
     /**
      * 最高学历
      */
-    @TableField("zgxl")
     @ExcelField(value = "最高学历")
-    private String zgxl;
+    private String zgxlName;
 
     /**
      * 最高学历学校
      */
-    @TableField("zgxxName")
-    @ExcelField(value = "学校名称")
-    private String zgxxName;
+    @ExcelField(value = "最高学历学校")
+    private String zgxlxxName;
 
     /**
-     * 是否医师资格证
+     * 外语水平
      */
-    @ExcelField(value = "是否医师资格证")
-    private String isyszgzName;
+    @ExcelField(value = "外语水平")
+    private String wyspName;
+
 
     /**
-     * 意向学科1
+     * 外语水平分数
      */
-    @ExcelField(value = "意向学科1")
-    private String zyks1;
+    @ExcelField(value = "外语水平分数")
+    private Integer wyspfs;
 
     /**
-     * 意向学科2、3
+     * 计算机水平
      */
-    @ExcelField(value = "意向学科2、3")
-    private String zyks2;
+    @ExcelField(value = "计算机水平")
+    private String jsjspName;
+
+
+    /**
+     * 家庭住址
+     */
+    @ExcelField(value = "家庭住址")
+    private String jtzz;
+
+    /**
+     * 户籍地址
+     */
+    @ExcelField(value = "户籍地址")
+    private String hjdz;
+
+    /**
+     * 现居地址
+     */
+    @ExcelField(value = "现居地址")
+    private String xjdz;
+
+    /**
+     * 紧急联系人
+     */
+    @ExcelField(value = "紧急联系人")
+    private String jjlxr;
+
+    /**
+     * 联系人手机号码
+     */
+    @ExcelField(value = "联系人手机号码")
+    private String lxrtel;
 
     /**
      * 邮箱
@@ -114,11 +189,11 @@ public class StaffInfoDataExport {
     @ExcelField(value = "邮箱")
     private String email;
 
+
     /**
-     * 联系电话
+     * 手机号码
      */
-    @TableField("tel")
-    @ExcelField(value = "联系电话")
+    @ExcelField(value = "手机号码")
     private String tel;
 
     /**
@@ -127,6 +202,48 @@ public class StaffInfoDataExport {
     @TableField("wechatNo")
     @ExcelField(value = "微信号")
     private String wechatNo;
+
+    /**
+     * 是否医师资格证
+     */
+    @ExcelField(value = "是否医师资格证")
+    private String isyszgzName;
+
+    /**
+     * 职业类型
+     */
+    @ExcelField(value = "职业类型")
+    private String zylxName;
+
+    /**
+     * 毕业时是否取得住院医师规范化培训合格证
+     */
+    @ExcelField(value = "毕业时是否取得住院医师规范化培训合格证")
+    private String isbysqdzyysName;
+
+    /**
+     * 硕士阶段是否四证合一
+     */
+    @ExcelField(value = "硕士阶段是否四证合一")
+    private String isssjdszhyName;
+
+    /**
+     * 有无既往病史
+     */
+    @ExcelField(value = "有无既往病史")
+    private String ywjwbs;
+
+    /**
+     * 自我介绍
+     */
+//    @ExcelField(value = "自我介绍")
+//    private String zwjs;
+
+    /**
+     * 在校获奖情况(院级以上)
+     */
+//    @ExcelField(value = "在校获奖情况(院级以上)")
+//    private String zxhjqk;
 
 
     /**

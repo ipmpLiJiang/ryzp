@@ -143,18 +143,22 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         zpStaffInfo.setUserid(user.getUserId());
         zpStaffInfo.setRyname(user.getXmname());
         zpStaffInfo.setEmail(user.getUsername());
+        zpStaffInfo.setHyzt("0");
         zpStaffInfo.setSex(0);
         zpStaffInfo.setIssub(0);
         zpStaffInfo.setIsyszgz(0); // 是否医师资格证
+        zpStaffInfo.setIsssjdszhy(0);
+        zpStaffInfo.setIsbysqdzyys(0);
+        zpStaffInfo.setIsfcdj(0);
         zpStaffInfo.setCreateTime(thisDate);
         zpStaffInfo.setIdnumber(idnumber);
         this.save(zpStaffInfo);
 
-        this.iZpStaffEducationService.saveInitStaffEducation(zpStaffInfo, thisDate);
+//        this.iZpStaffEducationService.saveInitStaffEducation(zpStaffInfo, thisDate);
 
-        this.iZpStaffWorkService.saveInitStaffWork(zpStaffInfo, thisDate);
+//        this.iZpStaffWorkService.saveInitStaffWork(zpStaffInfo, thisDate);
 
-        this.iZpStaffEssayService.saveInitStaffEssay(zpStaffInfo, thisDate);
+//        this.iZpStaffEssayService.saveInitStaffEssay(zpStaffInfo, thisDate);
 
 
         return zpStaffInfo;

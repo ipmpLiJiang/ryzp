@@ -80,7 +80,7 @@
             ey.*
         FROM
             zp_staff_apply sa
-        left join zp_staff_essay ey on
+        inner join zp_staff_essay ey on
             sa.staffId = ey.staffId
         WHERE
             sa.posterId = #{posterId}

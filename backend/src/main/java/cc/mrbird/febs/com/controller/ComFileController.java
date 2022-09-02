@@ -499,51 +499,55 @@ public class ComFileController extends BaseController {
                 if (essayList.size() > 0) {
                     fileList.addAll(essayList);
                 }
-                if (fileList.size() > 0) {
-                    StaffInfoPdf pdf = new StaffInfoPdf();
+                StaffInfoPdf pdf = new StaffInfoPdf();
 //                    staff photo essay
-                    String filePath = febsProperties.getUploadPath(); // 上传后的路径
-                    String fileName = filePath + "down/" + UUID.randomUUID().toString() + ".pdf";
-                    String name = UUID.randomUUID().toString() + ".pdf";
-                    String mergeFileName = filePath + "down/" + name;
-                    File dest = new File(fileName);
-                    if (!dest.getParentFile().exists()) {
-                        dest.getParentFile().mkdirs();
-                    }
-                    String imgUrl = filePath;
-                    List<String> mergeAddPdfList = new ArrayList<>();
-                    mergeAddPdfList.add(fileName);
-                    String suffixName = "";
-                    for (ComFile item : fileList) {
-                        if (item.getRefTabId().equals(id)) {
-                            if (item.getRefType().equals("photo")) {
-                                imgUrl = imgUrl + item.getRefType() + "/" + item.getServerName();
-                            }
-                            if (item.getRefType().equals("staff")) {
-                                suffixName = item.getServerName().substring(item.getServerName().lastIndexOf("."));  // 后缀名
-                                suffixName = suffixName.toLowerCase();
-                                if (suffixName.equals(".pdf")) {
-                                    mergeAddPdfList.add(filePath + item.getRefType() + "/" + item.getServerName());
-                                }
-                            }
-                        } else {
+                String filePath = febsProperties.getUploadPath(); // 上传后的路径
+                String fileName = filePath + "down/" + UUID.randomUUID().toString() + ".pdf";
+                String name = UUID.randomUUID().toString() + ".pdf";
+                String mergeFileName = filePath + "down/" + name;
+                File dest = new File(fileName);
+                if (!dest.getParentFile().exists()) {
+                    dest.getParentFile().mkdirs();
+                }
+                String imgUrl = filePath;
+                List<String> mergeAddPdfList = new ArrayList<>();
+                mergeAddPdfList.add(fileName);
+                String suffixName = "";
+                for (ComFile item : fileList) {
+                    if (item.getRefTabId().equals(id)) {
+                        if (item.getRefType().equals("photo")) {
+                            imgUrl = imgUrl + item.getRefType() + "/" + item.getServerName();
+                        }
+                        if (item.getRefType().equals("staff")) {
                             suffixName = item.getServerName().substring(item.getServerName().lastIndexOf("."));  // 后缀名
                             suffixName = suffixName.toLowerCase();
                             if (suffixName.equals(".pdf")) {
                                 mergeAddPdfList.add(filePath + item.getRefType() + "/" + item.getServerName());
                             }
                         }
+                    } else {
+                        suffixName = item.getServerName().substring(item.getServerName().lastIndexOf("."));  // 后缀名
+                        suffixName = suffixName.toLowerCase();
+                        if (suffixName.equals(".pdf")) {
+                            mergeAddPdfList.add(filePath + item.getRefType() + "/" + item.getServerName());
+                        }
                     }
-                    pdf.writeStaffPdf(fileName, mergeFileName, mergeAddPdfList, imgUrl, info);
-                    if (mergeAddPdfList.size() == 1) {
-                        mergeFileName = mergeAddPdfList.get(0);
-                    }
-                    this.downFile(response, mergeFileName, name, true);
-
-                    this.deleteFile(fileName);
-                } else {
-                    throw new FebsException("文件不存在下载失败.");
                 }
+                if(fileList.size() > 0) {
+                    long imgcount = fileList.stream().filter(s -> s.getRefType().equals("photo")).count();
+                    if(imgcount == 0) {
+                        imgUrl = "";
+                    }
+                } else {
+                    imgUrl = "";
+                }
+                pdf.writeStaffPdf(fileName, mergeFileName, mergeAddPdfList, imgUrl, info);
+                if (mergeAddPdfList.size() == 1) {
+                    mergeFileName = mergeAddPdfList.get(0);
+                }
+                this.downFile(response, mergeFileName, name, true);
+
+                this.deleteFile(fileName);
             }
         } catch (Exception e) {
             message = "下载失败.";

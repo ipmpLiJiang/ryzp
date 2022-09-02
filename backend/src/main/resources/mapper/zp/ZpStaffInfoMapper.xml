@@ -208,4 +208,23 @@
         </if>
     </select>
 
+    <select id="findStaffByPosterIdAndSs" resultType="cc.mrbird.febs.zp.entity.ZpStaffInfo">
+        SELECT
+        info.*
+        FROM
+        zp_staff_apply zsa
+        INNER JOIN zp_staff_info info on
+        zsa.staffId = info.id
+        WHERE
+        zsa.posterId = #{posterId}
+        <if test="state != null">
+            and zsa.state = #{state}
+        </if>
+        <if test="idList!=null and idList.size()>0">
+            AND zsa.staffId in
+            <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 </mapper>

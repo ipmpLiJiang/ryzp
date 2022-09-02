@@ -84,7 +84,7 @@
             sw.*
         FROM
             zp_staff_apply sa
-        left join zp_staff_work sw on
+        inner join zp_staff_work sw on
             sa.staffId = sw.staffId
         WHERE
             sa.posterId = #{posterId}

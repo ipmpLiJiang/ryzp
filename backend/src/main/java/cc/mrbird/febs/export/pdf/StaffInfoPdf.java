@@ -236,11 +236,12 @@ public class StaffInfoPdf {
         cell.setColspan(8);
         table.addCell(cell);
 
-        Image zjImage = loadingPicture(imgUrl);
-        cell.setPhrase(new Paragraph(new Chunk(zjImage, 14, -48)));
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        cell.setFixedHeight(contentHeightStaff);
+        if(imgUrl!=null && !imgUrl.equals("")) {
+            Image zjImage = loadingPicture(imgUrl);
+            cell.setPhrase(new Paragraph(new Chunk(zjImage, 14, -48)));
+        } else {
+            cell = new PdfPCell(new Phrase("", fontTitle));
+        }
         cell.setColspan(5);
         cell.setRowspan(4);
         table.addCell(cell);

@@ -203,7 +203,9 @@
             </a-select>
           </a-form-item>
         </td>
-        <td colspan="2" style="width:13%">是否服从调剂<font class="fontColor">*</font></td>
+        <td colspan="2" style="width: 13%">
+          是否服从调剂<font class="fontColor">*</font>
+        </td>
         <td colspan="3">
           <a-form-item>
             <a-radio-group default-value="1" v-decorator="['isfcdj']">
@@ -830,31 +832,31 @@ export default {
       })
       if (!zpStaffInfo.zhrxx) {
         this.form.getFieldDecorator('zhrxx')
-        this.form.setFieldsValue({'zhrxx': ''})
+        this.form.setFieldsValue({ 'zhrxx': '' })
       }
       if (!zpStaffInfo.zhrmz) {
         this.form.getFieldDecorator('zhrmz')
-        this.form.setFieldsValue({'zhrmz': 'HA'})
+        this.form.setFieldsValue({ 'zhrmz': 'HA' })
       }
       if (!zpStaffInfo.zzmm) {
         this.form.getFieldDecorator('zzmm')
-        this.form.setFieldsValue({'zzmm': '13'})
+        this.form.setFieldsValue({ 'zzmm': '13' })
       }
       if (!zpStaffInfo.hyzt) {
         this.form.getFieldDecorator('hyzt')
-        this.form.setFieldsValue({'hyzt': '未婚'})
+        this.form.setFieldsValue({ 'hyzt': '0' })
       }
       if (!zpStaffInfo.jsjsp) {
         this.form.getFieldDecorator('jsjsp')
-        this.form.setFieldsValue({'jsjsp': ''})
+        this.form.setFieldsValue({ 'jsjsp': '' })
       }
       if (!zpStaffInfo.wysp) {
         this.form.getFieldDecorator('wysp')
-        this.form.setFieldsValue({'wysp': ''})
+        this.form.setFieldsValue({ 'wysp': '' })
       }
       if (!zpStaffInfo.zylx) {
         this.form.getFieldDecorator('zylx')
-        this.form.setFieldsValue({'zylx': ''})
+        this.form.setFieldsValue({ 'zylx': '' })
       }
       this.staffInfo.id = zpStaffInfo.id
       this.baseTime = new Date().getTime()
@@ -1034,17 +1036,42 @@ export default {
       // console.log(d)
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.loading = true
           let zpStaffInfo = this.form.getFieldsValue()
           zpStaffInfo.id = this.staffInfo.id
           this.staffInfo = zpStaffInfo
           this.staffInfo.csdats = this.csdats
-          // this.staffInfo.educations = this.$refs.staffEducation.getFieldValues()
-          // this.staffInfo.familys = this.$refs.staffFamily.getFieldValues()
-          // this.staffInfo.works = this.$refs.staffWork.getFieldValues()
-          // this.staffInfo.projects = this.$refs.staffProject.getFieldValues()
-          // this.staffInfo.essays = this.$refs.staffEssay.getFieldValues()
-          // this.staffInfo.awards = this.$refs.staffAward.getFieldValues()
+          debugger
+          let f = this.$refs.staffFamily.getFieldValues()
+          if (f.length === 0) {
+            this.openNotificationIcon('warning', '操作提醒', '家庭成员未填写数据,请确保存在一条家庭成员.')
+            return
+          }
+          let e = this.$refs.staffEducation.getFieldValues()
+          if (e.length === 0) {
+            this.openNotificationIcon('warning', '操作提醒', '教育经历未填写数据,请确保存在一条教育经历.')
+            return
+          }
+          let w = this.$refs.staffWork.getFieldValues()
+          if (w.length === 0) {
+            this.openNotificationIcon('warning', '操作提醒', '工作经历未填写数据,请确保存在一条工作经历.')
+            return
+          }
+          let p = this.$refs.staffProject.getFieldValues()
+          if (p.length === 0) {
+            this.openNotificationIcon('warning', '操作提醒', '项目信息未填写数据,请确保存在一条项目信息.')
+            return
+          }
+          let y = this.$refs.staffEssay.getFieldValues()
+          if (y.length === 0) {
+            this.openNotificationIcon('warning', '操作提醒', '文章信息未填写数据,请确保存在一条文章信息.')
+            return
+          }
+          let a = this.$refs.staffAward.getFieldValues()
+          if (a.length === 0) {
+            this.openNotificationIcon('warning', '操作提醒', '获奖情况未填写数据,请确保存在一条获奖情况.')
+            return
+          }
+          this.loading = true
           this.$put('zpStaffInfo/saveStaffInfo', {
             data: JSON.stringify(this.staffInfo)
           }).then((r) => {

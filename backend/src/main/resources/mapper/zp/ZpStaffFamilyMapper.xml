@@ -86,7 +86,7 @@
         f.*
         FROM
         zp_staff_apply sa
-        left join zp_staff_family f on
+        inner join zp_staff_family f on
         sa.staffId = f.staffId
         WHERE
         sa.posterId = #{posterId}
