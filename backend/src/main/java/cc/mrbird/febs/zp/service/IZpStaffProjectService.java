@@ -32,4 +32,6 @@ public interface IZpStaffProjectService extends IService<ZpStaffProject> {
         void updateZpStaffProject(ZpStaffProject zpStaffProject);
 
         void deleteZpStaffProjects(String[]Ids);
+
+        List<ZpStaffProject> findProjectByPosterId(String posterId, Integer state, List<String> idList);
         }

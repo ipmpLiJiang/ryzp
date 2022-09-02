@@ -101,5 +101,7 @@ public class ZpStaffFamilyServiceImpl extends ServiceImpl<ZpStaffFamilyMapper, Z
         this.baseMapper.deleteBatchIds(list);
     }
 
-
+    public List<ZpStaffFamily> findFamilyByPosterId(String posterId, Integer state, List<String> idList) {
+        return this.baseMapper.findFamilyByPosterIdAndSs(posterId,state,idList);
+    }
 }

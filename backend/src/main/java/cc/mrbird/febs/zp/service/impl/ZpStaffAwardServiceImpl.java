@@ -101,5 +101,8 @@ public class ZpStaffAwardServiceImpl extends ServiceImpl<ZpStaffAwardMapper, ZpS
         this.baseMapper.deleteBatchIds(list);
     }
 
+    public List<ZpStaffAward> findAwardByPosterId(String posterId, Integer state, List<String> idList) {
+        return this.baseMapper.findAwardByPosterIdAndSs(posterId,state,idList);
+    }
 
 }

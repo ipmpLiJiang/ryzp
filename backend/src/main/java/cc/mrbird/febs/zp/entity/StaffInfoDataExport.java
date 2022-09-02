@@ -128,29 +128,36 @@ public class StaffInfoDataExport {
     @ExcelField(value = "微信号")
     private String wechatNo;
 
-    /**
-     * 学术带头人
-     */
-    @ExcelField(value = "学术带头人")
-    private String isxsdtrName;
 
     /**
-     * 青年学者(已有人才项目)
+     * 家庭成员1
      */
-    @ExcelField(value = "青年学者(已有人才项目)")
-    private String isyyrcxmName;
+    @ExcelField(value = "家庭成员1")
+    private String fl1;
 
     /**
-     * 青年学者（申报海外优青）
+     * 家庭成员2
      */
-    @ExcelField(value = "青年学者(申报海外优青)")
-    private String issbhwyqName;
+    @ExcelField(value = "家庭成员2")
+    private String fl2;
 
     /**
-     * 青年学者（无人才项目）
+     * 家庭成员3
      */
-    @ExcelField(value = "青年学者(无人才项目)")
-    private String iswrcxmName;
+    @ExcelField(value = "家庭成员3")
+    private String fl3;
+
+    /**
+     * 家庭成员4
+     */
+    @ExcelField(value = "家庭成员4")
+    private String fl4;
+
+    /**
+     * 家庭成员5
+     */
+    @ExcelField(value = "家庭成员5")
+    private String fl5;
 
     /**
      * 教育经历1
@@ -213,33 +220,93 @@ public class StaffInfoDataExport {
     private String wk5;
 
     /**
-     * 著作论文1
+     * 项目信息1
      */
-    @ExcelField(value = "著作论文1")
+    @ExcelField(value = "项目信息1")
+    private String pj1;
+
+    /**
+     * 项目信息2
+     */
+    @ExcelField(value = "项目信息2")
+    private String pj2;
+
+    /**
+     * 项目信息3
+     */
+    @ExcelField(value = "项目信息")
+    private String pj3;
+
+    /**
+     * 项目信息4
+     */
+    @ExcelField(value = "项目信息4")
+    private String pj4;
+
+    /**
+     * 项目信息5
+     */
+    @ExcelField(value = "项目信息5")
+    private String pj5;
+
+    /**
+     * 文章信息1
+     */
+    @ExcelField(value = "文章信息1")
     private String ey1;
 
     /**
-     * 著作论文2
+     * 文章信息2
      */
-    @ExcelField(value = "著作论文2")
+    @ExcelField(value = "文章信息2")
     private String ey2;
 
     /**
-     * 著作论文3
+     * 文章信息3
      */
-    @ExcelField(value = "著作论文3")
+    @ExcelField(value = "文章信息3")
     private String ey3;
 
     /**
-     * 著作论文4
+     * 文章信息4
      */
-    @ExcelField(value = "著作论文4")
+    @ExcelField(value = "文章信息4")
     private String ey4;
 
     /**
-     * 著作论文5
+     * 文章信息5
      */
-    @ExcelField(value = "著作论文5")
+    @ExcelField(value = "文章信息5")
     private String ey5;
+
+    /**
+     * 获奖情况1
+     */
+    @ExcelField(value = "获奖情况1")
+    private String aw1;
+
+    /**
+     * 获奖情况2
+     */
+    @ExcelField(value = "获奖情况2")
+    private String aw2;
+
+    /**
+     * 获奖情况3
+     */
+    @ExcelField(value = "获奖情况3")
+    private String aw3;
+
+    /**
+     * 获奖情况4
+     */
+    @ExcelField(value = "获奖情况4")
+    private String aw4;
+
+    /**
+     * 获奖情况5
+     */
+    @ExcelField(value = "获奖情况5")
+    private String aw5;
 
 }

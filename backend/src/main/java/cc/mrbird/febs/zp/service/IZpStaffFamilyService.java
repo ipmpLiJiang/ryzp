@@ -33,4 +33,6 @@ public interface IZpStaffFamilyService extends IService<ZpStaffFamily> {
 
     void deleteZpStaffFamilys(String[] Ids);
 
+    List<ZpStaffFamily> findFamilyByPosterId(String posterId, Integer state, List<String> idList);
+
 }

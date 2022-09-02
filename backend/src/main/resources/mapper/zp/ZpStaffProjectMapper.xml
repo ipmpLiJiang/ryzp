@@ -2,50 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.zp.dao.ZpStaffProjectMapper">
 
-        <!-- 通用查询映射结果 -->
-        <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffProject">
-                    <id column="id" property="id"/>
-                    <result column="userid" property="userid"/>
-                    <result column="staffId" property="staffId"/>
-                    <result column="projectname" property="projectname"/>
-                    <result column="srtdat" property="srtdat"/>
-                    <result column="enddat" property="enddat"/>
-                    <result column="xbly" property="xbly"/>
-                    <result column="jf" property="jf"/>
-                    <result column="brpm" property="brpm"/>
-                    <result column="currencyField" property="currencyField"/>
-                    <result column="MODIFY_TIME" property="modifyTime"/>
-                    <result column="CREATE_TIME" property="createTime"/>
-        </resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffProject">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="staffId" property="staffId"/>
+        <result column="projectname" property="projectname"/>
+        <result column="srtdat" property="srtdat"/>
+        <result column="enddat" property="enddat"/>
+        <result column="xbly" property="xbly"/>
+        <result column="jf" property="jf"/>
+        <result column="brpm" property="brpm"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+    </resultMap>
 
-        <!-- 通用查询结果列 -->
-        <sql id="Base_Column_List">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
         id, userid, staffId, projectname, srtdat, enddat, xbly, jf, brpm, currencyField, MODIFY_TIME, CREATE_TIME
     </sql>
     <update id="updateZpStaffProject" parameterType="cc.mrbird.febs.zp.entity.ZpStaffProject">
         update zp_staff_project
         <trim prefix="set" suffixOverrides=",">
-<if test="userid != null">userid=#{userid},</if>
-<if test="staffId != null">staffId=#{staffId},</if>
-<if test="projectname != null">projectname=#{projectname},</if>
-<if test="srtdat != null">srtdat=#{srtdat},</if>
-<if test="enddat != null">enddat=#{enddat},</if>
-<if test="xbly != null">xbly=#{xbly},</if>
-<if test="jf != null">jf=#{jf},</if>
-<if test="brpm != null">brpm=#{brpm},</if>
-<if test="currencyField != null">currencyField=#{currencyField},</if>
-<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
-<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+            <if test="userid != null">userid=#{userid},</if>
+            <if test="staffId != null">staffId=#{staffId},</if>
+            <if test="projectname != null">projectname=#{projectname},</if>
+            <if test="srtdat != null">srtdat=#{srtdat},</if>
+            <if test="enddat != null">enddat=#{enddat},</if>
+            <if test="xbly != null">xbly=#{xbly},</if>
+            <if test="jf != null">jf=#{jf},</if>
+            <if test="brpm != null">brpm=#{brpm},</if>
+            <if test="currencyField != null">currencyField=#{currencyField},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
         </trim>
-                where id=#{id}
+        where id=#{id}
 
     </update>
-    <select id="findZpStaffProject" resultType="cc.mrbird.febs.zp.entity.ZpStaffProject" parameterType="cc.mrbird.febs.zp.entity.ZpStaffProject">
-        select  *  from zp_staff_project
-        where  1=1
-            <if test="zpStaffProject.id != null and zpStaffProject.id != ''"> and id =#{ zpStaffProject.id} </if>
-            <if test="zpStaffProject.staffId != null and zpStaffProject.staffId != ''"> and staffId like concat('%', #{ zpStaffProject.staffId} ,'%')</if>
-            <if test="zpStaffProject.projectname != null and zpStaffProject.projectname != ''"> and projectname like concat('%', #{ zpStaffProject.projectname} ,'%')</if>
+    <select id="findZpStaffProject" resultType="cc.mrbird.febs.zp.entity.ZpStaffProject"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffProject">
+        select * from zp_staff_project
+        where 1=1
+        <if test="zpStaffProject.id != null and zpStaffProject.id != ''">and id =#{ zpStaffProject.id}</if>
+        <if test="zpStaffProject.staffId != null and zpStaffProject.staffId != ''">and staffId like concat('%',
+            #{ zpStaffProject.staffId} ,'%')
+        </if>
+        <if test="zpStaffProject.projectname != null and zpStaffProject.projectname != ''">and projectname like
+            concat('%', #{ zpStaffProject.projectname} ,'%')
+        </if>
         <if test="zpStaffProject.srtdatFrom!= null">
             AND zpStaffProject.srtdat <![CDATA[ >= ]]>  srtdatFrom}
         </if>
@@ -58,10 +63,18 @@
         <if test="zpStaffProject.enddatTo!= null">
             AND zpStaffProject.enddat <![CDATA[ <= ]]>  enddatTo}
         </if>
-            <if test="zpStaffProject.xbly != null and zpStaffProject.xbly != ''"> and xbly like concat('%', #{ zpStaffProject.xbly} ,'%')</if>
-            <if test="zpStaffProject.jf != null and zpStaffProject.jf != ''"> and jf like concat('%', #{ zpStaffProject.jf} ,'%')</if>
-            <if test="zpStaffProject.brpm != null and zpStaffProject.brpm != ''"> and brpm like concat('%', #{ zpStaffProject.brpm} ,'%')</if>
-            <if test="zpStaffProject.currencyField != null and zpStaffProject.currencyField != ''"> and currencyField like concat('%', #{ zpStaffProject.currencyField} ,'%')</if>
+        <if test="zpStaffProject.xbly != null and zpStaffProject.xbly != ''">and xbly like concat('%',
+            #{ zpStaffProject.xbly} ,'%')
+        </if>
+        <if test="zpStaffProject.jf != null and zpStaffProject.jf != ''">and jf like concat('%', #{ zpStaffProject.jf}
+            ,'%')
+        </if>
+        <if test="zpStaffProject.brpm != null and zpStaffProject.brpm != ''">and brpm like concat('%',
+            #{ zpStaffProject.brpm} ,'%')
+        </if>
+        <if test="zpStaffProject.currencyField != null and zpStaffProject.currencyField != ''">and currencyField like
+            concat('%', #{ zpStaffProject.currencyField} ,'%')
+        </if>
         <if test="zpStaffProject.modifyTimeFrom!= null">
             AND zpStaffProject.MODIFY_TIME <![CDATA[ >= ]]>  modifyTimeFrom}
         </if>
@@ -74,6 +87,25 @@
         <if test="zpStaffProject.createTimeTo!= null">
             AND zpStaffProject.CREATE_TIME <![CDATA[ <= ]]>  createTimeTo}
         </if>
-</select>
+    </select>
 
+    <select id="findProjectByPosterIdAndSs" resultType="cc.mrbird.febs.zp.entity.ZpStaffProject">
+        SELECT
+        p.*
+        FROM
+        zp_staff_apply sa
+        left join zp_staff_project p on
+        sa.staffId = p.staffId
+        WHERE
+        sa.posterId = #{posterId}
+        <if test="state!=null">
+            AND sa.state = #{state}
+        </if>
+        <if test="idList!=null and idList.size()>0">
+            AND sa.staffId in
+            <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 </mapper>

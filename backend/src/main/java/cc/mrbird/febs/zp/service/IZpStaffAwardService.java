@@ -32,4 +32,6 @@ public interface IZpStaffAwardService extends IService<ZpStaffAward> {
         void updateZpStaffAward(ZpStaffAward zpStaffAward);
 
         void deleteZpStaffAwards(String[]Ids);
+
+        List<ZpStaffAward> findAwardByPosterId(String posterId, Integer state, List<String> idList);
         }

@@ -2,58 +2,71 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.zp.dao.ZpStaffFamilyMapper">
 
-        <!-- 通用查询映射结果 -->
-        <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffFamily">
-                    <id column="id" property="id"/>
-                    <result column="userid" property="userid"/>
-                    <result column="staffId" property="staffId"/>
-                    <result column="wcname" property="wcname"/>
-                    <result column="xmname" property="xmname"/>
-                    <result column="zzmm" property="zzmm"/>
-                    <result column="csdat" property="csdat"/>
-                    <result column="gzdwjzw" property="gzdwjzw"/>
-                    <result column="currencyField" property="currencyField"/>
-                    <result column="MODIFY_TIME" property="modifyTime"/>
-                    <result column="CREATE_TIME" property="createTime"/>
-        </resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffFamily">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="staffId" property="staffId"/>
+        <result column="wcname" property="wcname"/>
+        <result column="xmname" property="xmname"/>
+        <result column="zzmm" property="zzmm"/>
+        <result column="csdat" property="csdat"/>
+        <result column="gzdwjzw" property="gzdwjzw"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+    </resultMap>
 
-        <!-- 通用查询结果列 -->
-        <sql id="Base_Column_List">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
         id, userid, staffId, wcname, xmname, zzmm, csdat, gzdwjzw, currencyField, MODIFY_TIME, CREATE_TIME
     </sql>
     <update id="updateZpStaffFamily" parameterType="cc.mrbird.febs.zp.entity.ZpStaffFamily">
         update zp_staff_family
         <trim prefix="set" suffixOverrides=",">
-<if test="userid != null">userid=#{userid},</if>
-<if test="staffId != null">staffId=#{staffId},</if>
-<if test="wcname != null">wcname=#{wcname},</if>
-<if test="xmname != null">xmname=#{xmname},</if>
-<if test="zzmm != null">zzmm=#{zzmm},</if>
-<if test="csdat != null">csdat=#{csdat},</if>
-<if test="gzdwjzw != null">gzdwjzw=#{gzdwjzw},</if>
-<if test="currencyField != null">currencyField=#{currencyField},</if>
-<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
-<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+            <if test="userid != null">userid=#{userid},</if>
+            <if test="staffId != null">staffId=#{staffId},</if>
+            <if test="wcname != null">wcname=#{wcname},</if>
+            <if test="xmname != null">xmname=#{xmname},</if>
+            <if test="zzmm != null">zzmm=#{zzmm},</if>
+            <if test="csdat != null">csdat=#{csdat},</if>
+            <if test="gzdwjzw != null">gzdwjzw=#{gzdwjzw},</if>
+            <if test="currencyField != null">currencyField=#{currencyField},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
         </trim>
-                where id=#{id}
+        where id=#{id}
 
     </update>
-    <select id="findZpStaffFamily" resultType="cc.mrbird.febs.zp.entity.ZpStaffFamily" parameterType="cc.mrbird.febs.zp.entity.ZpStaffFamily">
-        select  *  from zp_staff_family
-        where  1=1
-            <if test="zpStaffFamily.id != null and zpStaffFamily.id != ''"> and id =#{ zpStaffFamily.id} </if>
-            <if test="zpStaffFamily.staffId != null and zpStaffFamily.staffId != ''"> and staffId like concat('%', #{ zpStaffFamily.staffId} ,'%')</if>
-            <if test="zpStaffFamily.wcname != null and zpStaffFamily.wcname != ''"> and wcname like concat('%', #{ zpStaffFamily.wcname} ,'%')</if>
-            <if test="zpStaffFamily.xmname != null and zpStaffFamily.xmname != ''"> and xmname like concat('%', #{ zpStaffFamily.xmname} ,'%')</if>
-            <if test="zpStaffFamily.zzmm != null and zpStaffFamily.zzmm != ''"> and zzmm like concat('%', #{ zpStaffFamily.zzmm} ,'%')</if>
+    <select id="findZpStaffFamily" resultType="cc.mrbird.febs.zp.entity.ZpStaffFamily"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffFamily">
+        select * from zp_staff_family
+        where 1=1
+        <if test="zpStaffFamily.id != null and zpStaffFamily.id != ''">and id =#{ zpStaffFamily.id}</if>
+        <if test="zpStaffFamily.staffId != null and zpStaffFamily.staffId != ''">and staffId like concat('%',
+            #{ zpStaffFamily.staffId} ,'%')
+        </if>
+        <if test="zpStaffFamily.wcname != null and zpStaffFamily.wcname != ''">and wcname like concat('%',
+            #{ zpStaffFamily.wcname} ,'%')
+        </if>
+        <if test="zpStaffFamily.xmname != null and zpStaffFamily.xmname != ''">and xmname like concat('%',
+            #{ zpStaffFamily.xmname} ,'%')
+        </if>
+        <if test="zpStaffFamily.zzmm != null and zpStaffFamily.zzmm != ''">and zzmm like concat('%',
+            #{ zpStaffFamily.zzmm} ,'%')
+        </if>
         <if test="zpStaffFamily.csdatFrom!= null">
             AND zpStaffFamily.csdat <![CDATA[ >= ]]>  csdatFrom}
         </if>
         <if test="zpStaffFamily.csdatTo!= null">
             AND zpStaffFamily.csdat <![CDATA[ <= ]]>  csdatTo}
         </if>
-            <if test="zpStaffFamily.gzdwjzw != null and zpStaffFamily.gzdwjzw != ''"> and gzdwjzw like concat('%', #{ zpStaffFamily.gzdwjzw} ,'%')</if>
-            <if test="zpStaffFamily.currencyField != null and zpStaffFamily.currencyField != ''"> and currencyField like concat('%', #{ zpStaffFamily.currencyField} ,'%')</if>
+        <if test="zpStaffFamily.gzdwjzw != null and zpStaffFamily.gzdwjzw != ''">and gzdwjzw like concat('%',
+            #{ zpStaffFamily.gzdwjzw} ,'%')
+        </if>
+        <if test="zpStaffFamily.currencyField != null and zpStaffFamily.currencyField != ''">and currencyField like
+            concat('%', #{ zpStaffFamily.currencyField} ,'%')
+        </if>
         <if test="zpStaffFamily.modifyTimeFrom!= null">
             AND zpStaffFamily.MODIFY_TIME <![CDATA[ >= ]]>  modifyTimeFrom}
         </if>
@@ -66,6 +79,26 @@
         <if test="zpStaffFamily.createTimeTo!= null">
             AND zpStaffFamily.CREATE_TIME <![CDATA[ <= ]]>  createTimeTo}
         </if>
-</select>
+    </select>
+
+    <select id="findFamilyByPosterIdAndSs" resultType="cc.mrbird.febs.zp.entity.ZpStaffFamily">
+        SELECT
+        f.*
+        FROM
+        zp_staff_apply sa
+        left join zp_staff_family f on
+        sa.staffId = f.staffId
+        WHERE
+        sa.posterId = #{posterId}
+        <if test="state!=null">
+            AND sa.state = #{state}
+        </if>
+        <if test="idList!=null and idList.size()>0">
+            AND sa.staffId in
+            <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 
 </mapper>

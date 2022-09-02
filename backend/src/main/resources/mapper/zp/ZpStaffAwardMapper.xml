@@ -2,55 +2,65 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.zp.dao.ZpStaffAwardMapper">
 
-        <!-- 通用查询映射结果 -->
-        <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffAward">
-                    <id column="id" property="id"/>
-                    <result column="userid" property="userid"/>
-                    <result column="staffId" property="staffId"/>
-                    <result column="jxname" property="jxname"/>
-                    <result column="mc" property="mc"/>
-                    <result column="hjdat" property="hjdat"/>
-                    <result column="remark" property="remark"/>
-                    <result column="currencyField" property="currencyField"/>
-                    <result column="MODIFY_TIME" property="modifyTime"/>
-                    <result column="CREATE_TIME" property="createTime"/>
-        </resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.zp.entity.ZpStaffAward">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="staffId" property="staffId"/>
+        <result column="jxname" property="jxname"/>
+        <result column="mc" property="mc"/>
+        <result column="hjdat" property="hjdat"/>
+        <result column="remark" property="remark"/>
+        <result column="currencyField" property="currencyField"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+    </resultMap>
 
-        <!-- 通用查询结果列 -->
-        <sql id="Base_Column_List">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
         id, userid, staffId, jxname, mc, hjdat, remark, currencyField, MODIFY_TIME, CREATE_TIME
     </sql>
     <update id="updateZpStaffAward" parameterType="cc.mrbird.febs.zp.entity.ZpStaffAward">
         update zp_staff_award
         <trim prefix="set" suffixOverrides=",">
-<if test="userid != null">userid=#{userid},</if>
-<if test="staffId != null">staffId=#{staffId},</if>
-<if test="jxname != null">jxname=#{jxname},</if>
-<if test="mc != null">mc=#{mc},</if>
-<if test="hjdat != null">hjdat=#{hjdat},</if>
-<if test="remark != null">remark=#{remark},</if>
-<if test="currencyField != null">currencyField=#{currencyField},</if>
-<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
-<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+            <if test="userid != null">userid=#{userid},</if>
+            <if test="staffId != null">staffId=#{staffId},</if>
+            <if test="jxname != null">jxname=#{jxname},</if>
+            <if test="mc != null">mc=#{mc},</if>
+            <if test="hjdat != null">hjdat=#{hjdat},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="currencyField != null">currencyField=#{currencyField},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
         </trim>
-                where id=#{id}
+        where id=#{id}
 
     </update>
-    <select id="findZpStaffAward" resultType="cc.mrbird.febs.zp.entity.ZpStaffAward" parameterType="cc.mrbird.febs.zp.entity.ZpStaffAward">
-        select  *  from zp_staff_award
-        where  1=1
-            <if test="zpStaffAward.id != null and zpStaffAward.id != ''"> and id =#{ zpStaffAward.id} </if>
-            <if test="zpStaffAward.staffId != null and zpStaffAward.staffId != ''"> and staffId like concat('%', #{ zpStaffAward.staffId} ,'%')</if>
-            <if test="zpStaffAward.jxname != null and zpStaffAward.jxname != ''"> and jxname like concat('%', #{ zpStaffAward.jxname} ,'%')</if>
-            <if test="zpStaffAward.mc != null and zpStaffAward.mc != ''"> and mc like concat('%', #{ zpStaffAward.mc} ,'%')</if>
+    <select id="findZpStaffAward" resultType="cc.mrbird.febs.zp.entity.ZpStaffAward"
+            parameterType="cc.mrbird.febs.zp.entity.ZpStaffAward">
+        select * from zp_staff_award
+        where 1=1
+        <if test="zpStaffAward.id != null and zpStaffAward.id != ''">and id =#{ zpStaffAward.id}</if>
+        <if test="zpStaffAward.staffId != null and zpStaffAward.staffId != ''">and staffId like concat('%',
+            #{ zpStaffAward.staffId} ,'%')
+        </if>
+        <if test="zpStaffAward.jxname != null and zpStaffAward.jxname != ''">and jxname like concat('%',
+            #{ zpStaffAward.jxname} ,'%')
+        </if>
+        <if test="zpStaffAward.mc != null and zpStaffAward.mc != ''">and mc like concat('%', #{ zpStaffAward.mc} ,'%')
+        </if>
         <if test="zpStaffAward.hjdatFrom!= null">
             AND zpStaffAward.hjdat <![CDATA[ >= ]]>  hjdatFrom}
         </if>
         <if test="zpStaffAward.hjdatTo!= null">
             AND zpStaffAward.hjdat <![CDATA[ <= ]]>  hjdatTo}
         </if>
-            <if test="zpStaffAward.remark != null and zpStaffAward.remark != ''"> and remark like concat('%', #{ zpStaffAward.remark} ,'%')</if>
-            <if test="zpStaffAward.currencyField != null and zpStaffAward.currencyField != ''"> and currencyField like concat('%', #{ zpStaffAward.currencyField} ,'%')</if>
+        <if test="zpStaffAward.remark != null and zpStaffAward.remark != ''">and remark like concat('%',
+            #{ zpStaffAward.remark} ,'%')
+        </if>
+        <if test="zpStaffAward.currencyField != null and zpStaffAward.currencyField != ''">and currencyField like
+            concat('%', #{ zpStaffAward.currencyField} ,'%')
+        </if>
         <if test="zpStaffAward.modifyTimeFrom!= null">
             AND zpStaffAward.MODIFY_TIME <![CDATA[ >= ]]>  modifyTimeFrom}
         </if>
@@ -63,6 +73,26 @@
         <if test="zpStaffAward.createTimeTo!= null">
             AND zpStaffAward.CREATE_TIME <![CDATA[ <= ]]>  createTimeTo}
         </if>
-</select>
+    </select>
+
+    <select id="findAwardByPosterIdAndSs" resultType="cc.mrbird.febs.zp.entity.ZpStaffAward">
+        SELECT
+        a.*
+        FROM
+        zp_staff_apply sa
+        left join zp_staff_award a on
+        sa.staffId = a.staffId
+        WHERE
+        sa.posterId = #{posterId}
+        <if test="state!=null">
+            AND sa.state = #{state}
+        </if>
+        <if test="idList!=null and idList.size()>0">
+            AND sa.staffId in
+            <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 
 </mapper>

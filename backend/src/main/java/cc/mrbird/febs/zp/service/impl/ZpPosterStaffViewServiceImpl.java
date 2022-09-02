@@ -46,6 +46,15 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
     @Autowired
     IZpStaffEssayService iZpStaffEssayService;
 
+    @Autowired
+    IZpStaffFamilyService iZpStaffFamilyService;
+
+    @Autowired
+    IZpStaffAwardService iZpStaffAwardService;
+
+    @Autowired
+    IZpStaffProjectService iZpStaffProjectService;
+
     @Override
     public IPage<ZpPosterStaffView> findZpPosterStaffViews(QueryRequest request, ZpPosterStaffView zpPosterStaffView) {
         try {
@@ -75,10 +84,16 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
             List<ZpStaffEducation> edList = iZpStaffEducationService.findEducationByPosterId(posterId, state, idList);
             List<ZpStaffEssay> eyList = iZpStaffEssayService.findEssayByPosterId(posterId, state, idList);
             List<ZpStaffWork> wkList = iZpStaffWorkService.findWorkByPosterId(posterId, state, idList);
+            List<ZpStaffFamily> flList = iZpStaffFamilyService.findFamilyByPosterId(posterId, state, idList);
+            List<ZpStaffProject> pjList = iZpStaffProjectService.findProjectByPosterId(posterId, state, idList);
+            List<ZpStaffAward> awList = iZpStaffAwardService.findAwardByPosterId(posterId, state, idList);
 
             List<ZpStaffEducation> edQuery = new ArrayList<>();
             List<ZpStaffEssay> eyQuery = new ArrayList<>();
             List<ZpStaffWork> wkQuery = new ArrayList<>();
+            List<ZpStaffAward> awQuery = new ArrayList<>();
+            List<ZpStaffProject> pjQuery = new ArrayList<>();
+            List<ZpStaffFamily> flQuery = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             for (ZpStaffInfo item : staffList) {
