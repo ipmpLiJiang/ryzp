@@ -2,12 +2,12 @@
   <a-drawer
     :title="sqtitle"
     :maskClosable="false"
-    width="80%"
+    width="85%"
     placement="right"
     :closable="true"
     @close="onClose"
     :visible="staffVisiable"
-    style="height: calc(100% - 30px); overflow: auto; padding-bottom: 28px"
+    style="height: calc(100% - 10px); overflow: auto; padding-bottom: 10px"
   >
     <a-row>
       <a-col :span="6">
@@ -15,7 +15,15 @@
           <a-input-search placeholder="请输入关键字" v-model="queryParams.currencyField"  enter-button @search="search" />
         </a-form-item>
       </a-col>
-      <a-col :span="17" :offset="1">
+      <a-col :span="1" :offset="1">
+        <a-popover v-model="selectVisible" title="筛选" trigger="click">
+          <template slot="content">
+            <queryTab ref="qtab" @close="closeQuery"></queryTab>
+          </template>
+          <a-button type="primary">筛选</a-button>
+        </a-popover>
+      </a-col>
+      <a-col :span="15" :offset="1">
         <a-space :size="15">
         <a-popconfirm
           title="确定批量查看？"
@@ -102,6 +110,7 @@
 <script>
 import moment from 'moment'
 import StaffInfoApplyLook from '../common/StaffInfoApplyLook'
+import QueryTab from './QueryTab.vue'
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 15, offset: 1 }
@@ -109,7 +118,7 @@ const formItemLayout = {
 export default {
   name: 'PosterStaffView',
   components: {
-    StaffInfoApplyLook
+    StaffInfoApplyLook, QueryTab
   },
   props: {
     staffVisiable: {
@@ -140,6 +149,7 @@ export default {
       },
       posterId: '',
       lookVisible: false,
+      selectVisible: false,
       applystate: 0,
       sqtitle: '申请人员',
       isUpdate: false,
@@ -190,7 +200,7 @@ export default {
       {
         title: '身份证号',
         dataIndex: 'idnumber',
-        width: 130
+        width: 145
       },
       {
         title: '籍贯',
@@ -258,6 +268,9 @@ export default {
     rowNo (index) {
       return (this.pagination.defaultCurrent - 1) *
         this.pagination.defaultPageSize + index + 1
+    },
+    closeQuery () {
+      this.selectVisible = false
     },
     onClose () {
       this.$emit('close', this.isUpdate)

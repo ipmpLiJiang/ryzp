@@ -3,7 +3,6 @@
     <a-row>
       <a-col :span="20">
         <b><font style="font-size: 16px;padding-right: 10px;">文章信息</font></b>
-        (<font style="color: red">请上传原文至人才办邮箱。仅列一作或通讯文章，5篇以内，注明JCR分区，影响影子*</font>)
       </a-col>
       <a-col :span="4" style="text-align: right">
         <a-button class="editable-add-btn" @click="handleAdd">
@@ -149,12 +148,14 @@
       </a-row>
       <a-row>
         <a-col :span="24">
+          <a-form-model-item label="附件">
           <mutiUpload-pdf
             :baseId="formData.id"
             refTab="essay"
             refType="essay"
           >
           </mutiUpload-pdf>
+          </a-form-model-item>
         </a-col>
       </a-row>
       <a-row>
@@ -388,22 +389,22 @@ export default {
     },
     onDelete (key) {
       const newData = [...this.dataSource]
-      if (newData.length > 1) {
-        const target = newData.filter(item => key === item.id)[0]
-        if (target) {
-          this.$get('zpStaffInfo/del', { 'staffId': this.staffId, 'id': key, 'type': 'Y' }).then((r) => {
-            if (r.data.data.success === 1) {
-              this.openNotificationIcon('success', '操作提醒', '删除文章信息成功.')
-              this.dataSource = []
-              this.fetch()
-            } else {
-              this.openNotificationIcon('error', '操作提醒', '删除该文章信息失败.')
-            }
-          })
-        }
-      } else {
-        this.openNotificationIcon('error', '操作提醒', '删除文章信息失败,至少存在一条文章信息数据.')
+      // if (newData.length > 1) {
+      const target = newData.filter(item => key === item.id)[0]
+      if (target) {
+        this.$get('zpStaffInfo/del', { 'staffId': this.staffId, 'id': key, 'type': 'Y' }).then((r) => {
+          if (r.data.data.success === 1) {
+            this.openNotificationIcon('success', '操作提醒', '删除文章信息成功.')
+            this.dataSource = []
+            this.fetch()
+          } else {
+            this.openNotificationIcon('error', '操作提醒', '删除该文章信息失败.')
+          }
+        })
       }
+      // } else {
+      //   this.openNotificationIcon('error', '操作提醒', '删除文章信息失败,至少存在一条文章信息数据.')
+      // }
     },
     handleEdit (record) {
       this.coreVisible = true

@@ -348,7 +348,7 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                     value += huanhang + "政治面貌：" + list.get(ng).getZzmmname();
                 }
                 if (list.get(ng).getCsdat() != null) {
-                    value += huanhang + "政治面貌：" + sdf.format(list.get(ng).getCsdat());
+                    value += huanhang + "出生年月：" + sdf.format(list.get(ng).getCsdat());
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getGzdwjzw())) {
                     value += huanhang + "工作单位及职务：" + list.get(ng).getGzdwjzw();

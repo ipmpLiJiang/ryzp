@@ -658,13 +658,13 @@ public class StaffInfoPdf {
         cell = new PdfPCell(new Phrase(title1_13_1, fontTitle));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeightStaff2);
+        cell.setFixedHeight(contentHeightStaff);
         cell.setColspan(3);
         table.addCell(cell);
         //value1_12_1
         cell = new PdfPCell(new Phrase(value1_13_1, fontValue));
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeightStaff2);
+        cell.setFixedHeight(contentHeightStaff);
         cell.setColspan(22);
         table.addCell(cell);
         //endregion

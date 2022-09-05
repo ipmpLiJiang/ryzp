@@ -2,115 +2,127 @@
   <div class="formsty">
     <table class="formtab">
       <tr>
-        <td colspan="8" class="tdTitle">
+        <td colspan="15" class="tdTitle">
           <h2>基本信息</h2>
           <h4>Brief introduction</h4>
         </td>
       </tr>
       <tr>
-        <td class="td13">姓名/Name<font class="fontColor">*</font></td>
-        <td class="td2" colspan="2">
+        <td colspan="2" class="td13">
+          姓名<font class="fontColor">*</font>
+        </td>
+        <td colspan="3" class="td25">
           {{ staffInfo.ryname }}
         </td>
-        <td class="td13">性别/Gender<font class="fontColor">*</font></td>
-        <td class="td4" colspan="2">
-          {{ staffInfo.sex === 0 ? "男" : "女" }}
+        <td colspan="2" class="td14">性别<font class="fontColor">*</font></td>
+        <td colspan="5" class="td30">
+          {{ staffInfo.sex === 0 ? '男' : '女' }}
         </td>
-        <td rowspan="4">
-          <uploadImg-look :baseId="staffInfo.id" :baseTime="baseTime">
+        <td rowspan="4" colspan="3">
+          <uploadImg-look
+            :baseId="staffInfo.id"
+            :baseTime="baseTime"
+          >
           </uploadImg-look>
         </td>
       </tr>
       <tr>
-        <td>出生日期/Birthday<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ setDateFormat(staffInfo.csdat) }}
+        <td colspan="2">出生日期<font class="fontColor">*</font></td>
+        <td colspan="3">
+          {{ setDateFormat(staffInfo.csdats) }}
         </td>
-        <td>健康状态<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.jkzt }}
-        </td>
-      </tr>
-      <tr>
-        <td>籍贯<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.zhrjg }}
-        </td>
-        <td>现工作国家地区/Working country<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.ingzgjdq }}
-        </td>
-      </tr>
-      <tr>
-        <td>现任职单位/Company Abroad<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.indw }}
-        </td>
-        <td>现任职务/Current Position<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.inzw }}
-        </td>
-      </tr>
-      <tr>
-        <td>专业方向/Professional Diregtiog<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.zhrzyfx }}
-        </td>
-        <td style="width: 15%">
-          最高学历Highest Degree<font class="fontColor">*</font>
-        </td>
-        <td style="width: 15%">
-          {{ staffInfo.zgxl }}
-        </td>
-        <td style="width: 15%">
-          是否医师资格证<font class="fontColor">*</font>
-        </td>
-        <td colspan="2">
-          {{ staffInfo.isyszgz === 1 ? "是" : "否" }}
-        </td>
-      </tr>
-      <tr>
-        <td>第一志愿科室<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.zyks1 }}
-        </td>
-        <td>第二志愿科室<font class="fontColor">*</font></td>
+        <td colspan="2">身份证号码<font class="fontColor">*</font></td>
         <td colspan="5">
-          {{ staffInfo.zyks2 }}
+          {{ staffInfo.idnumber }}
         </td>
       </tr>
       <tr>
-        <td>邮箱Email<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.email }}
-        </td>
-        <td>手机号码<font class="fontColor">*</font></td>
-        <td>
-          {{ staffInfo.tel }}
-        </td>
-        <td>微信号/Wechat<font class="fontColor">*</font></td>
-        <td colspan="2">
-          {{ staffInfo.wechatNo }}
-        </td>
+        <td colspan="2">籍贯<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zhrjg }}</td>
+        <td colspan="2">健康状态<font class="fontColor">*</font></td>
+        <td colspan="5">{{ staffInfo.jkzt }}</td>
       </tr>
       <tr>
-        <td>申请人类别Type<font class="fontColor">*</font></td>
-        <td colspan="7">
-          <a-checkbox v-model="staffInfo.isxsdtr"> 学术带头人 </a-checkbox>
-          <a-checkbox v-model="staffInfo.isyyrcxm">
-            青年学者（已有人才项目）
-          </a-checkbox>
-          <a-checkbox v-model="staffInfo.issbhwyq">
-            青年学者（申报海外优青）
-          </a-checkbox>
-          <a-checkbox v-model="staffInfo.iswrcxm">
-            青年学者（无人才项目）
-          </a-checkbox>
-        </td>
+        <td colspan="2">身高cm<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zhrsg }}</td>
+        <td colspan="2">体重kg<font class="fontColor">*</font></td>
+        <td colspan="5">{{ staffInfo.zhrtz }}</td>
       </tr>
       <tr>
-        <td>个人简历/Resume<font class="fontColor">*</font></td>
+        <td colspan="2">血型<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zhrxxName }}</td>
+        <td colspan="2">民族<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zhrmzName }}</td>
+        <td colspan="2" style="width:12%">是否服从调剂<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.isfcdj === 0 ? '否' : '是' }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">政治面貌<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zzmmName }}</td>
+        <td colspan="2">婚姻状况<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.hyztName }}</td>
+        <td colspan="2">子女个数<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zngs }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">第一志愿科室<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zyks1 }}</td>
+        <td colspan="2">第二志愿科室<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zyks2 }}</td>
+        <td colspan="2">最高学历<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.zgxl }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">外语水平<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.wyspName }}</td>
+        <td colspan="2">外语水平分数<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.wyspfs }}</td>
+        <td colspan="2">计算机水平<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.jsjspName }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">电子邮箱<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.email }}</td>
+        <td colspan="2">手机号码<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.tel }}</td>
+        <td colspan="2">微信号<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.wechatNo }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">家庭住址<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.jtzz }}</td>
+        <td colspan="2">户籍地址<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.hjdz }}</td>
+        <td colspan="2">现居住址<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.xjdz }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">紧急联系人<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.jjlxr }}</td>
+        <td colspan="2">联系人号码<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.lxrtel }}</td>
+        <td colspan="2">是否医师资格证<font class="fontColor">*</font></td>
+        <td colspan="3">{{ staffInfo.isyszgz === 0 ? '否' : '是' }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">职业类型<font class="fontColor">*</font></td>
+        <td colspan="3">{{staffInfo.zylxName}}</td>
         <td colspan="2">
+          毕业时是否取得住院医师规范化培训合格证<font class="fontColor">*</font>
+        </td>
+        <td colspan="3">{{ staffInfo.isbysqdzyys === 0 ? '否' : '是' }}</td>
+        <td colspan="2">
+          硕士阶段是否四证合一<font class="fontColor">*</font>
+        </td>
+        <td colspan="3">{{ staffInfo.isssjdszhy === 0 ? '否' : '是' }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">有无既往病史<font class="fontColor">*</font></td>
+        <td colspan="13">{{ staffInfo.ywjwbs }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">个人简历<font class="fontColor">*(.pdf)</font></td>
+        <td colspan="3">
           <mutiUpload-look
             :baseId="staffInfo.id"
             :baseTime="baseTime"
@@ -119,7 +131,7 @@
           >
           </mutiUpload-look>
         </td>
-        <td colspan="5"></td>
+        <td colspan="10"></td>
       </tr>
     </table>
     <br />
@@ -520,26 +532,33 @@ export default {
 <style lang="less" scoped>
 .formsty {
   width: 100%;
-  padding: 12px 50px;
+  padding: 12px 30px;
   background: #fff;
 }
+
 .formtab {
+  border-collapse: collapse;
   width: 100%;
-  padding: 8px;
+  margin: 0 auto;
+  padding: 8px 6px;
 }
+
 .formtab {
   tr td {
     padding: 10px;
     border: 1px solid #ccc;
   }
   .td13 {
+    width: 13%;
+  }
+  .td14 {
     width: 15%;
   }
-  .td2 {
-    width: 25%;
+  .td25 {
+    width: 22%;
   }
-  .td4 {
-    width: 30%;
+  .td30 {
+    width: 34%;
   }
   .tdTitle {
     border: 0px;

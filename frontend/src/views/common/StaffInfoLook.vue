@@ -4,7 +4,6 @@
       <tr>
         <td colspan="15" class="tdTitle">
           <h2>基本信息</h2>
-          <h4>Brief introduction</h4>
         </td>
       </tr>
       <tr>
@@ -479,7 +478,7 @@
       </a-row>
     </a-row>
     <br />
-    <a-row v-if="staffInfo.comments" type="flex" class="mxrow">
+    <a-row v-if="staffInfo.zwjs" type="flex" class="mxrow">
       <a-col class="titlerowcol1" flex="5px"> </a-col>
       <a-col class="titlerowcol2" flex="auto">
         <b>
@@ -487,13 +486,13 @@
         </b>
       </a-col>
     </a-row>
-    <a-row v-if="staffInfo.comments" class="mxrowcol">
+    <a-row v-if="staffInfo.zwjs" class="mxrowcol">
       <a-col :span="24">
         {{ staffInfo.zwjs }}
       </a-col>
     </a-row>
     <br />
-    <a-row type="flex" class="mxrow">
+    <a-row v-if="staffInfo.zxhjqk" type="flex" class="mxrow">
       <a-col class="titlerowcol1" flex="5px"> </a-col>
       <a-col class="titlerowcol2" flex="auto">
         <b>
@@ -501,7 +500,7 @@
         </b>
       </a-col>
     </a-row>
-    <a-row class="mxrowcol">
+    <a-row v-if="staffInfo.zxhjqk" class="mxrowcol">
       <a-col :span="24">
         {{ staffInfo.zxhjqk }}
       </a-col>

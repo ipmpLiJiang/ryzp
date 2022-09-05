@@ -117,12 +117,14 @@
       </a-row>
       <a-row>
         <a-col :span="24">
+          <a-form-model-item label="附件">
           <mutiUpload-pdf
             :baseId="formData.id"
             refTab="work"
             refType="work"
           >
           </mutiUpload-pdf>
+          </a-form-model-item>
         </a-col>
       </a-row>
       <a-row>

@@ -150,6 +150,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         zpStaffInfo.setIsssjdszhy(0);
         zpStaffInfo.setIsbysqdzyys(0);
         zpStaffInfo.setIsfcdj(0);
+        zpStaffInfo.setZngs(0);
         zpStaffInfo.setCreateTime(thisDate);
         zpStaffInfo.setIdnumber(idnumber);
         this.save(zpStaffInfo);

@@ -433,15 +433,15 @@
           <a-form-item>
             <a-input
               placeholder="请输入微信号"
-              :maxLength="20"
+              :maxLength="50"
               v-decorator="[
                 'wechatNo',
                 {
                   rules: [
                     {
                       required: true,
-                      max: 20,
-                      message: '微信号不能为空, 长度不能超过20个字符',
+                      max: 50,
+                      message: '微信号不能为空, 长度不能超过50个字符',
                     },
                   ],
                 },
@@ -665,7 +665,7 @@
             :maxLength="500"
             v-decorator="[
               'zwjs',
-              { rules: [{ required: false, message: '自我介绍不能为空' }] },
+              { rules: [{ required: true, message: '自我介绍不能为空' }] },
             ]"
             :rows="6"
           />
@@ -689,15 +689,7 @@
             placeholder="请输入在校获奖情况(院级以上)"
             :maxLength="500"
             v-decorator="[
-              'zxhjqk',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: '在校获奖情况(院级以上)不能为空',
-                  },
-                ],
-              },
+              'zxhjqk'
             ]"
             :rows="6"
           />
@@ -857,6 +849,10 @@ export default {
       if (!zpStaffInfo.zylx) {
         this.form.getFieldDecorator('zylx')
         this.form.setFieldsValue({ 'zylx': '' })
+      }
+      if (!zpStaffInfo.zgxl) {
+        this.form.getFieldDecorator('zgxl')
+        this.form.setFieldsValue({ 'zgxl': '' })
       }
       this.staffInfo.id = zpStaffInfo.id
       this.baseTime = new Date().getTime()
@@ -1043,34 +1039,34 @@ export default {
           debugger
           let f = this.$refs.staffFamily.getFieldValues()
           if (f.length === 0) {
-            this.openNotificationIcon('warning', '操作提醒', '家庭成员未填写数据,请确保存在一条家庭成员.')
+            this.openNotificationIcon('warning', '操作提醒', '家庭成员未填写信息,请确保存在一条家庭成员.')
             return
           }
           let e = this.$refs.staffEducation.getFieldValues()
           if (e.length === 0) {
-            this.openNotificationIcon('warning', '操作提醒', '教育经历未填写数据,请确保存在一条教育经历.')
+            this.openNotificationIcon('warning', '操作提醒', '教育经历未填写信息,请确保存在一条教育经历.')
             return
           }
           let w = this.$refs.staffWork.getFieldValues()
           if (w.length === 0) {
-            this.openNotificationIcon('warning', '操作提醒', '工作经历未填写数据,请确保存在一条工作经历.')
+            this.openNotificationIcon('warning', '操作提醒', '工作经历未填写信息,请确保存在一条工作经历.')
             return
           }
-          let p = this.$refs.staffProject.getFieldValues()
-          if (p.length === 0) {
-            this.openNotificationIcon('warning', '操作提醒', '项目信息未填写数据,请确保存在一条项目信息.')
-            return
-          }
-          let y = this.$refs.staffEssay.getFieldValues()
-          if (y.length === 0) {
-            this.openNotificationIcon('warning', '操作提醒', '文章信息未填写数据,请确保存在一条文章信息.')
-            return
-          }
-          let a = this.$refs.staffAward.getFieldValues()
-          if (a.length === 0) {
-            this.openNotificationIcon('warning', '操作提醒', '获奖情况未填写数据,请确保存在一条获奖情况.')
-            return
-          }
+          // let p = this.$refs.staffProject.getFieldValues()
+          // if (p.length === 0) {
+          //   this.openNotificationIcon('warning', '操作提醒', '项目信息未填写信息,请确保存在一条项目信息.')
+          //   return
+          // }
+          // let y = this.$refs.staffEssay.getFieldValues()
+          // if (y.length === 0) {
+          //   this.openNotificationIcon('warning', '操作提醒', '文章信息未填写信息,请确保存在一条文章信息.')
+          //   return
+          // }
+          // let a = this.$refs.staffAward.getFieldValues()
+          // if (a.length === 0) {
+          //   this.openNotificationIcon('warning', '操作提醒', '获奖情况未填写信息,请确保存在一条获奖情况.')
+          //   return
+          // }
           this.loading = true
           this.$put('zpStaffInfo/saveStaffInfo', {
             data: JSON.stringify(this.staffInfo)

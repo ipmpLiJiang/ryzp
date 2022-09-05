@@ -66,7 +66,7 @@
             <a-input
               placeholder="请输入院校名称"
               v-model="formData.yxname"
-              :maxLength="30"
+              :maxLength="50"
             />
           </a-form-model-item>
         </a-col>
@@ -153,12 +153,14 @@
       </a-row>
       <a-row>
         <a-col :span="24">
+          <a-form-model-item label="附件">
           <mutiUpload-pdf
             :baseId="formData.id"
             refTab="education"
             refType="education"
           >
           </mutiUpload-pdf>
+          </a-form-model-item>
         </a-col>
       </a-row>
       <a-row>
@@ -381,6 +383,11 @@ export default {
       }
     },
     editSubmit () {
+      let xlSource = this.dataSource.filter(item => this.formData.xlxw === item.xlxw && this.formData.id !== item.id)
+      if (xlSource.length > 0) {
+        this.openNotificationIcon('warning', '操作提醒', '保存教育经历失败,学历不能重复.')
+        return
+      }
       this.$refs.formData.validate(valid => {
         if (valid) {
           let params = {}
