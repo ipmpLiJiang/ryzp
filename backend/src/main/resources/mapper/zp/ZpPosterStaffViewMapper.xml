@@ -59,9 +59,101 @@
         <if test="zpPosterStaffView.applystate != null">
         and zsa.state = #{zpPosterStaffView.applystate}
         </if>
-        <if test="zpPosterStaffView.currencyField != null">
+        <if test="zpPosterStaffView.currencyField != null and zpPosterStaffView.currencyField != ''">
             and zsi.ryname like concat('%', #{zpPosterStaffView.currencyField} ,'%')
         </if>
+        <foreach item="item" index="index" collection="quertTabList">
+            <if test="item.f == 'ryname' and item.y == 'dd'">
+                and zsi.ryname = #{item.z}
+            </if>
+            <if test="item.f == 'ryname' and item.y == 'like'">
+                and zsi.ryname like concat('%', #{item.z} ,'%')
+            </if>
+            <if test="item.f == 'sex' and item.y == 'dd'">
+                and zsi.sex = #{item.z}
+            </if>
+            <if test="item.f == 'csdat' and item.y == 'dd'">
+                and zsi.csdat = #{item.z}
+            </if>
+            <if test="item.f == 'csdat' and item.y == 'dy'">
+                and zsi.csdat &gt; #{item.z}
+            </if>
+            <if test="item.f == 'csdat' and item.y == 'xy'">
+                and zsi.csdat &lt; #{item.z}
+            </if>
+            <if test="item.f == 'csdat' and item.y == 'ddd'">
+                and zsi.csdat &gt;= #{item.z}
+            </if>
+            <if test="item.f == 'csdat' and item.y == 'xdd'">
+                and zsi.csdat &lt;= #{item.z}
+            </if>
+            <if test="item.f == 'idnumber' and item.y == 'dd'">
+                and zsi.idnumber = #{item.z}
+            </if>
+            <if test="item.f == 'idnumber' and item.y == 'like'">
+                and zsi.idnumber like concat('%', #{item.z} ,'%')
+            </if>
+            <if test="item.f == 'tel' and item.y == 'dd'">
+                and zsi.tel = #{item.z}
+            </if>
+            <if test="item.f == 'tel' and item.y == 'like'">
+                and zsi.tel like concat('%', #{item.z} ,'%')
+            </if>
+            <if test="item.f == 'zhrsg' and item.y == 'dd'">
+                and zsi.zhrsg = #{item.z}
+            </if>
+            <if test="item.f == 'zhrsg' and item.y == 'dy'">
+                and zsi.zhrsg &gt; #{item.z}
+            </if>
+            <if test="item.f == 'zhrsg' and item.y == 'xy'">
+                and zsi.zhrsg &lt; #{item.z}
+            </if>
+            <if test="item.f == 'zhrsg' and item.y == 'ddd'">
+                and zsi.zhrsg &gt;= #{item.z}
+            </if>
+            <if test="item.f == 'zhrsg' and item.y == 'xdd'">
+                and zsi.zhrsg &lt;= #{item.z}
+            </if>
+            <if test="item.f == 'zhrtz' and item.y == 'dd'">
+                and zsi.zhrtz = #{item.z}
+            </if>
+            <if test="item.f == 'zhrtz' and item.y == 'dy'">
+                and zsi.zhrtz &gt; #{item.z}
+            </if>
+            <if test="item.f == 'zhrtz' and item.y == 'xy'">
+                and zsi.zhrtz &lt; #{item.z}
+            </if>
+            <if test="item.f == 'zhrtz' and item.y == 'ddd'">
+                and zsi.zhrtz &gt;= #{item.z}
+            </if>
+            <if test="item.f == 'zhrtz' and item.y == 'xdd'">
+                and zsi.zhrtz &lt;= #{item.z}
+            </if>
+            <if test="item.f == 'wyspfs' and item.y == 'dd'">
+                and zsi.wyspfs = #{item.z}
+            </if>
+            <if test="item.f == 'wyspfs' and item.y == 'dy'">
+                and zsi.wyspfs &gt; #{item.z}
+            </if>
+            <if test="item.f == 'wyspfs' and item.y == 'xy'">
+                and zsi.wyspfs &lt; #{item.z}
+            </if>
+            <if test="item.f == 'wyspfs' and item.y == 'ddd'">
+                and zsi.wyspfs &gt;= #{item.z}
+            </if>
+            <if test="item.f == 'wyspfs' and item.y == 'xdd'">
+                and zsi.wyspfs &lt;= #{item.z}
+            </if>
+            <if test="item.f == 'zgxl' and item.y == 'dd'">
+                and zsi.zgxl = #{item.z}
+            </if>
+            <if test="item.f == 'zyks1' and item.y == 'dd'">
+                and zsi.zyks1 = #{item.z}
+            </if>
+            <if test="item.f == 'zyks1' and item.y == 'like'">
+                and zsi.zyks1 like concat('%', #{item.z} ,'%')
+            </if>
+        </foreach>
     </select>
 
 

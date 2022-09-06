@@ -1036,7 +1036,6 @@ export default {
           zpStaffInfo.id = this.staffInfo.id
           this.staffInfo = zpStaffInfo
           this.staffInfo.csdats = this.csdats
-          debugger
           let f = this.$refs.staffFamily.getFieldValues()
           if (f.length === 0) {
             this.openNotificationIcon('warning', '操作提醒', '家庭成员未填写信息,请确保存在一条家庭成员.')

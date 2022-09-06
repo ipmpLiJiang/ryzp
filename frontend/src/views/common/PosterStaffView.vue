@@ -18,7 +18,7 @@
       <a-col :span="1" :offset="1">
         <a-popover v-model="selectVisible" title="筛选" trigger="click">
           <template slot="content">
-            <queryTab ref="qtab" @close="closeQuery"></queryTab>
+            <queryTab ref="qtab" @close="closeQuery" @qtquery="qtquery"></queryTab>
           </template>
           <a-button type="primary">筛选</a-button>
         </a-popover>
@@ -111,6 +111,7 @@
 import moment from 'moment'
 import StaffInfoApplyLook from '../common/StaffInfoApplyLook'
 import QueryTab from './QueryTab.vue'
+import {Encrypt} from '../../utils/secret'
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 15, offset: 1 }
@@ -148,6 +149,7 @@ export default {
         currencyField: ''
       },
       posterId: '',
+      jsondata: '',
       lookVisible: false,
       selectVisible: false,
       applystate: 0,
@@ -196,6 +198,16 @@ export default {
         dataIndex: 'csdats',
         width: 95,
         fixed: 'left'
+      },
+      {
+        title: '身高cm',
+        dataIndex: 'zhrsg',
+        width: 70
+      },
+      {
+        title: '体重kg',
+        dataIndex: 'zhrtz',
+        width: 70
       },
       {
         title: '身份证号',
@@ -422,6 +434,23 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
+      this.jsondata = ''
+      this.fetch({
+        sortField: sortField,
+        sortOrder: sortOrder,
+        ...this.queryParams
+      })
+    },
+    qtquery (data) {
+      this.queryParams.currencyField = ''
+      this.jsondata = data
+      let { sortedInfo } = this
+      let sortField, sortOrder
+      // 获取当前列的排序和列的过滤规则
+      if (sortedInfo) {
+        sortField = sortedInfo.field
+        sortOrder = sortedInfo.order
+      }
 
       this.fetch({
         sortField: sortField,
@@ -458,6 +487,11 @@ export default {
       params.posterId = this.posterId
       params.applystate = this.applystate === 10 ? null : this.applystate
 
+      if (this.jsondata) {
+        let d = Encrypt(JSON.stringify(this.jsondata))
+        let d1 = d.replace(new RegExp('\\+', 'g'), '@')
+        params.jsondata = d1
+      }
       this.$get('zpPosterStaffView', {
         ...params
       }).then((r) => {

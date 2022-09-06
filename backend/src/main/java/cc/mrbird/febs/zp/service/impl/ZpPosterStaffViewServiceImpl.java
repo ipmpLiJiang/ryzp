@@ -62,11 +62,11 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
     IComTypeService iComTypeService;
 
     @Override
-    public IPage<ZpPosterStaffView> findZpPosterStaffViews(QueryRequest request, ZpPosterStaffView zpPosterStaffView) {
+    public IPage<ZpPosterStaffView> findZpPosterStaffViews(QueryRequest request, ZpPosterStaffView zpPosterStaffView,List<QuertTab> quertTabList) {
         try {
             Page<ZpPosterStaffView> page = new Page<>();
             SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
-            IPage<ZpPosterStaffView> rpage = this.baseMapper.findZpPosterStaffView(page, zpPosterStaffView);
+            IPage<ZpPosterStaffView> rpage = this.baseMapper.findZpPosterStaffView(page, zpPosterStaffView,quertTabList);
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             for (ZpPosterStaffView item : rpage.getRecords()) {
                 if (item.getCsdat() != null) {

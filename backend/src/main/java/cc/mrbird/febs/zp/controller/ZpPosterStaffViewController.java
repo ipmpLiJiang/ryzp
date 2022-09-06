@@ -4,8 +4,11 @@ import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.utils.FebsUtil;
+import cc.mrbird.febs.common.utils.MD5Util;
+import cc.mrbird.febs.common.utils.PasswordUtil;
 import cc.mrbird.febs.export.excel.ExportExcelUtils;
 import cc.mrbird.febs.system.domain.User;
+import cc.mrbird.febs.zp.entity.QuertTab;
 import cc.mrbird.febs.zp.entity.StaffInfo;
 import cc.mrbird.febs.zp.entity.StaffInfoDataExport;
 import cc.mrbird.febs.zp.entity.ZpPosterStaffView;
@@ -13,9 +16,12 @@ import cc.mrbird.febs.zp.service.IZpPosterStaffViewService;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -53,9 +59,29 @@ public class ZpPosterStaffViewController extends BaseController {
      */
     @GetMapping
     @RequiresPermissions("zpPosterStaffView:view")
-    public Map<String, Object> List(QueryRequest request, ZpPosterStaffView zpPosterStaffView) {
+    public Map<String, Object> List(QueryRequest request, ZpPosterStaffView zpPosterStaffView,String jsondata) {
         User currentUser = FebsUtil.getCurrentUser();
-        return getDataTable(this.iZpPosterStaffViewService.findZpPosterStaffViews(request, zpPosterStaffView));
+        List<QuertTab> quertTabList = new ArrayList<>();
+        if(StringUtils.isNotBlank(jsondata)) {
+            jsondata = jsondata.replace("@", "+");
+            String jStr = PasswordUtil.desEncrypt(jsondata);
+            JSONArray queryTabJson = JSONObject.parseArray(jStr);
+            quertTabList = queryTabJson.toJavaList(QuertTab.class);
+        }
+
+        for (QuertTab qt:quertTabList) {
+            if(qt.getF().equals("sex")) {
+                if(qt.getZ().equals("男")) {
+                    qt.setZ("0");
+                } else if(qt.getZ().equals("女")) {
+                    qt.setZ("1");
+                } else {
+                    qt.setZ("2");
+                }
+            }
+        }
+
+        return getDataTable(this.iZpPosterStaffViewService.findZpPosterStaffViews(request, zpPosterStaffView,quertTabList));
     }
 
     @PostMapping("excel1")

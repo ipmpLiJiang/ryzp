@@ -1,6 +1,7 @@
 package cc.mrbird.febs.zp.service;
 
 import cc.mrbird.febs.common.domain.QueryRequest;
+import cc.mrbird.febs.zp.entity.QuertTab;
 import cc.mrbird.febs.zp.entity.StaffInfoDataExport;
 import cc.mrbird.febs.zp.entity.ZpPosterStaffView;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public interface IZpPosterStaffViewService extends IService<ZpPosterStaffView> {
 
-    IPage<ZpPosterStaffView> findZpPosterStaffViews(QueryRequest request, ZpPosterStaffView zpPosterStaffView);
+    IPage<ZpPosterStaffView> findZpPosterStaffViews(QueryRequest request, ZpPosterStaffView zpPosterStaffView,List<QuertTab> quertTabList);
 
     List<StaffInfoDataExport> excelData(String posterId, Integer state, List<String> idList);
 
