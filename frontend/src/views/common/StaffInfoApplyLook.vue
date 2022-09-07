@@ -303,6 +303,12 @@
         <a-col flex="38">
           {{ w.wkxlname }}
         </a-col>
+        <a-col flex="12"> 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注： </a-col>
+        <a-col flex="38">
+          {{ w.remark }}
+        </a-col>
+      </a-row>
+      <a-row type="flex" class="contentrow">
         <a-col flex="12"> 附件材料： </a-col>
         <a-col flex="38">
           <mutiUpload-look
@@ -312,6 +318,10 @@
             refType="work"
           >
           </mutiUpload-look>
+        </a-col>
+        <a-col flex="12"> &nbsp; </a-col>
+        <a-col flex="38">
+          &nbsp;
         </a-col>
       </a-row>
     </a-row>

@@ -113,6 +113,13 @@
               </a-select-option>
             </a-select>
           </a-form-model-item>
+          <a-form-model-item label="备注" prop="remark">
+            <a-input
+              placeholder="请输入备注"
+              v-model="formData.remark"
+              :maxLength="30"
+            />
+          </a-form-model-item>
         </a-col>
       </a-row>
       <a-row>
@@ -173,7 +180,8 @@ export default {
         enddat: '', // 结束日期
         wkbm: '', // 工作部门
         wkzw: '',
-        wkxl: '' // 学历
+        wkxl: '', // 学历
+        remark: '' // 备注
       },
       formDataRules: {
         wkdw: [
@@ -259,6 +267,11 @@ export default {
         width: 100
       },
       {
+        title: '备注',
+        dataIndex: 'remark',
+        width: 120
+      },
+      {
         title: '附件(.pdf)',
         scopedSlots: {
           customRender: 'operationFile'
@@ -289,6 +302,7 @@ export default {
       this.formData.wkbm = '' // 工作部门
       this.formData.wkzw = '' // 职务
       this.formData.wkxl = '' // 工作学历
+      this.formData.remark = '' // 备注
     },
     editSubmit () {
       this.$refs.formData.validate(valid => {
@@ -302,6 +316,7 @@ export default {
           params.wkbm = this.formData.wkbm // 工作部门
           params.wkzw = this.formData.wkzw // 职务
           params.wkxl = this.formData.wkxl // 工作学历
+          params.remark = this.formData.remark // 备注
           this.loading = true
           this.$post('zpStaffInfo/editZpStaffWork', {
             ...params

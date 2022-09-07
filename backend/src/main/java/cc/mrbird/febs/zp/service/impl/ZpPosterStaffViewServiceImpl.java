@@ -229,9 +229,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 if (StringUtils.isNotBlank(item.getZgxl())) {
                     qCtlist = typeList.stream().filter(s -> s.getCtType().equals(8) && s.getCtCode().equals(item.getZgxl())).collect(Collectors.toList());
                     if (qCtlist.size() > 0) {
-                        data.setZgxlxxName(qCtlist.get(0).getCtName());
+                        data.setZgxlName(qCtlist.get(0).getCtName());
                     } else {
-                        data.setZgxlxxName(item.getZgxl());
+                        data.setZgxlName(item.getZgxl());
                     }
                 }
 
@@ -239,7 +239,7 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 if (StringUtils.isNotBlank(item.getZgxl())) {
                     edQuery = edList.stream().filter(s -> s.getStaffId().equals(item.getId()) && s.getXlxw() != null && s.getXlxw().equals(item.getZgxl())).collect(Collectors.toList());
                     if (edQuery.size() > 0) {
-                        data.setZgxlName(edQuery.get(0).getYxname());
+                        data.setZgxlxxName(edQuery.get(0).getYxname());
                     }
                 }
 
@@ -418,6 +418,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 if (StrUtil.isNotBlank(list.get(ng).getWkxl())) {
                     value += huanhang + "学历：" + list.get(ng).getWkxlname();
                 }
+                if (StrUtil.isNotBlank(list.get(ng).getRemark())) {
+                    value += huanhang + "备注：" + list.get(ng).getRemark();
+                }
             }
         }
         return value;
@@ -459,16 +462,16 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
             if (StrUtil.isNotBlank(list.get(ng).getWzname())) {
                 value = "文章名称：" + list.get(ng).getWzname();
                 if (StrUtil.isNotBlank(list.get(ng).getBrpm())) {
-                    value += huanhang + "本人排名：" + list.get(ng).getBrpm();
+                    value += huanhang + "本人排名：" + list.get(ng).getBrpmname();
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getKwjb())) {
-                    value += huanhang + "刊物级别：" + list.get(ng).getKwjb();
+                    value += huanhang + "刊物级别：" + list.get(ng).getKwjbname();
                 }
                 if (list.get(ng).getCbdat() != null) {
                     value += huanhang + "出版时间：" + sdf.format(list.get(ng).getCbdat());
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getFbzt())) {
-                    value += huanhang + "发布状态：" + list.get(ng).getFbzt();
+                    value += huanhang + "发布状态：" + list.get(ng).getFbztname();
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getCbkw())) {
                     value += huanhang + "出版刊物：" + list.get(ng).getCbkw();

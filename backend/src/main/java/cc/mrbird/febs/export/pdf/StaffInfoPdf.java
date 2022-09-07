@@ -1052,11 +1052,26 @@ public class StaffInfoPdf {
                 cell.setColspan(4);
                 table.addCell(cell);
 
-                //工作学历
+                //学历
                 cell = new PdfPCell(new Phrase(item.getWkxlname(), fontValue));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                  cell.setFixedHeight(contentHeightStaff);
-                cell.setColspan(21);
+                cell.setColspan(8);
+                table.addCell(cell);
+
+                //备注
+                cell = new PdfPCell(new Phrase("备注：", fontTitle));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setFixedHeight(contentHeightStaff);
+                cell.setColspan(4);
+                table.addCell(cell);
+
+                //备注
+                cell = new PdfPCell(new Phrase(item.getRemark(), fontValue));
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setFixedHeight(contentHeightStaff);
+                cell.setColspan(9);
                 table.addCell(cell);
             }
         }
