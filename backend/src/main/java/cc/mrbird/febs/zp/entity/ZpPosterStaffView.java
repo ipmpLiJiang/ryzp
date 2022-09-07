@@ -163,6 +163,12 @@ public class ZpPosterStaffView {
     private String zgxl;
 
     /**
+     * 最高学历Name
+     */
+    @ExcelField(value = "最高学历Name")
+    private String zgxlName;
+
+    /**
      * 外语水平
      */
     @ExcelField(value = "外语水平")

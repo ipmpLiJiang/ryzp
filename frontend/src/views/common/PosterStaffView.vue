@@ -220,14 +220,14 @@ export default {
         width: 120
       },
       {
+        title: '最高学历',
+        dataIndex: 'zgxlName',
+        width: 90
+      },
+      {
         title: '院校',
         dataIndex: 'yxname',
         width: 150
-      },
-      {
-        title: '最高学历',
-        dataIndex: 'zgxl',
-        width: 90
       },
       {
         title: '邮箱',

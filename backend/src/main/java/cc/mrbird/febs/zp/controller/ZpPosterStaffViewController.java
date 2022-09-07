@@ -1,5 +1,7 @@
 package cc.mrbird.febs.zp.controller;
 
+import cc.mrbird.febs.com.entity.ComType;
+import cc.mrbird.febs.com.service.IComTypeService;
 import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
@@ -35,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author viki
@@ -51,6 +54,9 @@ public class ZpPosterStaffViewController extends BaseController {
     @Autowired
     public IZpPosterStaffViewService iZpPosterStaffViewService;
 
+    @Autowired
+    IComTypeService iComTypeService;
+
     /**
      * 分页查询数据
      *
@@ -62,13 +68,16 @@ public class ZpPosterStaffViewController extends BaseController {
     public Map<String, Object> List(QueryRequest request, ZpPosterStaffView zpPosterStaffView,String jsondata) {
         User currentUser = FebsUtil.getCurrentUser();
         List<QuertTab> quertTabList = new ArrayList<>();
+
         if(StringUtils.isNotBlank(jsondata)) {
             jsondata = jsondata.replace("@", "+");
             String jStr = PasswordUtil.desEncrypt(jsondata);
             JSONArray queryTabJson = JSONObject.parseArray(jStr);
             quertTabList = queryTabJson.toJavaList(QuertTab.class);
-        }
 
+
+
+        }
         for (QuertTab qt:quertTabList) {
             if(qt.getF().equals("sex")) {
                 if(qt.getZ().equals("男")) {
@@ -79,6 +88,7 @@ public class ZpPosterStaffViewController extends BaseController {
                     qt.setZ("2");
                 }
             }
+
         }
 
         return getDataTable(this.iZpPosterStaffViewService.findZpPosterStaffViews(request, zpPosterStaffView,quertTabList));

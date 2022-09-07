@@ -295,7 +295,6 @@ export default {
           let option = this.xlList.filter(item => item.code === text)[0]
           return option ? option.name === '未选择' ? '' : option.name : ''
         },
-        fixed: 'left',
         width: 110
       },
       {

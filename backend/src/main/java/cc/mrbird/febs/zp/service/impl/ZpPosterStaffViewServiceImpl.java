@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,6 +65,23 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
     @Override
     public IPage<ZpPosterStaffView> findZpPosterStaffViews(QueryRequest request, ZpPosterStaffView zpPosterStaffView,List<QuertTab> quertTabList) {
         try {
+            ComType qct = new ComType();
+            qct.setIsDeletemark(1);
+            qct.setCtType(8);
+            List<ComType> typeList = iComTypeService.findComTypeList(qct);
+            List<ComType> qCtlist = new ArrayList<>();
+            for (QuertTab qt:quertTabList) {
+                if (qt.getF().equals("zgxl")) {
+                    if (StringUtils.isNotBlank(qt.getZ())) {
+                        qCtlist = typeList.stream().filter(s ->  s.getCtName().equals(qt.getZ())).collect(Collectors.toList());
+                        if (qCtlist.size() > 0) {
+                            qt.setZ(qCtlist.get(0).getCtCode());
+                        } else {
+                            qt.setZ("无");
+                        }
+                    }
+                }
+            }
             Page<ZpPosterStaffView> page = new Page<>();
             SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
             IPage<ZpPosterStaffView> rpage = this.baseMapper.findZpPosterStaffView(page, zpPosterStaffView,quertTabList);
@@ -71,6 +89,14 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
             for (ZpPosterStaffView item : rpage.getRecords()) {
                 if (item.getCsdat() != null) {
                     item.setCsdats(sdf.format(item.getCsdat()));
+                }
+                if(StringUtils.isNotBlank(item.getZgxl())) {
+                    qCtlist = typeList.stream().filter(s -> s.getCtCode().equals(item.getZgxl())).collect(Collectors.toList());
+                    if (qCtlist.size() > 0) {
+                        item.setZgxlName(qCtlist.get(0).getCtName());
+                    } else {
+                        item.setZgxlName(item.getZgxl());
+                    }
                 }
             }
             return rpage;
@@ -288,6 +314,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
 
                 // 家庭成员
                 flQuery = flList.stream().filter(s -> s.getStaffId().equals(item.getId())).collect(Collectors.toList());
+                if (flQuery.size() > 0) {
+                    flQuery.sort(Comparator.comparing(ZpStaffFamily::getCreateTime));
+                }
                 data.setFl5(this.getFlName(flQuery, 4));
                 data.setFl4(this.getFlName(flQuery, 3));
                 data.setFl3(this.getFlName(flQuery, 2));
@@ -295,6 +324,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 data.setFl1(this.getFlName(flQuery, 0));
                 // 教育经历
                 edQuery = edList.stream().filter(s -> s.getStaffId().equals(item.getId())).collect(Collectors.toList());
+                if (edQuery.size() > 0) {
+                    edQuery.sort(Comparator.comparing(ZpStaffEducation::getCreateTime));
+                }
                 data.setEd5(this.getEdName(edQuery, 4));
                 data.setEd4(this.getEdName(edQuery, 3));
                 data.setEd3(this.getEdName(edQuery, 2));
@@ -302,6 +334,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 data.setEd1(this.getEdName(edQuery, 0));
                 // 工作经历
                 wkQuery = wkList.stream().filter(s -> s.getStaffId().equals(item.getId())).collect(Collectors.toList());
+                if (wkQuery.size() > 0) {
+                    wkQuery.sort(Comparator.comparing(ZpStaffWork::getCreateTime));
+                }
                 data.setWk5(this.getWkName(wkQuery, 4));
                 data.setWk4(this.getWkName(wkQuery, 3));
                 data.setWk3(this.getWkName(wkQuery, 2));
@@ -309,6 +344,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 data.setWk1(this.getWkName(wkQuery, 0));
                 // 项目信息
                 pjQuery = pjList.stream().filter(s -> s.getStaffId().equals(item.getId())).collect(Collectors.toList());
+                if (pjQuery.size() > 0) {
+                    pjQuery.sort(Comparator.comparing(ZpStaffProject::getCreateTime));
+                }
                 data.setPj5(this.getPjName(pjQuery, 4));
                 data.setPj4(this.getPjName(pjQuery, 3));
                 data.setPj3(this.getPjName(pjQuery, 2));
@@ -316,6 +354,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 data.setPj1(this.getPjName(pjQuery, 0));
                 // 文章信息
                 eyQuery = eyList.stream().filter(s -> s.getStaffId().equals(item.getId())).collect(Collectors.toList());
+                if (eyQuery.size() > 0) {
+                    eyQuery.sort(Comparator.comparing(ZpStaffEssay::getCreateTime));
+                }
                 data.setEy5(this.getEyName(eyQuery, 4));
                 data.setEy4(this.getEyName(eyQuery, 3));
                 data.setEy3(this.getEyName(eyQuery, 2));
@@ -323,6 +364,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                 data.setEy1(this.getEyName(eyQuery, 0));
                 // 获奖情况
                 awQuery = awList.stream().filter(s -> s.getStaffId().equals(item.getId())).collect(Collectors.toList());
+                if (awQuery.size() > 0) {
+                    awQuery.sort(Comparator.comparing(ZpStaffAward::getCreateTime));
+                }
                 data.setAw5(this.getAwName(awQuery, 4));
                 data.setAw4(this.getAwName(awQuery, 3));
                 data.setAw3(this.getAwName(awQuery, 2));
@@ -373,7 +417,7 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                     value += huanhang + "教育时间：" + sdf.format(list.get(ng).getEnddat());
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getXlxw())) {
-                    value += huanhang + "学历：" + list.get(ng).getXlxwname();
+                    value += huanhang + "学       历：" + list.get(ng).getXlxwname();
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getDsxx())) {
                     value += huanhang + "导师信息：" + list.get(ng).getDsxx();
@@ -416,10 +460,10 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                     value += huanhang + "工作职务：" + list.get(ng).getWkzw();
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getWkxl())) {
-                    value += huanhang + "学历：" + list.get(ng).getWkxlname();
+                    value += huanhang + "学       历：" + list.get(ng).getWkxlname();
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getRemark())) {
-                    value += huanhang + "备注：" + list.get(ng).getRemark();
+                    value += huanhang + "备       注：" + list.get(ng).getRemark();
                 }
             }
         }
@@ -495,13 +539,13 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
             if (StrUtil.isNotBlank(list.get(ng).getJxname())) {
                 value = "奖项名称：" + list.get(ng).getJxname();
                 if (StrUtil.isNotBlank(list.get(ng).getMc())) {
-                    value += huanhang + "名次：" + list.get(ng).getMc();
+                    value += huanhang + "名       次：" + list.get(ng).getMc();
                 }
                 if (list.get(ng).getHjdat() != null) {
                     value += huanhang + "获奖时间：" + sdf.format(list.get(ng).getHjdat());
                 }
                 if (StrUtil.isNotBlank(list.get(ng).getRemark())) {
-                    value += huanhang + "备注：" + list.get(ng).getRemark();
+                    value += huanhang + "备       注：" + list.get(ng).getRemark();
                 }
             }
         }
