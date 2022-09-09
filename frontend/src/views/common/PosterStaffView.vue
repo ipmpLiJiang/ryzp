@@ -110,7 +110,7 @@
 <script>
 import moment from 'moment'
 import StaffInfoApplyLook from '../common/StaffInfoApplyLook'
-import QueryTab from './QueryTab.vue'
+import QueryTab from './QueryTab'
 import {Encrypt} from '../../utils/secret'
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -444,6 +444,7 @@ export default {
     qtquery (data) {
       this.queryParams.currencyField = ''
       this.jsondata = data
+      console.log(data)
       let { sortedInfo } = this
       let sortField, sortOrder
       // 获取当前列的排序和列的过滤规则

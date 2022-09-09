@@ -6,6 +6,7 @@ import store from './store'
 import request from 'utils/request'
 import db from 'utils/localstorage'
 import VueApexCharts from 'vue-apexcharts'
+// import '../static/js/dragModal'  // v-drag-modal
 
 import 'ant-design-vue/dist/antd.css'
 

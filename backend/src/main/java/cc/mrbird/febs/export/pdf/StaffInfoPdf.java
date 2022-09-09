@@ -771,6 +771,13 @@ public class StaffInfoPdf {
                 cell.setFixedHeight(contentHeightStaff);
                 cell.setColspan(21);
                 table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(titleCover, fontCover));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setVerticalAlignment(Element.ALIGN_TOP);
+                cell.setColspan(numColumns);
+                table.addCell(cell);
             }
         }
         //endregion
@@ -938,6 +945,13 @@ public class StaffInfoPdf {
                 cell.setColspan(9);
                 table.addCell(cell);
 
+                cell = new PdfPCell(new Phrase(titleCover, fontCover));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setVerticalAlignment(Element.ALIGN_TOP);
+                cell.setColspan(numColumns);
+                table.addCell(cell);
+
             }
         }
         //endregion
@@ -1073,6 +1087,13 @@ public class StaffInfoPdf {
                 cell.setFixedHeight(contentHeightStaff);
                 cell.setColspan(9);
                 table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(titleCover, fontCover));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setVerticalAlignment(Element.ALIGN_TOP);
+                cell.setColspan(numColumns);
+                table.addCell(cell);
             }
         }
         //endregion
@@ -1195,6 +1216,13 @@ public class StaffInfoPdf {
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setFixedHeight(contentHeightStaff);
                 cell.setColspan(21);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(titleCover, fontCover));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setVerticalAlignment(Element.ALIGN_TOP);
+                cell.setColspan(numColumns);
                 table.addCell(cell);
             }
         }
@@ -1342,6 +1370,13 @@ public class StaffInfoPdf {
                 cell.setFixedHeight(contentHeightStaff);
                 cell.setColspan(21);
                 table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(titleCover, fontCover));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setVerticalAlignment(Element.ALIGN_TOP);
+                cell.setColspan(numColumns);
+                table.addCell(cell);
             }
         }
         //endregion
@@ -1434,6 +1469,13 @@ public class StaffInfoPdf {
                 table.addCell(cell);
 
                 // 空一行
+                cell = new PdfPCell(new Phrase(titleCover, fontCover));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setVerticalAlignment(Element.ALIGN_TOP);
+                cell.setColspan(numColumns);
+                table.addCell(cell);
+
                 cell = new PdfPCell(new Phrase(titleCover, fontCover));
                 cell.setBorder(Rectangle.NO_BORDER);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);

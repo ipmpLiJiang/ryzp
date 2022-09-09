@@ -369,6 +369,7 @@ export default {
         this.formData.xklx = '' // 学科类型
         this.xklxReq = false
       }
+      this.formDataRules.xklx[0].required = this.xklxReq
     },
     xklxCheck (rule, value, callback) {
       if (this.formData.xlxw === '10' || this.formData.xlxw === '11') {
