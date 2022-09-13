@@ -4,7 +4,6 @@
       <tr>
         <td colspan="15" class="tdTitle">
           <h2>基本信息</h2>
-          <h4>Brief introduction</h4>
         </td>
       </tr>
       <tr>
@@ -334,15 +333,14 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2">外语水平<font class="fontColor">*</font></td>
+        <td colspan="2">外语水平</td>
         <td colspan="3">
           <a-form-item>
             <a-select
               style="width: 100%"
               placeholder="请选择外语水平"
               v-decorator="[
-                'wysp',
-                { rules: [{ required: true, message: '外语水平不能为空' }] },
+                'wysp'
               ]"
             >
               <a-select-option v-for="xx in dicts.wyspList" :key="xx.code">
@@ -351,41 +349,69 @@
             </a-select>
           </a-form-item>
         </td>
-        <td colspan="2">外语水平分数<font class="fontColor">*</font></td>
+        <td colspan="2">外语水平分数</td>
         <td colspan="3">
           <a-form-item>
             <a-input-number
               placeholder="请输入外语水平分数"
               style="width: 100%"
               v-decorator="[
-                'wyspfs',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: '外语水平分数不能为空',
-                    },
-                  ],
-                },
+                'wyspfs'
               ]"
             />
           </a-form-item>
         </td>
-        <td colspan="2">计算机水平<font class="fontColor">*</font></td>
+        <td colspan="2">计算机水平</td>
         <td colspan="3">
           <a-form-item>
             <a-select
               style="width: 100%"
               placeholder="请选择计算机水平"
               v-decorator="[
-                'jsjsp',
-                { rules: [{ required: true, message: '计算机水平不能为空' }] },
+                'jsjsp'
               ]"
             >
               <a-select-option v-for="xx in dicts.jsjspList" :key="xx.code">
                 {{ xx.name }}
               </a-select-option>
             </a-select>
+          </a-form-item>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">家庭住址</td>
+        <td colspan="3">
+          <a-form-item>
+            <a-input
+              placeholder="请输入家庭住址"
+              v-decorator="[
+                'jtzz'
+              ]"
+            />
+          </a-form-item>
+        </td>
+        <td colspan="2">户籍地址</td>
+        <td colspan="3">
+          <a-form-item>
+            <a-input
+              placeholder="请输入户籍地址"
+              :maxLength="20"
+              v-decorator="[
+                'hjdz'
+              ]"
+            />
+          </a-form-item>
+        </td>
+        <td colspan="2">现居住址</td>
+        <td colspan="3">
+          <a-form-item>
+            <a-input
+              placeholder="请输入现居住址"
+              :maxLength="20"
+              v-decorator="[
+                'xjdz'
+              ]"
+            />
           </a-form-item>
         </td>
       </tr>
@@ -451,62 +477,6 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2">家庭住址<font class="fontColor">*</font></td>
-        <td colspan="3">
-          <a-form-item>
-            <a-input
-              placeholder="请输入家庭住址"
-              v-decorator="[
-                'jtzz',
-                { rules: [{ required: true, message: '家庭住址不能为空' }] },
-              ]"
-            />
-          </a-form-item>
-        </td>
-        <td colspan="2">户籍地址<font class="fontColor">*</font></td>
-        <td colspan="3">
-          <a-form-item>
-            <a-input
-              placeholder="请输入户籍地址"
-              :maxLength="20"
-              v-decorator="[
-                'hjdz',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      max: 20,
-                      message: '户籍地址不能为空, 长度不能超过20个字符',
-                    },
-                  ],
-                },
-              ]"
-            />
-          </a-form-item>
-        </td>
-        <td colspan="2">现居住址<font class="fontColor">*</font></td>
-        <td colspan="3">
-          <a-form-item>
-            <a-input
-              placeholder="请输入现居住址"
-              :maxLength="20"
-              v-decorator="[
-                'xjdz',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      max: 20,
-                      message: '现居住址不能为空, 长度不能超过20个字符',
-                    },
-                  ],
-                },
-              ]"
-            />
-          </a-form-item>
-        </td>
-      </tr>
-      <tr>
         <td colspan="2">紧急联系人<font class="fontColor">*</font></td>
         <td colspan="3">
           <a-form-item>
@@ -544,36 +514,8 @@
             />
           </a-form-item>
         </td>
-        <td colspan="2">是否医师资格证<font class="fontColor">*</font></td>
-        <td colspan="3">
-          <a-form-item>
-            <a-radio-group default-value="1" v-decorator="['isyszgz']">
-              <a-radio value="1"> 是 </a-radio>
-              <a-radio value="0"> 否 </a-radio>
-            </a-radio-group>
-          </a-form-item>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">职业类型<font class="fontColor">*</font></td>
-        <td colspan="3">
-          <a-form-item>
-            <a-select
-              style="width: 100%"
-              placeholder="请选择职业类型"
-              v-decorator="[
-                'zylx',
-                { rules: [{ required: true, message: '职业类型不能为空' }] },
-              ]"
-            >
-              <a-select-option v-for="xx in dicts.zylxList" :key="xx.code">
-                {{ xx.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-        </td>
         <td colspan="2">
-          毕业时是否取得住院医师规范化培训合格证<font class="fontColor">*</font>
+          毕业时是否取得住院医师规范化培训合格证
         </td>
         <td colspan="3">
           <a-form-item>
@@ -583,8 +525,37 @@
             </a-radio-group>
           </a-form-item>
         </td>
+      </tr>
+      <tr>
+        <td colspan="2">是否医师资格证</td>
+        <td colspan="3">
+          <a-form-item>
+            <a-radio-group default-value="1" @change="isyszgzChange" v-decorator="['isyszgz']">
+              <a-radio value="1"> 是 </a-radio>
+              <a-radio value="0"> 否 </a-radio>
+            </a-radio-group>
+          </a-form-item>
+        </td>
+        <td colspan="2">职业类型<font v-if="!zylxDisabled" class="fontColor">*</font></td>
+        <td colspan="3">
+          <a-form-item>
+            <a-select
+              style="width: 100%"
+              placeholder="请选择职业类型"
+              :disabled="zylxDisabled"
+              v-decorator="[
+                'zylx',
+                { rules: [{ required: !this.zylxDisabled, message: '请选择职业类型不能为空' }] },
+              ]"
+            >
+              <a-select-option v-for="xx in dicts.zylxList" :key="xx.code">
+                {{ xx.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+        </td>
         <td colspan="2">
-          硕士阶段是否四证合一<font class="fontColor">*</font>
+          硕士阶段是否四证合一
         </td>
         <td colspan="3">
           <a-form-item>
@@ -764,6 +735,7 @@ export default {
       formItemLayout,
       form: this.$form.createForm(this),
       queryParams: {},
+      zylxDisabled: false,
       bordered: true,
       loading: false,
       lookVisible: false,
@@ -801,6 +773,21 @@ export default {
     closeLook () {
       this.lookVisible = false
     },
+    isyszgzChange (e) {
+      this.form.getFieldDecorator('zylx')
+      this.form.setFieldsValue({ 'zylx': '' })
+      if (e.target.value === '1') {
+        this.zylxDisabled = false
+        this.$nextTick(() => {
+          this.form.validateFields(['zylx'], { force: this.zylxDisabled })
+        })
+      } else {
+        this.zylxDisabled = true
+        this.$nextTick(() => {
+          this.form.validateFields(['zylx'], { force: this.zylxDisabled })
+        })
+      }
+    },
     setFormValues ({
       ...zpStaffInfo
     }) {
@@ -822,6 +809,7 @@ export default {
           this.form.setFieldsValue(obj)
         }
       })
+
       if (!zpStaffInfo.zhrxx) {
         this.form.getFieldDecorator('zhrxx')
         this.form.setFieldsValue({ 'zhrxx': '' })
@@ -854,6 +842,22 @@ export default {
         this.form.getFieldDecorator('zgxl')
         this.form.setFieldsValue({ 'zgxl': '' })
       }
+
+      this.form.getFieldDecorator('isyszgz')
+      if (zpStaffInfo.isyszgz === '1') {
+        this.zylxDisabled = false
+        this.form.setFieldsValue({ 'isyszgz': '1' })
+        this.$nextTick(() => {
+          this.form.validateFields(['zylx'], { force: this.zylxDisabled })
+        })
+      } else {
+        this.zylxDisabled = true
+        this.form.setFieldsValue({ 'isyszgz': '0' })
+        this.$nextTick(() => {
+          this.form.validateFields(['zylx'], { force: this.zylxDisabled })
+        })
+      }
+
       this.staffInfo.id = zpStaffInfo.id
       this.baseTime = new Date().getTime()
     },

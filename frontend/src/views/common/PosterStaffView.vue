@@ -489,7 +489,9 @@ export default {
       params.applystate = this.applystate === 10 ? null : this.applystate
 
       if (this.jsondata) {
+        console.log(this.jsondata)
         let d = Encrypt(JSON.stringify(this.jsondata))
+        console.log(d)
         let d1 = d.replace(new RegExp('\\+', 'g'), '@')
         params.jsondata = d1
       }

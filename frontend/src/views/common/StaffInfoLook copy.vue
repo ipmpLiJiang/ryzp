@@ -4,7 +4,6 @@
       <tr>
         <td colspan="8" class="tdTitle">
           <h2>基本信息</h2>
-          <h4>Brief introduction</h4>
         </td>
       </tr>
       <tr>

@@ -70,13 +70,12 @@ public class ZpPosterStaffViewController extends BaseController {
         List<QuertTab> quertTabList = new ArrayList<>();
 
         if(StringUtils.isNotBlank(jsondata)) {
+            log.info(jsondata);
             jsondata = jsondata.replace("@", "+");
             String jStr = PasswordUtil.desEncrypt(jsondata);
+            log.info(jStr);
             JSONArray queryTabJson = JSONObject.parseArray(jStr);
             quertTabList = queryTabJson.toJavaList(QuertTab.class);
-
-
-
         }
         for (QuertTab qt:quertTabList) {
             if(qt.getF().equals("sex")) {

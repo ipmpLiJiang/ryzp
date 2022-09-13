@@ -5,9 +5,11 @@ import store from '../store'
 import db from 'utils/localstorage'
 moment.locale('zh-cn')
 
+const baseURL = 'http://127.0.0.1:5091/'
+
 // 统一配置
 let FEBS_REQUEST = axios.create({
-  baseURL: 'http://127.0.0.1:5091/',
+  baseURL: baseURL,
   responseType: 'json',
   validateStatus (status) {
     // 200 外的状态码都认定为失败
@@ -83,7 +85,7 @@ FEBS_REQUEST.interceptors.response.use((config) => {
 })
 
 const request = {
-  baseURL: 'http://127.0.0.1:5091/',
+  baseURL: baseURL,
   post (url, params) {
     return FEBS_REQUEST.post(url, params, {
       transformRequest: [(params) => {
