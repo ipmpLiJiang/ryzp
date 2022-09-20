@@ -18,7 +18,7 @@
             showIcon
             style="margin-bottom: 24px"
           ></a-alert>
-          <a-form-item label="账号邮箱" v-bind="formItemLayout">
+          <a-form-item label="账号" v-bind="formItemLayout">
             <a-input
               size="large"
               v-decorator="[
@@ -27,7 +27,7 @@
                   rules: [
                     {
                       required: true,
-                      message: '请输入账号/邮箱',
+                      message: '请输入账号',
                       whitespace: true,
                     },
                   ],
@@ -58,6 +58,7 @@
               <a-col :span="19">
                 <a-input
                   size="large"
+                  :maxLength="4"
                   v-decorator="['verifyCode',{rules: [{ required: true, message: '请输入验证码', whitespace: true}]}]"
                   placeholder="请输入验证码"
                 >

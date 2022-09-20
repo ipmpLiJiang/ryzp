@@ -212,7 +212,7 @@ export default {
       {
         title: '身份证号',
         dataIndex: 'idnumber',
-        width: 145
+        width: 155
       },
       {
         title: '籍贯',

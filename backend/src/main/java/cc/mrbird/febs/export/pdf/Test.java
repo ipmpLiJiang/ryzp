@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -20,7 +21,22 @@ import java.util.*;
  * @createDate 2020/11/5
  */
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
+//        Date thisDate = new Date();
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(thisDate);
+//        cal.add(Calendar.MINUTE, 5);// 24小时制
+//        Date jia =  cal.getTime();
+//        System.out.println(thisDate.toString());
+//        System.out.println(jia.toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date thisDate = sdf.parse("2022-12-12");
+        Date jia = sdf.parse("2022-12-11");
+        if(jia.compareTo(thisDate) > 0) {
+            System.out.println("ok");
+        } else {
+            System.out.println("no");
+        }
     }
 
         private static void AA (List<?> list, String dataJson,String fileUrl) throws NoSuchFieldException, IllegalAccessException {

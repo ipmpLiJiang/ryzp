@@ -80,7 +80,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         try {
             LambdaQueryWrapper<ZpStaffInfo> queryWrapper = new LambdaQueryWrapper<>();
 //        queryWrapper.eq(ZpStaffInfo::getIsDeletemark, 1);//1是未删 0是已删
-
+            queryWrapper.eq(ZpStaffInfo::getIssub,1);
 
             Page<ZpStaffInfo> page = new Page<>();
             SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
@@ -136,13 +136,20 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
 
     @Override
     @Transactional
-    public ZpStaffInfo initStaff(User user, String idnumber) {
+    public void updateStaffIdTel(String id, String idnumber, String tel){
+        this.baseMapper.updateStaffIdTel(id,idnumber,tel);
+    }
+
+    @Override
+    @Transactional
+    public ZpStaffInfo initStaff(ZpStaffInfo initStaff) {
         Date thisDate = new Date();
         ZpStaffInfo zpStaffInfo = new ZpStaffInfo();
         zpStaffInfo.setId(UUID.randomUUID().toString());
-        zpStaffInfo.setUserid(user.getUserId());
-        zpStaffInfo.setRyname(user.getXmname());
-        zpStaffInfo.setEmail(user.getUsername());
+        zpStaffInfo.setUserid(initStaff.getUserid());
+        zpStaffInfo.setRyname(initStaff.getRyname());
+        zpStaffInfo.setEmail(initStaff.getEmail());
+        zpStaffInfo.setTel(initStaff.getTel());
         zpStaffInfo.setHyzt("0");
         zpStaffInfo.setSex(0);
         zpStaffInfo.setIssub(0);
@@ -152,7 +159,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         zpStaffInfo.setIsfcdj(0);
         zpStaffInfo.setZngs(0);
         zpStaffInfo.setCreateTime(thisDate);
-        zpStaffInfo.setIdnumber(idnumber);
+        zpStaffInfo.setIdnumber(initStaff.getIdnumber());
         this.save(zpStaffInfo);
 
 //        this.iZpStaffEducationService.saveInitStaffEducation(zpStaffInfo, thisDate);
@@ -243,7 +250,22 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
 
     @Override
     public ZpStaffInfo findByIdnumber(String idnumber) {
-        return baseMapper.selectOne(new LambdaQueryWrapper<ZpStaffInfo>().eq(ZpStaffInfo::getIdnumber, idnumber));
+        List<ZpStaffInfo> list = baseMapper.selectList(new LambdaQueryWrapper<ZpStaffInfo>().eq(ZpStaffInfo::getIdnumber, idnumber));
+        if(list.size() >0) {
+            return list.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public ZpStaffInfo findByTel(String tel) {
+        List<ZpStaffInfo> list = baseMapper.selectList(new LambdaQueryWrapper<ZpStaffInfo>().eq(ZpStaffInfo::getTel, tel));
+        if(list.size() >0) {
+            return list.get(0);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -592,7 +614,6 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         ZpStaffInfo update = new ZpStaffInfo();
         // 不可修改
 //        update.setRyname(staffInfo.getRyname()); //姓名
-////        update.setEmail(staffInfo.getEmail());
         update.setSex(staffInfo.getSex());
         update.setCsdat(staffInfo.getCsdat()); //出生
         if (StringUtils.isNotBlank(staffInfo.getCsdats())) {
@@ -616,7 +637,8 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         update.setWysp(staffInfo.getWysp()); // 外语水平
         update.setWyspfs(staffInfo.getWyspfs()); // 外语水平分数
         update.setJsjsp(staffInfo.getJsjsp()); // 计算机水平
-        update.setTel(staffInfo.getTel()); //手机联系电话
+//        update.setTel(staffInfo.getTel()); //手机联系电话 只读
+//        update.setEmail(staffInfo.getEmail());//电子邮箱 只读
         update.setWechatNo(staffInfo.getWechatNo()); //微信号码
         update.setJtzz(staffInfo.getJtzz()); //家庭住址
         update.setHjdz(staffInfo.getHjdz()); //户籍地址

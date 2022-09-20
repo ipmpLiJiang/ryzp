@@ -87,7 +87,6 @@ public class ZpPosterStaffViewController extends BaseController {
                     qt.setZ("2");
                 }
             }
-
         }
 
         return getDataTable(this.iZpPosterStaffViewService.findZpPosterStaffViews(request, zpPosterStaffView,quertTabList));

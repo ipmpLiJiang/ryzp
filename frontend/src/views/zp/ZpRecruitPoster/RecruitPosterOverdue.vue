@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import RecruitPosterView from '../../common/RecruitPosterView'
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -24,7 +23,6 @@ export default {
   mounted () {
   },
   methods: {
-    moment
   }
 }
 </script>

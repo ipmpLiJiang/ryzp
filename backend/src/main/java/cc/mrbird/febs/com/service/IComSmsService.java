@@ -39,5 +39,9 @@ public interface IComSmsService extends IService<ComSms> {
 
         void sendSms(int sendType,int areaType);
 
+        ComSms findSmsYzmOne(String mobile,int sendType,int state);
 
+        String sendSmsYzm(String mobile,int sendType);
+
+        String selectSmsYzm(String mobile,String sendyzm,int sendType);
 }

@@ -1,9 +1,12 @@
 package cc.mrbird.febs.system.service.impl;
 
 import cc.mrbird.febs.com.entity.ComConfiguremanage;
+import cc.mrbird.febs.com.entity.ComSms;
 import cc.mrbird.febs.com.service.IComConfiguremanageService;
+import cc.mrbird.febs.com.service.IComSmsService;
 import cc.mrbird.febs.common.domain.FebsConstant;
 import cc.mrbird.febs.common.domain.QueryRequest;
+import cc.mrbird.febs.common.properties.FebsProperties;
 import cc.mrbird.febs.common.service.CacheService;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.common.utils.MD5Util;
@@ -186,7 +189,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional
-    public void regist(String username,String xmname, String password, String idnumber) throws Exception {
+    public void regist_t(String username, String xmname, String password, String idnumber,String email) throws Exception {
         User user = new User();
         user.setPassword(MD5Util.encrypt(username, password));
         user.setUsername(username);
@@ -197,8 +200,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setAvatar(User.DEFAULT_AVATAR);
         user.setDescription("注册用户");
         this.save(user);
-
-        this.zpStaffInfoService.initStaff(user, idnumber);
+        ZpStaffInfo initStaff = new ZpStaffInfo();
+        initStaff.setTel(username);
+        initStaff.setUserid(user.getUserId());
+        initStaff.setRyname(xmname);
+        initStaff.setEmail(email);
+        initStaff.setIdnumber(idnumber);
+        this.zpStaffInfoService.initStaff(initStaff);
 
         UserRole ur = new UserRole();
         ur.setUserId(user.getUserId());
@@ -214,12 +222,47 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional
-    public String forgetPwd(String username,String xmname, String password, String idnumber) throws Exception {
+    public void regist_e(String username, String xmname, String password, String idnumber,String tel) throws Exception {
+        User user = new User();
+        user.setPassword(MD5Util.encrypt(username, password));
+        user.setUsername(username);
+        user.setXmname(xmname);
+        user.setCreateTime(new Date());
+        user.setStatus(User.STATUS_VALID);
+        user.setSsex(User.SEX_UNKNOW);
+        user.setAvatar(User.DEFAULT_AVATAR);
+        user.setDescription("注册用户");
+        this.save(user);
+
+        ZpStaffInfo initStaff = new ZpStaffInfo();
+        initStaff.setEmail(username);
+        initStaff.setUserid(user.getUserId());
+        initStaff.setRyname(xmname);
+        initStaff.setTel(tel);
+        initStaff.setIdnumber(idnumber);
+
+        this.zpStaffInfoService.initStaff(initStaff);
+
+        UserRole ur = new UserRole();
+        ur.setUserId(user.getUserId());
+        ur.setRoleId(2L); // 注册用户角色 ID
+        this.userRoleMapper.insert(ur);
+
+        // 创建用户默认的个性化配置
+        userConfigService.initDefaultUserConfig(String.valueOf(user.getUserId()));
+        // 将用户相关信息保存到 Redis中
+        userManager.loadUserRedisCache(user);
+
+    }
+
+    @Override
+    @Transactional
+    public String forgetPwd_e(String username, String xmname, String password, String idnumber) throws Exception {
         String msg = "";
-        ZpStaffInfo staffInfo = this.zpStaffInfoService.findZpStaffInfoByXmAndIdNumber(xmname,idnumber,username);
+        ZpStaffInfo staffInfo = this.zpStaffInfoService.findZpStaffInfoByXmAndIdNumber(xmname, idnumber, username);
         if (staffInfo != null) {
             User user = new User();
-            if(password == null || password.equals("")) {
+            if (password == null || password.equals("")) {
                 user.setPassword(MD5Util.encrypt(username, User.DEFAULT_PASSWORD));
             } else {
                 user.setPassword(MD5Util.encrypt(username, password));
@@ -233,6 +276,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         return msg;
     }
+
+    @Override
+    @Transactional
+    public String forgetPwd_t(String username, String password) throws Exception {
+        String msg = "";
+        User findUser = this.findByName(username);
+        if (findUser != null) {
+            User user = new User();
+            if (password == null || password.equals("")) {
+                user.setPassword(MD5Util.encrypt(username, User.DEFAULT_PASSWORD));
+            } else {
+                user.setPassword(MD5Util.encrypt(username, password));
+            }
+            this.baseMapper.update(user, new LambdaQueryWrapper<User>().eq(User::getUsername, username));
+            // 重新将用户信息加载到 redis中
+            cacheService.saveUser(username);
+        } else {
+            msg = "请核对账号信息";
+        }
+
+        return msg;
+    }
+
 
     /**
      * type 0 查询集合 type 1 like
@@ -270,11 +336,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional
-    public void resetPassword(String[] usernames,String pwd) throws Exception {
+    public void resetPassword(String[] usernames, String pwd) throws Exception {
         for (String username : usernames) {
 
             User user = new User();
-            if(pwd == null || pwd.equals("")) {
+            if (pwd == null || pwd.equals("")) {
                 user.setPassword(MD5Util.encrypt(username, User.DEFAULT_PASSWORD));
             } else {
                 user.setPassword(MD5Util.encrypt(username, pwd));
@@ -283,6 +349,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             // 重新将用户信息加载到 redis中
             cacheService.saveUser(username);
         }
+
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(String username, String status) throws Exception {
+        User user = new User();
+        user.setStatus(status);
+        this.baseMapper.update(user, new LambdaQueryWrapper<User>().eq(User::getUsername, username));
+        // 重新将用户信息加载到 redis中
+        cacheService.saveUser(username);
 
     }
 

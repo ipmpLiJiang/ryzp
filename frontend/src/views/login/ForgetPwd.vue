@@ -1,53 +1,24 @@
 <template>
   <a-form ref="formForgetPwd" :form="form" id="formForgetPwd">
-    <a-form-item label="账号邮箱" v-bind="formItemLayout">
+    <a-form-item label="账号手机" v-bind="formItemLayout">
       <a-input
         size="large"
         type="text"
         v-model="username"
-        placeholder="账号邮箱"
+        :maxLength="11"
+        placeholder="账号手机"
         v-decorator="[
-          'email',
+          'username',
           {
             rules: [
-              { type: 'email', message: '请输入正确的账号邮箱' },
+              {
+                pattern: /^1[3|4|5|7|8][0-9]\d{8}$/,
+                message: '请输入正确的手机号码',
+              },
               { required: true, message: '请输入注册账号' },
               { validator: this.handleUsernameCheck },
             ],
             validateTrigger: ['blur'],
-          },
-        ]"
-      ></a-input>
-    </a-form-item>
-    <a-form-item label="真实姓名" v-bind="formItemLayout">
-      <a-input
-        size="large"
-        type="text"
-        v-model="xmname"
-        placeholder="请输入真实姓名"
-        v-decorator="[
-          'xmname',
-          { rules: [{ required: true, max: 30, message: '请输入真实姓名' }] },
-        ]"
-      ></a-input>
-    </a-form-item>
-    <a-form-item label="身份证号" v-bind="formItemLayout">
-      <a-input
-        size="large"
-        type="text"
-        v-model="idnumber"
-        placeholder="请输入身份证号"
-        v-decorator="[
-          'idnumber',
-          {
-            rules: [
-              {
-                pattern:
-                  /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/,
-                message: '请输入正确的身份证号!',
-              },
-              { required: true, message: '请输入身份证号' },
-            ],
           },
         ]"
       ></a-input>
@@ -112,34 +83,45 @@
       ></a-input>
     </a-form-item>
     <a-form-item label="验证码" v-bind="formItemLayout">
-        <a-row>
-          <a-col :span="19">
-            <a-input
-              size="large"
-              v-decorator="['verifyCode',{rules: [{ required: true, message: '请输入验证码', whitespace: true}]}]"
-              placeholder="请输入验证码"
-            >
-            </a-input>
-          </a-col>
-          <a-col :span="4" :offset="1">
-            <a-tag color="#87d068" @click="createCode">{{ showCode}}</a-tag>
-          </a-col>
-        </a-row>
-      </a-form-item>
+      <a-row>
+        <a-col :span="19">
+          <a-input
+            size="large"
+            v-model="yzm"
+            :maxLength="6"
+            v-decorator="[
+              'verifyCode',
+              {
+                rules: [
+                  { required: true, message: '请输入验证码', whitespace: true },
+                ],
+              },
+            ]"
+            placeholder="请输入验证码"
+          >
+          </a-input>
+        </a-col>
+        <a-col :span="4" :offset="1">
+          <a-button @click="apply" :disabled="disBtn"
+            >发送{{ count == 0 ? "" : "(" + count + ")" }}</a-button
+          >
+        </a-col>
+      </a-row>
+    </a-form-item>
     <a-form-item>
       <a-row>
-      <a-col :span="22">
-      <a-button
-        size="large"
-        type="primary"
-        htmlType="submit"
-        class="register-button"
-        :loading="loading"
-        @click.stop.prevent="handleSubmit"
-        :disabled="loading"
-        >找回密码
-      </a-button>
-      </a-col>
+        <a-col :span="22">
+          <a-button
+            size="large"
+            type="primary"
+            htmlType="submit"
+            class="register-button"
+            :loading="loading"
+            @click.stop.prevent="handleSubmit"
+            :disabled="loading"
+            >找回密码
+          </a-button>
+        </a-col>
       </a-row>
     </a-form-item>
   </a-form>
@@ -183,9 +165,8 @@ export default {
       form: this.$form.createForm(this),
       formItemLayout,
       username: '',
-      xmname: '',
-      idnumber: '',
       newpassword: '',
+      yzm: '',
       state: {
         time: 60,
         smsSendBtn: false,
@@ -195,6 +176,10 @@ export default {
         progressColor: '#FF0000'
       },
       loading: false,
+      count: 0,
+      seconds: 9,
+      disBtn: false,
+      timer: null,
       checkCode: '',
       showCode: ''
     }
@@ -215,13 +200,57 @@ export default {
     isMobile () {
       return this.$store.state.setting.isMobile
     },
+    apply () {
+      var regExp = new RegExp(/^1[3|4|5|7|8][0-9]\d{8}$/)
+      if (regExp.test(this.username)) {
+        let username = this.username.trim()
+        this.$get(`user/check/${username}`).then((r) => {
+          if (!r.data) {
+            this.$post('sendYzm', {
+              username: this.username,
+              sendtype: 2
+            }).then((r) => {
+              if (r.data.data.success === 1) {
+                this.$message.success('发送成功')
+                clearInterval(this.timer)
+                this.timer = null
+                this.disBtn = true
+                const seconds = this.seconds
+                if (!this.timer) {
+                  this.count = seconds
+                  this.timer = setInterval(() => {
+                    if (this.count > 0 && this.count <= seconds) {
+                      this.count--
+                    } else {
+                      clearInterval(this.timer)
+                      this.timer = null
+                      this.disBtn = false
+                    }
+                  }, 1000)
+                }
+              } else {
+                this.$message.warning(r.data.data.message)
+              }
+              this.loading = false
+            }).catch(() => {
+              this.loading = false
+              this.$message.error('抱歉，发送验证码失败')
+            })
+          } else {
+            this.$message.warning('抱歉，该用户名不存在')
+          }
+        })
+      } else {
+        this.$message.warning('请输入正确的手机号码.')
+      }
+    },
     handleUsernameCheck (rule, value, callback) {
       let username = this.username.trim()
       if (username.length) {
         if (username.length > 20) {
           callback(new Error('用户名不能超过20个字符'))
-        } else if (username.length < 4) {
-          callback(new Error('用户名不能少于4个字符'))
+        } else if (username.length < 11) {
+          callback(new Error('用户名不能少于11个字符'))
         } else {
           this.$get(`user/check/${username}`).then((r) => {
             if (!r.data) {
@@ -282,78 +311,39 @@ export default {
       }
       this.state.passwordLevelChecked = false
     },
-    createCode () {
-      let code = ''
-      let code2 = ''
-      // 验证码的长度
-      const codeLength = 4
-      // 随机数
-      const random = [
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-        'A', 'B', 'C', 'D', 'E', 'F', 'G',
-        'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-      // 循环操作
-      for (let i = 0; i < codeLength; i++) {
-        // 取得随机数的索引（0~35）
-        let index = Math.floor(Math.random() * 36)
-        // 根据索引取得随机数加到code上
-        code += random[index]
-        code2 += '        ' + random[index]
-      }
-      // 把code值赋给验证码
-      this.checkCode = code
-      this.showCode = code2
-    },
     setFormValues () {
       this.username = ''
-      this.xmname = ''
-      this.idnumber = ''
       this.newpassword = ''
       this.form.getFieldDecorator('username')
-      this.form.getFieldDecorator('xmname')
-      this.form.getFieldDecorator('idnumber')
       this.form.getFieldDecorator('newpassword')
       this.form.getFieldDecorator('newpassword2')
       this.form.setFieldsValue({
         username: '',
-        xmname: '',
-        idnumber: '',
         newpassword: '',
         newpassword2: ''
       })
-      this.createCode()
     },
     handleSubmit () {
       this.form.validateFields((err, values) => {
         if (!err) {
-          let verifyCodeActual = this.form.getFieldValue('verifyCode')
-          if (verifyCodeActual.toUpperCase() !== this.checkCode) {
-            this.$message.warning('验证码输入错误！')
-            this.createCode()
-          } else {
-            this.loading = true
-            this.$post('forgetPwd', {
-              username: this.username,
-              newpassword: this.newpassword,
-              xmname: this.xmname,
-              idnumber: this.idnumber
-            }).then((r) => {
-              if (r.data.data.success === 1) {
-                this.$message.success('修改密码成功')
-                this.loading = false
-                this.$emit('back')
-              } else {
-                this.$message.error(r.data.data.message)
-                this.createCode()
-                this.loading = false
-              }
-            }).catch(() => {
-              this.$message.error('抱歉，修改密码失败')
-              this.createCode()
+          this.loading = true
+          this.$post('forgetPwdt', {
+            username: this.username,
+            newpassword: this.newpassword,
+            yzm: this.yzm
+          }).then((r) => {
+            if (r.data.data.success === 1) {
+              this.$message.success('修改密码成功')
               this.loading = false
-            })
-          }
+              this.$emit('back')
+            } else {
+              this.$message.error(r.data.data.message)
+              this.loading = false
+            }
+          }).catch(() => {
+            this.$message.error('抱歉，修改密码失败')
+            this.loading = false
+          })
         }
       })
     }
@@ -363,7 +353,7 @@ export default {
 
 <style lang="less">
 .register-button {
-    width: 50%;
-    margin-left: 120px;
-  }
+  width: 50%;
+  margin-left: 120px;
+}
 </style>

@@ -47,21 +47,6 @@ public class ComSmsServiceImpl extends ServiceImpl<ComSmsMapper, ComSms> impleme
         try {
             LambdaQueryWrapper<ComSms> queryWrapper = new LambdaQueryWrapper<>();
             String sql = "1=1";
-            if (comSms.getApplyDateStr() != null) {
-//                queryWrapper.eq(ComSms::getApplyDateStr,comSms.getApplyDateStr());
-                sql += " and applyDateStr = '" + comSms.getApplyDateStr() + "'";
-            }
-            if (comSms.getRefTableId() != null) {
-                sql += " and refTableId = '" + comSms.getRefTableId() + "'";
-            }
-            if (comSms.getAreaType() != null) {
-//                queryWrapper.eq(ComSms::getAreaType, comSms.getAreaType());
-                sql += " and areaType = " + comSms.getAreaType();
-            }
-            if (comSms.getTypeno() != null) {
-//                queryWrapper.eq(ComSms::getTypeno, comSms.getTypeno());
-                sql += " and typeno = " + comSms.getTypeno();
-            }
             if (comSms.getSendType() != null) {
 //                queryWrapper.eq(ComSms::getSendType, comSms.getSendType());
                 sql += " and sendType = " + comSms.getSendType();
@@ -100,12 +85,6 @@ public class ComSmsServiceImpl extends ServiceImpl<ComSmsMapper, ComSms> impleme
     public List<ComSms> findLmdSmsList(ComSms comSms) {
         List<ComSms> list = new ArrayList<>();
         LambdaQueryWrapper<ComSms> wrapper = new LambdaQueryWrapper<>();
-        if (comSms.getApplyDateStr() != null) {
-            wrapper.eq(ComSms::getApplyDateStr, comSms.getApplyDateStr());
-        }
-        if (comSms.getAreaType() != null) {
-            wrapper.eq(ComSms::getAreaType, comSms.getAreaType());
-        }
         if (comSms.getSendType() != null) {
             wrapper.eq(ComSms::getSendType, comSms.getSendType());
         }
@@ -120,9 +99,6 @@ public class ComSmsServiceImpl extends ServiceImpl<ComSmsMapper, ComSms> impleme
         }
         if (comSms.getMobile() != null) {
             wrapper.eq(ComSms::getMobile, comSms.getMobile());
-        }
-        if (comSms.getTypeno() != null) {
-            wrapper.eq(ComSms::getTypeno, comSms.getTypeno());
         }
 
         wrapper.eq(ComSms::getIsDeletemark, 1);
@@ -144,9 +120,6 @@ public class ComSmsServiceImpl extends ServiceImpl<ComSmsMapper, ComSms> impleme
         }
         if (comSms.getMobile() != null) {
             wrapper.eq(ComSms::getMobile, comSms.getMobile());
-        }
-        if (comSms.getAreaType() != null) {
-            wrapper.eq(ComSms::getAreaType, comSms.getAreaType());
         }
         return this.list(wrapper);
     }
@@ -203,7 +176,6 @@ public class ComSmsServiceImpl extends ServiceImpl<ComSmsMapper, ComSms> impleme
         ComSms comSms = new ComSms();
         comSms.setState(ComSms.STATE_0);
         comSms.setSendType(sendType);
-        comSms.setAreaType(areaType);
         List<ComSms> list = this.baseMapper.findSmsTopList(comSms);
         int nOpenSms = 2;//febsProperties.getOpenSms();
         boolean isOpenSms = nOpenSms == 1 ? true : false;
@@ -299,5 +271,80 @@ public class ComSmsServiceImpl extends ServiceImpl<ComSmsMapper, ComSms> impleme
         return msg;
     }
 
+    @Override
+    public ComSms findSmsYzmOne(String mobile, int sendType, int state) {
+        return this.baseMapper.findSmsYzmOne(mobile, sendType, state);
+    }
+
+    private String getYzm() {
+        Random yzm = new Random();
+//        String yzm1 = "1234567890abcdefghijklmnopqrstuvwxwzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String yzm1 = "1234567890";
+        String yzm2 = "";
+        for (int i = 0; i < 5; i++) {
+//            int a = yzm.nextInt(58);
+            int a = yzm.nextInt(10);
+            yzm2 += yzm1.charAt(a);
+        }
+        return yzm2;
+    }
+
+    private Date addMinute(Date date, int t) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MINUTE, t);// 24小时制
+        return cal.getTime();
+    }
+
+    @Override
+    @Transactional
+    public String sendSmsYzm(String tel,int sendType) {
+        String msg = "";
+        Date thisDate = new Date();
+        ComSms comSms = this.baseMapper.findSmsYzmOne(tel, sendType, 1);
+        if (comSms == null || thisDate.compareTo(comSms.getEndtime()) > 0) {
+            String yzm = this.getYzm();
+            String sendxinxi = febsProperties.getSendMsg() + " 验证码:" + yzm;
+//            msg = sendMsg(mobile, sendxinxi);
+            msg = "0";
+            if (msg.equals("0")) {
+                ComSms insert = new ComSms();
+                insert.setId(UUID.randomUUID().toString());
+                insert.setMobile(tel);
+                insert.setSendType(sendType);
+                insert.setState(ComSms.STATE_1);
+                insert.setSendcontent(sendxinxi);
+                insert.setSendyzm(yzm);
+                insert.setCreateTime(thisDate);
+                insert.setEndtime(this.addMinute(thisDate, 5));
+                boolean ist = this.save(insert);
+                if (!ist) {
+                    msg = "验证码发送失败或无效，请稍后再试...";
+                } else {
+                    msg = "ok";
+                }
+            } else {
+                log.error("发短信Error", msg);
+            }
+        } else {
+            msg = "验证码已发送，请稍后再试...";
+        }
+        return msg;
+
+    }
+
+    @Override
+    public String selectSmsYzm(String mobile, String sendyzm,int sendType) {
+        String msg = "ok";
+        Date thisDate = new Date();
+        ComSms comSms = this.baseMapper.selectSmsYzmOne(mobile, sendyzm, sendType, 1);
+        if (comSms == null) {
+            msg = "验证码错误，请重新尝试...";
+        } else if (thisDate.compareTo(comSms.getEndtime()) > 0) {
+            msg = "验证码失效，请重新发送...";
+        }
+
+        return msg;
+    }
 
 }

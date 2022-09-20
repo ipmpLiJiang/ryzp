@@ -46,7 +46,7 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
 
     void deleteStaffMx(String id, String type);
 
-    ZpStaffInfo initStaff(User user, String idnumber);
+    ZpStaffInfo initStaff(ZpStaffInfo initStaff);
 
     ZpStaffInfo findZpStaffInfoByUserId(long userId);
 
@@ -73,6 +73,8 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
 
     ZpStaffInfo findByIdnumber(String idnumber);
 
+    ZpStaffInfo findByTel(String tel);
+
     void editZpStaffFamily(StaffFamily staffFamily,User user);
 
     void editZpStaffWork(StaffWork staffWork,User user);
@@ -84,4 +86,6 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
     void editZpStaffProject(StaffProject staffProject,User user);
 
     void editZpStaffEssay(StaffEssay staffEssay,User user);
+
+    void updateStaffIdTel(String id, String idnumber, String tel);
 }

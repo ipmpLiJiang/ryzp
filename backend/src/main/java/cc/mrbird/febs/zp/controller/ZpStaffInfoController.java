@@ -26,10 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.rmi.server.ExportException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author viki
@@ -46,12 +43,12 @@ public class ZpStaffInfoController extends BaseController {
     @Autowired
     IZpStaffInfoService iZpStaffInfoService;
 
+    @GetMapping("list")
+    @RequiresPermissions("zpStaffInfo:view")
+    public Map<String, Object> List(QueryRequest request, ZpStaffInfo zpStaffInfo) {
+        return getDataTable(this.iZpStaffInfoService.findZpStaffInfos(request, zpStaffInfo));
+    }
 
-    //    @GetMapping
-//    @RequiresPermissions("zpStaffInfo:view")
-//    public Map<String, Object> List(QueryRequest request, ZpStaffInfo zpStaffInfo) {
-//        return getDataTable(this.iZpStaffInfoService.findZpStaffInfos(request, zpStaffInfo));
-//    }
     @GetMapping
     @RequiresPermissions("zpStaffInfo:view")
     public FebsResponse infoDetail() {
@@ -74,9 +71,14 @@ public class ZpStaffInfoController extends BaseController {
         return new FebsResponse().data(map);
     }
 
-    @GetMapping("check/{idnumber}")
+    @GetMapping("checkIdnumber/{idnumber}")
     public boolean checkIdnumber(@NotBlank(message = "{required}") @PathVariable String idnumber) {
         return this.iZpStaffInfoService.findByIdnumber(idnumber) == null;
+    }
+
+    @GetMapping("checkTel/{tel}")
+    public boolean checkTel(@NotBlank(message = "{required}") @PathVariable String tel) {
+        return this.iZpStaffInfoService.findByTel(tel) == null;
     }
 
     @GetMapping("staffInfoView")
@@ -149,6 +151,22 @@ public class ZpStaffInfoController extends BaseController {
             JSONObject staffInfoJson = JSONObject.parseObject(data);
             StaffInfo staffInfo = JSON.toJavaObject(staffInfoJson, StaffInfo.class);
             this.iZpStaffInfoService.updateStaffInfo(staffInfo);
+            success = 1;
+        } catch (Exception e) {
+            message = "保存失败.";
+            log.error(message, e);
+        }
+        map.put("success", success);
+        map.put("message", message);
+        return new FebsResponse().data(map);
+    }
+
+    @PutMapping("updateStaffIdTel")
+    public FebsResponse updateStaffIdTels(String id, String idnumber, String tel) {
+        ModelMap map = new ModelMap();
+        int success = 0;
+        try {
+            this.iZpStaffInfoService.updateStaffIdTel(id,idnumber,tel);
             success = 1;
         } catch (Exception e) {
             message = "保存失败.";

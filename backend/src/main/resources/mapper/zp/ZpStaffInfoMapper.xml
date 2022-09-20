@@ -102,6 +102,9 @@
         where id=#{id}
 
     </update>
+    <update id="updateStaffIdTel">
+        update zp_staff_info set idnumber=null,tel=null where id=#{id}
+    </update>
     <select id="findZpStaffInfo" resultType="cc.mrbird.febs.zp.entity.ZpStaffInfo"
             parameterType="cc.mrbird.febs.zp.entity.ZpStaffInfo">
         select * from zp_staff_info

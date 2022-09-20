@@ -288,6 +288,19 @@ public class UserController extends BaseController {
         }
     }
 
+    @PutMapping("status/reset")
+    @RequiresPermissions("user:reset")
+    public void updateStatus(@NotBlank(message = "{required}") String username,
+                             @NotBlank(message = "{status}") String status) throws FebsException {
+        try {
+            this.userService.updateStatus(username,status);
+        } catch (Exception e) {
+            message = "重置用户密码失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
     @PostMapping("excel")
     @RequiresPermissions("user:export")
     public void export(QueryRequest queryRequest, User user, HttpServletResponse response) throws FebsException {

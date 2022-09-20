@@ -5,6 +5,7 @@ import cc.mrbird.febs.system.domain.User;
 import cc.mrbird.febs.system.domain.UserRolesImport;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface UserService extends IService<User> {
     /**
      * 查询用户详情，包括基本信息，用户角色，用户部门
      *
-     * @param user user
+     * @param user         user
      * @param queryRequest queryRequest
      * @return IPage
      */
@@ -87,20 +88,26 @@ public interface UserService extends IService<User> {
      * @param username 用户名
      * @param password 密码
      */
-    void regist(String username, String xmname, String password,String idnumber) throws Exception;
+    void regist_t(String username, String xmname, String password, String idnumber, String email) throws Exception;
 
-    String forgetPwd(String username, String xmname, String password,String idnumber) throws Exception;
+    void regist_e(String username, String xmname, String password, String idnumber, String tel) throws Exception;
+
+    String forgetPwd_e(String username, String xmname, String password, String idnumber) throws Exception;
+
+    String forgetPwd_t(String username, String password) throws Exception;
 
     /**
      * 重置密码
      *
      * @param usernames 用户集合
      */
-    void resetPassword(String[] usernames,String pwd) throws Exception;
+    void resetPassword(String[] usernames, String pwd) throws Exception;
 
     List<User> findUserList(User user, int type);
 
     List<User> findUserList(User user);
 
-    void saveConfUser(String[] userName,boolean isLly,boolean isSaveOrDel) throws Exception;
+    void saveConfUser(String[] userName, boolean isLly, boolean isSaveOrDel) throws Exception;
+
+    void updateStatus(String username, String status) throws Exception;
 }

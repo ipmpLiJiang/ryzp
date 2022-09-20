@@ -60,7 +60,7 @@
         <td colspan="3">{{ staffInfo.zzmmName }}</td>
         <td colspan="2">婚姻状况<font class="fontColor">*</font></td>
         <td colspan="3">{{ staffInfo.hyztName }}</td>
-        <td colspan="2">子女个数<font class="fontColor">*</font></td>
+        <td colspan="2">子女个数</td>
         <td colspan="3">{{ staffInfo.zngs }}</td>
       </tr>
       <tr>
@@ -72,12 +72,20 @@
         <td colspan="3">{{ staffInfo.zgxlname }}</td>
       </tr>
       <tr>
-        <td colspan="2">外语水平<font class="fontColor">*</font></td>
+        <td colspan="2">外语水平</td>
         <td colspan="3">{{ staffInfo.wyspName }}</td>
-        <td colspan="2">外语水平分数<font class="fontColor">*</font></td>
+        <td colspan="2">外语水平分数</td>
         <td colspan="3">{{ staffInfo.wyspfs }}</td>
-        <td colspan="2">计算机水平<font class="fontColor">*</font></td>
+        <td colspan="2">计算机水平</td>
         <td colspan="3">{{ staffInfo.jsjspName }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">家庭住址</td>
+        <td colspan="3">{{ staffInfo.jtzz }}</td>
+        <td colspan="2">户籍地址</td>
+        <td colspan="3">{{ staffInfo.hjdz }}</td>
+        <td colspan="2">现居住址</td>
+        <td colspan="3">{{ staffInfo.xjdz }}</td>
       </tr>
       <tr>
         <td colspan="2">电子邮箱<font class="fontColor">*</font></td>
@@ -88,30 +96,22 @@
         <td colspan="3">{{ staffInfo.wechatNo }}</td>
       </tr>
       <tr>
-        <td colspan="2">家庭住址<font class="fontColor">*</font></td>
-        <td colspan="3">{{ staffInfo.jtzz }}</td>
-        <td colspan="2">户籍地址<font class="fontColor">*</font></td>
-        <td colspan="3">{{ staffInfo.hjdz }}</td>
-        <td colspan="2">现居住址<font class="fontColor">*</font></td>
-        <td colspan="3">{{ staffInfo.xjdz }}</td>
-      </tr>
-      <tr>
         <td colspan="2">紧急联系人<font class="fontColor">*</font></td>
         <td colspan="3">{{ staffInfo.jjlxr }}</td>
         <td colspan="2">联系人号码<font class="fontColor">*</font></td>
         <td colspan="3">{{ staffInfo.lxrtel }}</td>
-        <td colspan="2">是否医师资格证<font class="fontColor">*</font></td>
-        <td colspan="3">{{ staffInfo.isyszgz === 0 ? '否' : '是' }}</td>
-      </tr>
-      <tr>
-        <td colspan="2">职业类型<font class="fontColor">*</font></td>
-        <td colspan="3">{{staffInfo.zylxName}}</td>
         <td colspan="2">
-          毕业时是否取得住院医师规范化培训合格证<font class="fontColor">*</font>
+          毕业时是否取得住院医师规范化培训合格证
         </td>
         <td colspan="3">{{ staffInfo.isbysqdzyys === 0 ? '否' : '是' }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">是否医师资格证</td>
+        <td colspan="3">{{ staffInfo.isyszgz === 0 ? '否' : '是' }}</td>
+        <td colspan="2">职业类型</td>
+        <td colspan="3">{{staffInfo.zylxName}}</td>
         <td colspan="2">
-          硕士阶段是否四证合一<font class="fontColor">*</font>
+          硕士阶段是否四证合一
         </td>
         <td colspan="3">{{ staffInfo.isssjdszhy === 0 ? '否' : '是' }}</td>
       </tr>

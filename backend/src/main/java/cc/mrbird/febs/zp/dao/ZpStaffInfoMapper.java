@@ -24,4 +24,8 @@ public interface ZpStaffInfoMapper extends BaseMapper<ZpStaffInfo> {
     List<ZpStaffInfo> findStaffByPosterIdAndSs(@Param("posterId") String posterId,
                                                @Param("state") Integer state,
                                                @Param("idList") List<String> idList);
+
+    void updateStaffIdTel(@Param("id") String id,
+                          @Param("idnumber") String idnumber,
+                          @Param("tel") String tel);
 }

@@ -1,5 +1,7 @@
 package cc.mrbird.febs.system.controller;
 
+import cc.mrbird.febs.com.entity.ComSms;
+import cc.mrbird.febs.com.service.IComSmsService;
 import cc.mrbird.febs.common.annotation.Limit;
 import cc.mrbird.febs.common.authentication.JWTToken;
 import cc.mrbird.febs.common.authentication.JWTUtil;
@@ -49,6 +51,9 @@ public class LoginController {
     private FebsProperties properties;
     @Autowired
     private ObjectMapper mapper;
+
+    @Autowired
+    IComSmsService iComSmsService;
 
     @PostMapping("/login")
     @Limit(key = "login", period = 60, count = 20, name = "登录接口", prefix = "limit")
@@ -153,17 +158,44 @@ public class LoginController {
         this.kickout(id);
     }
 
-    @PostMapping("regist")
-    public void regist(
+    @PostMapping("registt")
+    public FebsResponse registt(
             @NotBlank(message = "{required}") String username,
             @NotBlank(message = "{required}") String xmname,
             @NotBlank(message = "{required}") String password,
-            @NotBlank(message = "{required}") String idnumber) throws Exception {
-        this.userService.regist(username, xmname, password,idnumber);
+            @NotBlank(message = "{required}") String idnumber,
+            @NotBlank(message = "{required}") String email,
+            @NotBlank(message = "{required}") String yzm)
+    {
+        ModelMap map = new ModelMap();
+        int success = 0;
+        String msg = "";
+        try {
+            msg = iComSmsService.selectSmsYzm(username,yzm,ComSms.SENDTYPE_1);
+            if(msg.equals("ok")) {
+                this.userService.regist_t(username, xmname, password, idnumber, email);
+                success = 1;
+            }
+        } catch (Exception e) {
+            msg = "注册账号失败或异常.";
+        }
+        map.put("success", success);
+        map.put("message", msg);
+        return new FebsResponse().data(map);
     }
 
-    @PostMapping("forgetPwd")
-    public FebsResponse forgetPwd(
+    @PostMapping("registe")
+    public void registe(
+            @NotBlank(message = "{required}") String username,
+            @NotBlank(message = "{required}") String xmname,
+            @NotBlank(message = "{required}") String password,
+            @NotBlank(message = "{required}") String idnumber,
+            @NotBlank(message = "{required}") String tel) throws Exception {
+        this.userService.regist_e(username, xmname, password, idnumber, tel);
+    }
+
+    @PostMapping("forgetPwde")
+    public FebsResponse forgetPwd_e(
             @NotBlank(message = "{required}") String username,
             @NotBlank(message = "{required}") String xmname,
             @NotBlank(message = "{required}") String newpassword,
@@ -172,7 +204,7 @@ public class LoginController {
         int success = 0;
         String msg = "";
         try {
-            msg = this.userService.forgetPwd(username, xmname, newpassword,idnumber);
+            msg = this.userService.forgetPwd_e(username, xmname, newpassword, idnumber);
             if (msg.equals("")) {
                 success = 1;
             }
@@ -183,6 +215,49 @@ public class LoginController {
         map.put("message", msg);
         return new FebsResponse().data(map);
     }
+
+    @PostMapping("forgetPwdt")
+    public FebsResponse forgetPwd_t(
+            @NotBlank(message = "{required}") String username,
+            @NotBlank(message = "{required}") String newpassword,
+            @NotBlank(message = "{required}") String yzm) throws Exception {
+        ModelMap map = new ModelMap();
+        int success = 0;
+        String msg = "";
+        try {
+            msg = iComSmsService.selectSmsYzm(username,yzm,ComSms.SENDTYPE_2);
+            if(msg.equals("ok")) {
+                msg = this.userService.forgetPwd_t(username, newpassword);
+                if (msg.equals("")) {
+                    success = 1;
+                }
+            }
+        } catch (Exception e) {
+            msg = "修改密码失败或异常.";
+        }
+        map.put("success", success);
+        map.put("message", msg);
+        return new FebsResponse().data(map);
+    }
+
+    @PostMapping("sendYzm")
+    public FebsResponse sendYzm(@NotBlank(message = "{required}") String username,Integer sendtype) {
+        ModelMap map = new ModelMap();
+        int success = 0;
+        String msg = "";
+        try {
+            msg = iComSmsService.sendSmsYzm(username, sendtype);
+            if (msg.equals("ok")) {
+                success = 1;
+            }
+        } catch (Exception e) {
+            msg = "验证码发送失败.";
+        }
+        map.put("success", success);
+        map.put("message", msg);
+        return new FebsResponse().data(map);
+    }
+
 
     private String saveTokenToRedis(User user, JWTToken token, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIpAddr(request);

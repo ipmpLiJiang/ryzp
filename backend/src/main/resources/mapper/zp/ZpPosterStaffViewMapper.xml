@@ -56,6 +56,7 @@
             and zse.xlxw = zsi.zgxl
     WHERE
         zsa.posterId = #{zpPosterStaffView.posterId}
+        and zsi.issub = 1
         <if test="zpPosterStaffView.applystate != null">
         and zsa.state = #{zpPosterStaffView.applystate}
         </if>

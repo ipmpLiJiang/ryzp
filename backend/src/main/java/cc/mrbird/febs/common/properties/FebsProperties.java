@@ -21,6 +21,9 @@ public class FebsProperties {
 
     private String baseUrl;
 
+
+    private String sendMsg;
+
 //    private int openSms;
 //    private String in0;
 //    private String in1;

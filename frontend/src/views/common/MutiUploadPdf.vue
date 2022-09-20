@@ -26,6 +26,9 @@ export default {
     baseId: {
       default: ''
     },
+    baseTime: {
+      default: 0
+    },
     refTab: {
       default: 'staffInfo'
     },
@@ -40,8 +43,8 @@ export default {
     }
   },
   watch: {
-    baseId: function () {
-      if (this.baseId !== '') {
+    baseTime: function () {
+      if (this.baseId !== '' && this.isEdit) {
         var _this = this
         setTimeout(() => {
           _this.findFileList(_this.baseId)
@@ -52,9 +55,9 @@ export default {
     deep: true
   },
   mounted () {
-    setTimeout(() => {
-      this.findFileList(this.baseId)
-    }, 200)
+    // setTimeout(() => {
+    //   this.findFileList(this.baseId)
+    // }, 200)
   },
   methods: {
     beforeUpload (file) {

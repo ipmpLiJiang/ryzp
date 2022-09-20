@@ -249,7 +249,7 @@
             </a-select>
           </a-form-item>
         </td>
-        <td colspan="2">子女个数<font class="fontColor">*</font></td>
+        <td colspan="2">子女个数</td>
         <td colspan="3">
           <a-form-item>
             <a-input-number
@@ -257,15 +257,7 @@
               :max="10"
               style="width: 100%"
               v-decorator="[
-                'zngs',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: '子女个数不能为空',
-                    },
-                  ],
-                },
+                'zngs'
               ]"
             />
           </a-form-item>
@@ -429,12 +421,13 @@
             />
           </a-form-item>
         </td>
-        <td colspan="2">手机号码<font class="fontColor">*</font></td>
+        <td colspan="2">手机号码<font class="fontColor">*(只读)</font></td>
         <td colspan="3">
           <a-form-item>
             <a-input
               placeholder="请输入手机号码"
               :maxLength="11"
+              :readOnly="true"
               v-decorator="[
                 'tel',
                 {
