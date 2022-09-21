@@ -23,7 +23,7 @@
           ]}]"/>
       </a-form-item>
       <a-form-item label='密码' v-bind="formItemLayout">
-        <a-tooltip title='新用户默认密码为 whxh123456'>
+        <a-tooltip title='新用户默认密码为 zp123456'>
           <a-input type='password' readOnly v-decorator="['password',{ initialValue:defaultPassword }]" />
         </a-tooltip>
       </a-form-item>
@@ -108,7 +108,7 @@ export default {
       roleData: [],
       deptTreeData: [],
       formItemLayout,
-      defaultPassword: 'whxh123456',
+      defaultPassword: 'zp123456',
       form: this.$form.createForm(this),
       validateStatus: '',
       help: ''

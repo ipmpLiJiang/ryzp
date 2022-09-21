@@ -26,6 +26,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -155,6 +156,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         this.userRoleService.deleteUserRolesByUserId(userIds);
         // 删除用户个性化配置
         this.userConfigService.deleteByUserId(userIds);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserStaffs(String userId) throws Exception {
+
+        if(StringUtils.isNotBlank(userId)) {
+            zpStaffInfoService.deleteStaffs(userId);
+
+            String[] userIds = new String[]{userId};
+            // 先删除相应的缓存
+            this.userManager.deleteUserRedisCache(userIds);
+
+            List<String> list = Arrays.asList(userIds);
+
+            removeByIds(list);
+
+            // 删除用户角色
+            this.userRoleService.deleteUserRolesByUserId(userIds);
+            // 删除用户个性化配置
+            this.userConfigService.deleteByUserId(userIds);
+        }
     }
 
     @Override

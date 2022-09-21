@@ -88,4 +88,6 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
     void editZpStaffEssay(StaffEssay staffEssay,User user);
 
     void updateStaffIdTel(String id, String idnumber, String tel);
+
+    void deleteStaffs (String userId);
 }

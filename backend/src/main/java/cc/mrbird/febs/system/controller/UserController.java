@@ -215,6 +215,19 @@ public class UserController extends BaseController {
         }
     }
 
+    @Log("删除用户人员")
+    @DeleteMapping("/deleteUserStaff/{userId}")
+    @RequiresPermissions("user:userStaff")
+    public void deleteUserStaffs(@NotBlank(message = "{required}") @PathVariable String userId) throws FebsException {
+        try {
+            this.userService.deleteUserStaffs(userId);
+        } catch (Exception e) {
+            message = "删除用户失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
     @PutMapping("profile")
     public void updateProfile(@Valid User user) throws FebsException {
         try {
@@ -288,10 +301,22 @@ public class UserController extends BaseController {
         }
     }
 
+    @PutMapping("userPassword/reset")
+    @RequiresPermissions("user:userStaff")
+    public void resetUserPassword(@NotBlank(message = "{required}") String username,String pwd) throws FebsException {
+        try {
+            String[] usernameArr = new String[] { username };
+            this.userService.resetPassword(usernameArr,pwd);
+        } catch (Exception e) {
+            message = "重置用户密码失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
     @PutMapping("status/reset")
-    @RequiresPermissions("user:reset")
-    public void updateStatus(@NotBlank(message = "{required}") String username,
-                             @NotBlank(message = "{status}") String status) throws FebsException {
+    @RequiresPermissions("user:userStaff")
+    public void updateStatus(@NotBlank(message = "{required}") String username, String status) throws FebsException {
         try {
             this.userService.updateStatus(username,status);
         } catch (Exception e) {

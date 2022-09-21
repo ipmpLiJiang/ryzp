@@ -59,6 +59,8 @@ public interface UserService extends IService<User> {
      */
     void deleteUsers(String[] userIds) throws Exception;
 
+    void deleteUserStaffs(String userId) throws Exception;
+
     /**
      * 更新个人信息
      *

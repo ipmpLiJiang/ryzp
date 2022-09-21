@@ -121,7 +121,7 @@
       <div>
         <a-modal
           v-model="visiblePwd"
-          title="默认修改密码 whxh123456"
+          title="默认修改密码 zp123456"
           on-ok="pwdOk"
         >
           <template slot="footer">
@@ -184,7 +184,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       dataSource: [],
-      userPwd: 'whxh123456',
+      userPwd: 'zp123456',
       visiblePwd: false,
       selectUserName: '',
       selectedRowKeys: [],
@@ -308,7 +308,7 @@ export default {
         this.$message.warning('不能选择mrbird用户修改密码.')
         return
       }
-      this.userPwd = 'whxh123456'
+      this.userPwd = 'zp123456'
       this.visiblePwd = true
     },
     pwdCancel () {
@@ -345,7 +345,7 @@ export default {
         that.selectedRowKeys = []
         this.visiblePwd = false
       })
-      this.userPwd = 'whxh123456'
+      this.userPwd = 'zp123456'
     },
     exportUserTemp () {
       this.$download('user/exportUser', {
@@ -412,7 +412,7 @@ export default {
     },
     handleUserAddSuccess () {
       this.userAdd.visiable = false
-      this.$message.success('新增用户成功，初始密码为whxh123456')
+      this.$message.success('新增用户成功，初始密码为zp123456')
       this.search()
     },
     edit (record) {
@@ -472,7 +472,7 @@ export default {
       let that = this
       this.$confirm({
         title: '确定重置选中用户密码?',
-        content: '当您点击确定按钮后，这些用户的密码将会重置为whxh123456',
+        content: '当您点击确定按钮后，这些用户的密码将会重置为zp123456',
         centered: true,
         onOk () {
           let usernames = []

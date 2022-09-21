@@ -142,6 +142,52 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
 
     @Override
     @Transactional
+    public void deleteStaffs (String userId) {
+        LambdaQueryWrapper<ZpStaffInfo> wrapperInfo = new LambdaQueryWrapper<>();
+        wrapperInfo.eq(ZpStaffInfo::getUserid,userId);
+        List<ZpStaffInfo> list = this.list(wrapperInfo);
+        if(list.size() > 0) {
+            String staffId = list.get(0).getId();
+            // 基本信息
+            this.removeById(staffId);
+            // 家庭成员
+            LambdaQueryWrapper<ZpStaffFamily> wrapperFamily = new LambdaQueryWrapper<>();
+            wrapperFamily.eq(ZpStaffFamily::getStaffId, staffId);
+            this.iZpStaffFamilyService.remove(wrapperFamily);
+
+            // 教育经历
+            LambdaQueryWrapper<ZpStaffEducation> wrapperEducation = new LambdaQueryWrapper<>();
+            wrapperEducation.eq(ZpStaffEducation::getStaffId, staffId);
+            this.iZpStaffEducationService.remove(wrapperEducation);
+
+            // 工作经历
+            LambdaQueryWrapper<ZpStaffWork> wrapperWork = new LambdaQueryWrapper<>();
+            wrapperWork.eq(ZpStaffWork::getStaffId, staffId);
+            this.iZpStaffWorkService.remove(wrapperWork);
+
+            // 项目信息
+            LambdaQueryWrapper<ZpStaffProject> wrapperProject = new LambdaQueryWrapper<>();
+            wrapperProject.eq(ZpStaffProject::getStaffId, staffId);
+            this.iZpStaffProjectService.remove(wrapperProject);
+
+            // 文章信息
+            LambdaQueryWrapper<ZpStaffEssay> wrapperEssay = new LambdaQueryWrapper<>();
+            wrapperEssay.eq(ZpStaffEssay::getStaffId, staffId);
+            this.iZpStaffEssayService.remove(wrapperEssay);
+
+            // 获奖情况
+            LambdaQueryWrapper<ZpStaffAward> wrapperAward = new LambdaQueryWrapper<>();
+            wrapperAward.eq(ZpStaffAward::getStaffId, staffId);
+            this.iZpStaffAwardService.remove(wrapperAward);
+
+            LambdaQueryWrapper<ZpStaffApply> wrapperApply = new LambdaQueryWrapper<>();
+            wrapperApply.eq(ZpStaffApply::getStaffId, staffId);
+            this.iZpStaffApplyService.remove(wrapperApply);
+        }
+    }
+
+    @Override
+    @Transactional
     public ZpStaffInfo initStaff(ZpStaffInfo initStaff) {
         Date thisDate = new Date();
         ZpStaffInfo zpStaffInfo = new ZpStaffInfo();
@@ -613,14 +659,16 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         Date thisDate = new Date();
         ZpStaffInfo update = new ZpStaffInfo();
         // 不可修改
-//        update.setRyname(staffInfo.getRyname()); //姓名
+//        update.setRyname(staffInfo.getRyname()); //姓名 只读
+//        update.setIdnumber(staffInfo.getIdnumber()); 只读
+//        update.setTel(staffInfo.getTel()); //手机联系电话 只读
+//        update.setEmail(staffInfo.getEmail());//电子邮箱 只读
         update.setSex(staffInfo.getSex());
         update.setCsdat(staffInfo.getCsdat()); //出生
         if (StringUtils.isNotBlank(staffInfo.getCsdats())) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             update.setCsdat(sdf.parse(staffInfo.getCsdats()));
         }
-        update.setIdnumber(staffInfo.getIdnumber());
         update.setZhrjg(staffInfo.getZhrjg()); //籍贯
         update.setJkzt(staffInfo.getJkzt()); //健康状态
         update.setZhrsg(staffInfo.getZhrsg()); // 身高
@@ -637,8 +685,6 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         update.setWysp(staffInfo.getWysp()); // 外语水平
         update.setWyspfs(staffInfo.getWyspfs()); // 外语水平分数
         update.setJsjsp(staffInfo.getJsjsp()); // 计算机水平
-//        update.setTel(staffInfo.getTel()); //手机联系电话 只读
-//        update.setEmail(staffInfo.getEmail());//电子邮箱 只读
         update.setWechatNo(staffInfo.getWechatNo()); //微信号码
         update.setJtzz(staffInfo.getJtzz()); //家庭住址
         update.setHjdz(staffInfo.getHjdz()); //户籍地址

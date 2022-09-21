@@ -89,7 +89,7 @@ public class ZpStaffInfoController extends BaseController {
         try {
             User currentUser = FebsUtil.getCurrentUser();
             ZpStaffInfo zpStaffInfo = this.iZpStaffInfoService.findZpStaffInfoById(staffId);
-            if(zpStaffInfo!=null) {
+            if (zpStaffInfo != null) {
                 staffInfo = this.iZpStaffInfoService.getStaffInfo(zpStaffInfo);
                 success = 1;
             } else {
@@ -166,7 +166,7 @@ public class ZpStaffInfoController extends BaseController {
         ModelMap map = new ModelMap();
         int success = 0;
         try {
-            this.iZpStaffInfoService.updateStaffIdTel(id,idnumber,tel);
+            this.iZpStaffInfoService.updateStaffIdTel(id, idnumber, tel);
             success = 1;
         } catch (Exception e) {
             message = "保存失败.";
@@ -179,12 +179,12 @@ public class ZpStaffInfoController extends BaseController {
 
     @PutMapping("applyState")
     @RequiresPermissions("zpStaffInfo:apply")
-    public FebsResponse staffApplyUpdateState(String applyId,Integer state) {
+    public FebsResponse staffApplyUpdateState(String applyId, Integer state) {
         ModelMap map = new ModelMap();
         int success = 0;
         try {
-            boolean isupdate = this.iZpStaffInfoService.applyStateUpdate(applyId,state);
-            if(isupdate) {
+            boolean isupdate = this.iZpStaffInfoService.applyStateUpdate(applyId, state);
+            if (isupdate) {
                 success = 1;
             }
         } catch (Exception e) {
@@ -198,13 +198,13 @@ public class ZpStaffInfoController extends BaseController {
 
     @PutMapping("applyStates")
     @RequiresPermissions("zpStaffInfo:apply")
-    public FebsResponse staffApplyUpdateStates(String ids,Integer state) {
+    public FebsResponse staffApplyUpdateStates(String ids, Integer state) {
         ModelMap map = new ModelMap();
         int success = 0;
         try {
             String[] arr_ids = ids.split(StringPool.COMMA);
-            boolean isupdate =this.iZpStaffInfoService.applyStateUpdates(arr_ids,state);
-            if(isupdate) {
+            boolean isupdate = this.iZpStaffInfoService.applyStateUpdates(arr_ids, state);
+            if (isupdate) {
                 success = 1;
             }
         } catch (Exception e) {
@@ -348,7 +348,7 @@ public class ZpStaffInfoController extends BaseController {
         try {
             User currentUser = FebsUtil.getCurrentUser();
 
-            this.iZpStaffInfoService.editZpStaffFamily(staffFamily,currentUser);
+            this.iZpStaffInfoService.editZpStaffFamily(staffFamily, currentUser);
         } catch (Exception e) {
             message = "修改数据失败";
             log.error(message, e);
@@ -362,7 +362,7 @@ public class ZpStaffInfoController extends BaseController {
         try {
             User currentUser = FebsUtil.getCurrentUser();
 
-            this.iZpStaffInfoService.editZpStaffEducation(staffEducation,currentUser);
+            this.iZpStaffInfoService.editZpStaffEducation(staffEducation, currentUser);
         } catch (Exception e) {
             message = "修改数据失败";
             log.error(message, e);
@@ -376,7 +376,7 @@ public class ZpStaffInfoController extends BaseController {
         try {
             User currentUser = FebsUtil.getCurrentUser();
 
-            this.iZpStaffInfoService.editZpStaffWork(staffWork,currentUser);
+            this.iZpStaffInfoService.editZpStaffWork(staffWork, currentUser);
         } catch (Exception e) {
             message = "修改数据失败";
             log.error(message, e);
@@ -390,7 +390,7 @@ public class ZpStaffInfoController extends BaseController {
         try {
             User currentUser = FebsUtil.getCurrentUser();
 
-            this.iZpStaffInfoService.editZpStaffProject(staffProject,currentUser);
+            this.iZpStaffInfoService.editZpStaffProject(staffProject, currentUser);
         } catch (Exception e) {
             message = "修改数据失败";
             log.error(message, e);
@@ -404,7 +404,7 @@ public class ZpStaffInfoController extends BaseController {
         try {
             User currentUser = FebsUtil.getCurrentUser();
 
-            this.iZpStaffInfoService.editZpStaffEssay(staffEssay,currentUser);
+            this.iZpStaffInfoService.editZpStaffEssay(staffEssay, currentUser);
         } catch (Exception e) {
             message = "修改数据失败";
             log.error(message, e);
@@ -418,7 +418,7 @@ public class ZpStaffInfoController extends BaseController {
         try {
             User currentUser = FebsUtil.getCurrentUser();
 
-            this.iZpStaffInfoService.editZpStaffAward(staffAward,currentUser);
+            this.iZpStaffInfoService.editZpStaffAward(staffAward, currentUser);
         } catch (Exception e) {
             message = "修改数据失败";
             log.error(message, e);
