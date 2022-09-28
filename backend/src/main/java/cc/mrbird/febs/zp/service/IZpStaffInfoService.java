@@ -27,7 +27,7 @@ public interface IZpStaffInfoService extends IService<ZpStaffInfo> {
 
     ZpStaffInfo findZpStaffInfoByUserId(Integer userId);
 
-    ZpStaffInfo findZpStaffInfoByXmAndIdNumber(String ryName, String idNumber, String email);
+    ZpStaffInfo findZpStaffInfoByXmAndIdNumber(String ryName, String idNumber, String tel);
 
     ZpStaffInfo findZpStaffInfoById(String Id);
 

@@ -121,11 +121,11 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
     }
 
     @Override
-    public ZpStaffInfo findZpStaffInfoByXmAndIdNumber(String ryName, String idNumber, String email) {
+    public ZpStaffInfo findZpStaffInfoByXmAndIdNumber(String ryName, String idNumber, String tel) {
         LambdaQueryWrapper<ZpStaffInfo> staffInfoWrapper = new LambdaQueryWrapper<>();
         staffInfoWrapper.eq(ZpStaffInfo::getRyname, ryName);
         staffInfoWrapper.eq(ZpStaffInfo::getIdnumber, idNumber);
-        staffInfoWrapper.eq(ZpStaffInfo::getEmail, email);
+        staffInfoWrapper.eq(ZpStaffInfo::getTel, tel);
         List<ZpStaffInfo> staffInfoList = this.list(staffInfoWrapper);
         if (staffInfoList.size() > 0) {
             return staffInfoList.get(0);
@@ -194,7 +194,6 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
         zpStaffInfo.setId(UUID.randomUUID().toString());
         zpStaffInfo.setUserid(initStaff.getUserid());
         zpStaffInfo.setRyname(initStaff.getRyname());
-        zpStaffInfo.setEmail(initStaff.getEmail());
         zpStaffInfo.setTel(initStaff.getTel());
         zpStaffInfo.setHyzt("0");
         zpStaffInfo.setSex(0);
@@ -662,7 +661,7 @@ public class ZpStaffInfoServiceImpl extends ServiceImpl<ZpStaffInfoMapper, ZpSta
 //        update.setRyname(staffInfo.getRyname()); //姓名 只读
 //        update.setIdnumber(staffInfo.getIdnumber()); 只读
 //        update.setTel(staffInfo.getTel()); //手机联系电话 只读
-//        update.setEmail(staffInfo.getEmail());//电子邮箱 只读
+        update.setEmail(staffInfo.getEmail());//电子邮箱
         update.setSex(staffInfo.getSex());
         update.setCsdat(staffInfo.getCsdat()); //出生
         if (StringUtils.isNotBlank(staffInfo.getCsdats())) {

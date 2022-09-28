@@ -346,6 +346,7 @@
           <a-form-item>
             <a-input-number
               placeholder="请输入外语水平分数"
+              :max="1000"
               style="width: 100%"
               v-decorator="[
                 'wyspfs'
@@ -408,15 +409,17 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2">电子邮箱<font class="fontColor">*(只读)</font></td>
+        <td colspan="2">电子邮箱<font class="fontColor">*</font></td>
         <td colspan="3">
           <a-form-item>
             <a-input
               placeholder="请输入邮箱"
-              :readOnly="true"
               v-decorator="[
                 'email',
-                { rules: [{ required: true, message: '邮箱不能为空' }] },
+                { rules: [
+                    { type: 'email', message: '请输入正确的账号邮箱' },
+                    { required: true, message: '邮箱不能为空' }
+                  ] },
               ]"
             />
           </a-form-item>

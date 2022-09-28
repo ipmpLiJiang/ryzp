@@ -164,7 +164,6 @@ public class LoginController {
             @NotBlank(message = "{required}") String xmname,
             @NotBlank(message = "{required}") String password,
             @NotBlank(message = "{required}") String idnumber,
-            @NotBlank(message = "{required}") String email,
             @NotBlank(message = "{required}") String yzm)
     {
         ModelMap map = new ModelMap();
@@ -173,7 +172,7 @@ public class LoginController {
         try {
             msg = iComSmsService.selectSmsYzm(username,yzm,ComSms.SENDTYPE_1);
             if(msg.equals("ok")) {
-                this.userService.regist_t(username, xmname, password, idnumber, email);
+                this.userService.regist(username, xmname, password, idnumber);
                 success = 1;
             }
         } catch (Exception e) {
@@ -184,18 +183,17 @@ public class LoginController {
         return new FebsResponse().data(map);
     }
 
-    @PostMapping("registe")
-    public void registe(
+    @PostMapping("registn")
+    public void registn(
             @NotBlank(message = "{required}") String username,
             @NotBlank(message = "{required}") String xmname,
             @NotBlank(message = "{required}") String password,
-            @NotBlank(message = "{required}") String idnumber,
-            @NotBlank(message = "{required}") String tel) throws Exception {
-        this.userService.regist_e(username, xmname, password, idnumber, tel);
+            @NotBlank(message = "{required}") String idnumber) throws Exception {
+        this.userService.regist(username, xmname, password, idnumber);
     }
 
-    @PostMapping("forgetPwde")
-    public FebsResponse forgetPwd_e(
+    @PostMapping("forgetPwdn")
+    public FebsResponse forgetPwd_n(
             @NotBlank(message = "{required}") String username,
             @NotBlank(message = "{required}") String xmname,
             @NotBlank(message = "{required}") String newpassword,
@@ -204,7 +202,7 @@ public class LoginController {
         int success = 0;
         String msg = "";
         try {
-            msg = this.userService.forgetPwd_e(username, xmname, newpassword, idnumber);
+            msg = this.userService.forgetPwd_n(username, xmname, newpassword, idnumber);
             if (msg.equals("")) {
                 success = 1;
             }

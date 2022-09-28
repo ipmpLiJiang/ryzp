@@ -215,6 +215,11 @@ export default {
         width: 155
       },
       {
+        title: '手机号码',
+        dataIndex: 'tel',
+        width: 110
+      },
+      {
         title: '籍贯',
         dataIndex: 'zhrjg',
         width: 120
@@ -233,11 +238,6 @@ export default {
         title: '邮箱',
         dataIndex: 'email',
         width: 150
-      },
-      {
-        title: '手机号码',
-        dataIndex: 'tel',
-        width: 110
       },
       {
         title: '申请日期',

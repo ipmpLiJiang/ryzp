@@ -90,11 +90,9 @@ public interface UserService extends IService<User> {
      * @param username 用户名
      * @param password 密码
      */
-    void regist_t(String username, String xmname, String password, String idnumber, String email) throws Exception;
+    void regist(String username, String xmname, String password, String idnumber) throws Exception;
 
-    void regist_e(String username, String xmname, String password, String idnumber, String tel) throws Exception;
-
-    String forgetPwd_e(String username, String xmname, String password, String idnumber) throws Exception;
+    String forgetPwd_n(String username, String xmname, String password, String idnumber) throws Exception;
 
     String forgetPwd_t(String username, String password) throws Exception;
 

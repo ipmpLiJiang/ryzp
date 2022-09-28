@@ -90,7 +90,7 @@ febs:
         num: 1000
   shiro:
     # 后端免认证接口 url
-    anonUrl: /login,/logout/,/logout/**,/registt,/registe,/user/check/**,/forgetPwde,/forgetPwdt,/sendYzm,/zpStaffInfo/checkIdnumber/**,/zpRecruitPoster/recruitPosterView,/uploadFile/**,/swagger-resources/**,/webjars/**,/v2/**,/swagger-ui.html/**,/favicon.ico
+    anonUrl: /login,/logout/,/logout/**,/registt,/registn,/user/check/**,/forgetPwdn,/forgetPwdt,/sendYzm,/zpStaffInfo/checkIdnumber/**,/zpRecruitPoster/recruitPosterView,/uploadFile/**,/swagger-resources/**,/webjars/**,/v2/**,/swagger-ui.html/**,/favicon.ico
     # token有效期，单位秒
     jwtTimeOut: 3600
   # Swagger相关配置

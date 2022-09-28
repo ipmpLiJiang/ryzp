@@ -68,23 +68,6 @@
           ]"
         ></a-input>
       </a-form-item>
-      <a-form-item label="电子邮箱" v-bind="formItemLayout">
-        <a-input
-          size="large"
-          type="text"
-          v-model="email"
-          placeholder="电子邮箱"
-          v-decorator="[
-            'email',
-            {
-              rules: [
-                { type: 'email', message: '请输入正确的电子邮箱' },
-                { required: true, message: '请输入电子邮箱' },
-              ],
-            },
-          ]"
-        ></a-input>
-      </a-form-item>
       <a-popover
         placement="rightTop"
         trigger="click"
@@ -268,7 +251,6 @@ export default {
       password: '',
       xmname: '',
       idnumber: '',
-      email: '',
       yzm: '',
       state: {
         time: 60,
@@ -446,7 +428,6 @@ export default {
             password: this.password,
             xmname: this.xmname,
             idnumber: this.idnumber,
-            email: this.email,
             yzm: this.yzm
           }).then((r) => {
             this.loading = false
