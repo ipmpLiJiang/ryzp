@@ -1545,7 +1545,7 @@ public class StaffInfoPdf {
         cell.setColspan(numColumns);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(staffInfo.getZxhjqk() + "\n ", fontValue));
+        cell = new PdfPCell(new Phrase(staffInfo.getZxhjqk() == null ? " " : staffInfo.getZxhjqk() + "\n ", fontValue));
         cell.setPadding(faddingSize);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setColspan(numColumns);
