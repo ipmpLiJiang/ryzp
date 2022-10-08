@@ -1,6 +1,8 @@
 package cc.mrbird.febs.zp.service.impl;
 
+import cc.mrbird.febs.com.entity.ComSms;
 import cc.mrbird.febs.com.entity.ComType;
+import cc.mrbird.febs.com.service.IComSmsService;
 import cc.mrbird.febs.com.service.IComTypeService;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
@@ -8,6 +10,7 @@ import cc.mrbird.febs.zp.dao.ZpPosterStaffViewMapper;
 import cc.mrbird.febs.zp.entity.*;
 import cc.mrbird.febs.zp.service.*;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -62,6 +63,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
     @Autowired
     IComTypeService iComTypeService;
 
+    @Autowired
+    IComSmsService iComSmsService;
+
     @Override
     public IPage<ZpPosterStaffView> findZpPosterStaffViews(QueryRequest request, ZpPosterStaffView zpPosterStaffView,List<QuertTab> quertTabList) {
         try {
@@ -86,6 +90,9 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
             SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
             IPage<ZpPosterStaffView> rpage = this.baseMapper.findZpPosterStaffView(page, zpPosterStaffView,quertTabList);
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            List<ZpStaffEducation> edList = iZpStaffEducationService.findEducationByPosterId(
+                    zpPosterStaffView.getPosterId(), zpPosterStaffView.getApplystate(), null);
+            List<ZpStaffEducation> edQuery = new ArrayList<>();
             for (ZpPosterStaffView item : rpage.getRecords()) {
                 if (item.getCsdat() != null) {
                     item.setCsdats(sdf.format(item.getCsdat()));
@@ -97,6 +104,10 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
                     } else {
                         item.setZgxlName(item.getZgxl());
                     }
+                    edQuery = edList.stream().filter(s->s.getStaffId().equals(item.getStaffId()) && s.getXlxw().equals(item.getZgxl())).collect(Collectors.toList());
+                    if(edQuery.size() > 0) {
+                        item.setYxname(edQuery.get(0).getYxname());
+                    }
                 }
             }
             return rpage;
@@ -106,6 +117,75 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
             return null;
         }
     }
+
+    @Override
+    public IPage<ZpPosterStaffView> findZpPosterStaffLists(QueryRequest request, ZpPosterStaffView zpPosterStaffView,List<QuertTab> quertTabList) {
+        try {
+            ComType qct = new ComType();
+            qct.setIsDeletemark(1);
+            qct.setCtType(8);
+            List<ComType> typeList = iComTypeService.findComTypeList(qct);
+            List<ComType> qCtlist = new ArrayList<>();
+            for (QuertTab qt:quertTabList) {
+                if (qt.getF().equals("zgxl")) {
+                    if (StringUtils.isNotBlank(qt.getZ())) {
+                        qCtlist = typeList.stream().filter(s ->  s.getCtName().equals(qt.getZ())).collect(Collectors.toList());
+                        if (qCtlist.size() > 0) {
+                            qt.setZ(qCtlist.get(0).getCtCode());
+                        } else {
+                            qt.setZ("无");
+                        }
+                    }
+                }
+            }
+            Page<ZpPosterStaffView> page = new Page<>();
+            SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
+            IPage<ZpPosterStaffView> rpage = this.baseMapper.findZpPosterStaffView(page, zpPosterStaffView,quertTabList);
+            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            List<ZpStaffEducation> edList = iZpStaffEducationService.findEducationByPosterId(
+                    zpPosterStaffView.getPosterId(), zpPosterStaffView.getApplystate(), null);
+
+            List<ComSms> smsList = iComSmsService.findSmsZpMaxSendType4(zpPosterStaffView.getPosterId(), zpPosterStaffView.getApplystate());
+            List<ComSms> smsQuery = new ArrayList<>();
+            List<ZpStaffEducation> edQuery = new ArrayList<>();
+            for (ZpPosterStaffView item : rpage.getRecords()) {
+                if (item.getCsdat() != null) {
+                    item.setCsdats(sdf.format(item.getCsdat()));
+                }
+                if(StringUtils.isNotBlank(item.getZgxl())) {
+                    qCtlist = typeList.stream().filter(s -> s.getCtCode().equals(item.getZgxl())).collect(Collectors.toList());
+                    if (qCtlist.size() > 0) {
+                        item.setZgxlName(qCtlist.get(0).getCtName());
+                    } else {
+                        item.setZgxlName(item.getZgxl());
+                    }
+                    edQuery = edList.stream().filter(s->s.getStaffId().equals(item.getStaffId()) && s.getXlxw().equals(item.getZgxl())).collect(Collectors.toList());
+                    if(edQuery.size() > 0) {
+                        item.setYxname(edQuery.get(0).getYxname());
+                    }
+                }
+                smsQuery = smsList.stream().filter(s->s.getStaffId().equals(item.getStaffId())).collect(Collectors.toList());
+                if(smsQuery.size() == 0) {
+                    item.setSendState(0);
+                } else {
+                    Integer sendState = smsQuery.get(0).getState();
+                    if(sendState == null) {
+                        item.setSendState(0);
+                    } else if(sendState == 0) {
+                        item.setSendState(2);
+                    } else {
+                        item.setSendState(1);
+                    }
+                }
+            }
+            return rpage;
+
+        } catch (Exception e) {
+            log.error("获取字典信息失败", e);
+            return null;
+        }
+    }
+
 
     @Override
     public List<StaffInfoDataExport> excelData(String posterId, Integer state, List<String> idList) {
@@ -377,6 +457,40 @@ public class ZpPosterStaffViewServiceImpl extends ServiceImpl<ZpPosterStaffViewM
         }
         return dataList;
     }
+
+    @Override
+    public void SubSmsData(String posterId, Integer applyState, String sendContent,List<String> idList) {
+        List<ZpStaffInfo> staffList = iZpStaffInfoService.findStaffByPosterId(posterId, applyState, idList);
+        LambdaQueryWrapper<ComSms> wrapperSms = new LambdaQueryWrapper<>();
+        wrapperSms.eq(ComSms::getSendType,ComSms.SENDTYPE_4);
+        wrapperSms.eq(ComSms::getState,ComSms.STATE_0);
+        wrapperSms.eq(ComSms::getPosterId,posterId);
+        wrapperSms.eq(ComSms::getApplyState,applyState);
+        List<ComSms> smsList = iComSmsService.list(wrapperSms);
+        List<ComSms> smsQuery = new ArrayList<>();
+        List<ComSms> insertList = new ArrayList<>();
+        for (ZpStaffInfo item : staffList) {
+            smsQuery = smsList.stream().filter(s->s.getStaffId().equals(item.getId())).collect(Collectors.toList());
+            if(smsQuery.size() == 0) {
+                ComSms smg = new ComSms();
+                smg.setId(UUID.randomUUID().toString());
+                smg.setSendType(ComSms.SENDTYPE_4);
+                smg.setState(ComSms.STATE_0);
+                smg.setSendcontent(sendContent);
+                smg.setSendname(item.getRyname());
+                smg.setMobile(item.getTel());
+                smg.setPosterId(posterId);
+                smg.setApplyState(applyState);
+                smg.setStaffId(item.getId());
+                smg.setCreateTime(new Date());
+                insertList.add(smg);
+            }
+        }
+        if(insertList.size() > 0) {
+            iComSmsService.saveBatch(insertList);
+        }
+    }
+
 
     private String getFlName(List<ZpStaffFamily> list, int ng) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");

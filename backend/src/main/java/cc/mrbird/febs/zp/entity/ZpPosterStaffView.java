@@ -327,4 +327,10 @@ public class ZpPosterStaffView {
     @TableField("CREATE_TIME")
     private Date CREATE_TIME;
 
+    /**
+     * SendState
+     */
+    @ExcelField(value = "SendState")
+    private Integer SendState;
+
 }

@@ -347,4 +347,9 @@ public class ComSmsServiceImpl extends ServiceImpl<ComSmsMapper, ComSms> impleme
         return msg;
     }
 
+    @Override
+    public List<ComSms> findSmsZpMaxSendType4(String posterId, Integer applyState){
+        return this.baseMapper.findSmsZpMaxSendType4(posterId, applyState);
+    }
+
 }

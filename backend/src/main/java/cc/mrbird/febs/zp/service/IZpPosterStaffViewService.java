@@ -21,6 +21,9 @@ public interface IZpPosterStaffViewService extends IService<ZpPosterStaffView> {
 
     IPage<ZpPosterStaffView> findZpPosterStaffViews(QueryRequest request, ZpPosterStaffView zpPosterStaffView,List<QuertTab> quertTabList);
 
+    IPage<ZpPosterStaffView> findZpPosterStaffLists(QueryRequest request, ZpPosterStaffView zpPosterStaffView,List<QuertTab> quertTabList);
+
     List<StaffInfoDataExport> excelData(String posterId, Integer state, List<String> idList);
 
+    void SubSmsData(String posterId, Integer applyState, String sendContent, List<String> idList);
 }

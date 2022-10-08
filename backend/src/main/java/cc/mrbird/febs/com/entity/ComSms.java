@@ -46,6 +46,12 @@ public class ComSms implements Serializable, Comparable<ComSms> {
     public static final int SENDTYPE_3 = 3;
 
     /**
+     * 4 应聘短信
+     */
+
+    public static final int SENDTYPE_4 = 4;
+
+    /**
      * 0 未发送
      */
     public static final int STATE_0 = 0;
@@ -174,6 +180,27 @@ public class ComSms implements Serializable, Comparable<ComSms> {
     @ExcelField(value = "截止时间")
     private Date endtime;
 
+    /**
+     * posterId
+     */
+    @TableField("posterId")
+    @ExcelField(value = "posterId")
+    private String posterId;
+
+    /**
+     * applyState
+     */
+    @TableField("applyState")
+    @ExcelField(value = "applyState")
+    private Integer applyState;
+
+    /**
+     * staffId
+     */
+    @TableField("staffId")
+    @ExcelField(value = "staffId")
+    private String staffId;
+
     public static final String ID = "id";
 
     public static final String SENDCODE = "sendcode";
@@ -207,6 +234,12 @@ public class ComSms implements Serializable, Comparable<ComSms> {
     public static final String SENDYZM = "sendyzm";
 
     public static final String ENDTIME = "endtime";
+
+    public static final String POSTERID = "posterId";
+
+    public static final String APPLYSTATE = "applyState";
+
+    public static final String STAFFID = "staffId";
 
     @Override
     public int compareTo(ComSms o) {

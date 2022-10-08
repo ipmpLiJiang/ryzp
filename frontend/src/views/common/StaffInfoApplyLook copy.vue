@@ -351,7 +351,7 @@
           @click="applyCk"
           :loading="loading"
           style="width: 10%; margin-right: 0.8rem"
-          >更新查看</a-button
+          >更新面试</a-button
         >
         <!-- v-if="applystate === 0 || applystate === 1 || applystate === 2 ? true : false" -->
         <a-button
@@ -367,7 +367,7 @@
           @click="applyJJ"
           :loading="loading"
           style="width: 10%; margin-right: 0.8rem"
-          >更新跟踪</a-button
+          >更新拒绝</a-button
         >
         <a-button @click="onClose" style="width: 15%; margin-right: 0.8rem"
           >返回列表</a-button
@@ -424,20 +424,18 @@ export default {
     applyCk () {
       let that = this
       this.$confirm({
-        title: '确定更新已查看简历?',
-        content: '当您点击确定按钮后，该简历更新为已查看状态',
+        title: '确定更新面试简历?',
+        content: '当您点击确定按钮后，该简历更新为面试状态',
         centered: true,
         onOk () {
           that.$put('zpStaffInfo/applyState', {
             applyId: that.applyId, state: 1
           }).then((r) => {
             if (r.data.data.success === 1) {
-              // that.$message.success('更新已查看简历成功.')
-              that.openNotificationIcon('success', '操作提醒', '更新已查看简历成功.')
+              that.openNotificationIcon('success', '操作提醒', '更新面试简历成功.')
               that.$emit('success')
             } else {
-              // that.$message.error('更新已查看简历失败.')
-              that.openNotificationIcon('error', '操作提醒', '更新已查看简历失败.')
+              that.openNotificationIcon('error', '操作提醒', '更新面试简历失败.')
             }
             that.loading = false
           }).catch(() => {
@@ -478,20 +476,18 @@ export default {
     applyJJ () {
       let that = this
       this.$confirm({
-        title: '确定更新跟踪简历?',
-        content: '当您点击确定按钮后，该简历更新为跟踪状态',
+        title: '确定更新拒绝简历?',
+        content: '当您点击确定按钮后，该简历更新为拒绝状态',
         centered: true,
         onOk () {
           that.$put('zpStaffInfo/applyState', {
             applyId: that.applyId, state: 2
           }).then((r) => {
             if (r.data.data.success === 1) {
-              // that.$message.success('跟踪简历成功.')
-              that.openNotificationIcon('success', '操作提醒', '跟踪简历成功.')
+              that.openNotificationIcon('success', '操作提醒', '拒绝简历成功.')
               that.$emit('success')
             } else {
-              // that.$message.error('跟踪简历失败.')
-              that.openNotificationIcon('error', '操作提醒', '跟踪简历失败.')
+              that.openNotificationIcon('error', '操作提醒', '拒绝简历失败.')
             }
             that.loading = false
           }).catch(() => {

@@ -28,4 +28,6 @@ public interface ComSmsMapper extends BaseMapper<ComSms> {
     ComSms findSmsYzmOne(String mobile, int sendType, int state);
 
     ComSms selectSmsYzmOne(String mobile, String sendyzm, int sendType, int state);
+
+    List<ComSms> findSmsZpMaxSendType4(@Param("posterId") String posterId,@Param("applyState") Integer applyState);
 }

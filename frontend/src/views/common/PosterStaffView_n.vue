@@ -24,11 +24,10 @@
         </a-popover>
       </a-col>
       <a-col :span="15" :offset="1">
-        <a-space :size="12">
-        <a-button v-if="applystate !==10 ? true : false" type="primary" @click="showSms">短信提醒</a-button>
+        <a-space :size="15">
         <a-popconfirm
           title="确定批量面试？"
-          v-if="applystate !== 6 ? true : false"
+          v-if="applystate !== 1 ? true : false"
           @confirm="batchCk"
           okText="确定"
           cancelText="取消"
@@ -87,11 +86,6 @@
         <a-tag class="tagPadding" v-else-if="record.applystate === 2" color="red">拒绝</a-tag>
         <a-tag class="tagPadding" v-else color="green">已通过</a-tag>
       </span>
-      <span slot="operationSendState" slot-scope="text, record">
-        <a-tag class="tagPadding" v-if="record.sendState === 0">未发送</a-tag>
-        <a-tag class="tagPadding" v-else-if="record.sendState === 1" color="green">已发送</a-tag>
-        <a-tag class="tagPadding" v-else color="red">待发送</a-tag>
-      </span>
       <template slot="operation" slot-scope="text, record">
         <a-popconfirm
         title="确定下载文件？"
@@ -110,26 +104,6 @@
       @ok="handleLookOk"
     >
       <staffInfoApply-look @close="closeLook" @success="successLook" ref="staffInfoApplyLook"> </staffInfoApply-look>
-    </a-modal>
-    <a-modal
-      :maskClosable="false"
-      :footer="null"
-      v-model="smsVisible"
-      width="45%"
-      :title="smsTitle"
-      @ok="handleSmsOk"
-    >
-      <a-row>
-      发送人员：<lable style="color:red">{{smsSendPerson}}</lable>
-      </a-row>
-      <br>
-      <a-row>
-      <a-textarea placeholder="请输入短信提醒内容" :maxLength="100" v-model="smsContent" :rows="4" />
-      </a-row>
-      <br>
-      <a-row>
-        <a-button type="primary" @click="subSms">提交短信</a-button>
-      </a-row>
     </a-modal>
   </a-drawer>
 </template>
@@ -178,10 +152,6 @@ export default {
       jsondata: '',
       lookVisible: false,
       selectVisible: false,
-      smsVisible: false,
-      smsSendPerson: '',
-      smsContent: '',
-      smsTitle: '短信提醒',
       applystate: 0,
       sqtitle: '申请人员',
       isUpdate: false,
@@ -287,13 +257,6 @@ export default {
         width: 95
       },
       {
-        title: '短信',
-        dataIndex: 'sendState',
-        scopedSlots: { customRender: 'operationSendState' },
-        fixed: 'right',
-        width: 85
-      },
-      {
         title: '状态',
         dataIndex: 'applyState',
         scopedSlots: { customRender: 'operationApplyState' },
@@ -317,55 +280,6 @@ export default {
     rowNo (index) {
       return (this.pagination.defaultCurrent - 1) *
         this.pagination.defaultPageSize + index + 1
-    },
-    showSms () {
-      if (this.selectedRowKeys.length === 0) {
-        this.smsSendPerson = '全部未发送人员'
-      } else {
-        let sendPerson = null
-        for (let key of this.selectedRowKeys) {
-          let target = this.dataSource.filter(item => key === item.id)[0]
-          if (sendPerson === null) {
-            sendPerson = '(' + target.ryname + '-' + target.tel + ')'
-          } else {
-            sendPerson += ',(' + target.ryname + '-' + target.tel + ')'
-          }
-        }
-        this.smsSendPerson = sendPerson
-      }
-      this.smsContent = ''
-      this.smsVisible = true
-    },
-    subSms () {
-      if (this.smsContent === '') {
-        this.$message.error('请输入发送内容.')
-        return
-      }
-      let queryParams = {}
-      queryParams.pid = this.posterId
-      queryParams.applystate = this.applystate === 10 ? null : this.applystate
-      let ids = null
-      for (let key of this.selectedRowKeys) {
-        let target = this.dataSource.filter(item => key === item.id)[0]
-        if (ids === null) {
-          ids = target.staffId
-        } else {
-          ids += ',' + target.staffId
-        }
-      }
-      queryParams.ids = ids
-      queryParams.sendContent = this.smsContent
-      this.$post('zpPosterStaffView/send', {
-        ...queryParams
-      }).then(() => {
-        this.handleSmsOk()
-        this.search()
-      }).catch(() => {
-        this.loading = false
-      })
-    },
-    handleSmsOk () {
-      this.smsVisible = false
     },
     closeQuery () {
       this.selectVisible = false
@@ -497,19 +411,14 @@ export default {
       this.applystate = applystate
       if (applystate === 10) {
         this.sqtitle = '申请人员 — 全部'
-        this.smsTitle = '短信提醒 — 全部'
       } else if (applystate === 0) {
         this.sqtitle = '申请人员 — 未查看'
-        this.smsTitle = '短信提醒 — 未查看'
       } else if (applystate === 1) {
         this.sqtitle = '申请人员 — 面试'
-        this.smsTitle = '短信提醒 — 面试'
       } else if (applystate === 2) {
         this.sqtitle = '申请人员 — 拒绝'
-        this.smsTitle = '短信提醒 — 拒绝'
       } else if (applystate === 6) {
         this.sqtitle = '申请人员 — 已通过'
-        this.smsTitle = '短信提醒 — 已通过'
       }
       this.search()
     },
@@ -582,7 +491,7 @@ export default {
         let d1 = d.replace(new RegExp('\\+', 'g'), '@')
         params.jsondata = d1
       }
-      this.$get('zpPosterStaffView/list', {
+      this.$get('zpPosterStaffView', {
         ...params
       }).then((r) => {
         let data = r.data

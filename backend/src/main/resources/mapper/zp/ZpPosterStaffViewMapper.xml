@@ -42,7 +42,6 @@
         zsi.isbysqdzyys,
         zsi.isssjdszhy,
         zsi.ywjwbs,
-        zse.yxname,
         zsa.posterId,
         zsa.state applystate,
         zsa.CREATE_TIME,
@@ -51,9 +50,6 @@
         zp_staff_apply zsa
         INNER JOIN zp_staff_info zsi on
             zsa.staffId = zsi.id
-        LEFT JOIN zp_staff_education zse on
-            zsi.id = zse.staffId
-            and zse.xlxw = zsi.zgxl
     WHERE
         zsa.posterId = #{zpPosterStaffView.posterId}
         and zsi.issub = 1
@@ -61,7 +57,9 @@
         and zsa.state = #{zpPosterStaffView.applystate}
         </if>
         <if test="zpPosterStaffView.currencyField != null and zpPosterStaffView.currencyField != ''">
-            and zsi.ryname like concat('%', #{zpPosterStaffView.currencyField} ,'%')
+            and (zsi.ryname like concat('%', #{zpPosterStaffView.currencyField} ,'%') or
+            zsi.tel like concat('%', #{zpPosterStaffView.currencyField} ,'%') or
+            zsi.idnumber like concat('%', #{zpPosterStaffView.currencyField} ,'%'))
         </if>
         <foreach item="item" index="index" collection="quertTabList">
             <if test="item.f == 'ryname' and item.y == 'dd'">

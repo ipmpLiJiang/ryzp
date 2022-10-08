@@ -44,4 +44,6 @@ public interface IComSmsService extends IService<ComSms> {
         String sendSmsYzm(String mobile,int sendType);
 
         String selectSmsYzm(String mobile,String sendyzm,int sendType);
+
+        List<ComSms> findSmsZpMaxSendType4(String posterId, Integer applyState);
 }

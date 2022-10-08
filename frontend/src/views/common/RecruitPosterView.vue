@@ -150,7 +150,7 @@ export default {
         scopedSlots: { customRender: 'operationPzw' },
         ellipsis: true,
         fixed: 'left',
-        width: 250
+        width: 220
       },
       {
         title: '全部',
@@ -165,7 +165,7 @@ export default {
         width: 65
       },
       {
-        title: '已查看',
+        title: '面试',
         dataIndex: 'ckNum',
         scopedSlots: { customRender: 'operationCk' },
         width: 65
@@ -177,7 +177,7 @@ export default {
         width: 65
       },
       {
-        title: '跟踪',
+        title: '拒绝',
         dataIndex: 'yjjNum',
         scopedSlots: { customRender: 'operationYjj' },
         width: 65

@@ -103,31 +103,31 @@ public class ZpRecruitPosterView {
     /**
      * 收到简历
      */
-    @ExcelField(value = "收到简历")
+    @ExcelField(value = "全部")
     private Integer allNum;
 
     /**
      * 未处理简历
      */
-    @ExcelField(value = "未处理简历")
+    @ExcelField(value = "未处理")
     private Integer wclNum;
 
     /**
      * 已查看
      */
-    @ExcelField(value = "通过简历")
+    @ExcelField(value = "面试")
     private Integer ckNum;
 
     /**
      * 通过简历
      */
-    @ExcelField(value = "通过简历")
+    @ExcelField(value = "通过")
     private Integer tgNum;
 
     /**
      * 拒绝简历
      */
-    @ExcelField(value = "拒绝简历")
+    @ExcelField(value = "拒绝")
     private Integer yjjNum;
 
     /**

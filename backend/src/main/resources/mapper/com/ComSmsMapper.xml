@@ -21,11 +21,14 @@
         <result column="MODIFY_USER_ID" property="modifyUserId"/>
         <result column="sendyzm" property="sendyzm"/>
         <result column="endtime" property="endtime"/>
+        <result column="staffId" property="staffId"/>
+        <result column="posterId" property="posterId"/>
+        <result column="applyState" property="applyState"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, sendcode, sendname, mobile, sendType, operatorId, operatorName, sendcontent, COMMENTS, STATE, IS_DELETEMARK, MODIFY_TIME, CREATE_TIME, CREATE_USER_ID, MODIFY_USER_ID,sendyzm, endtime
+        id, sendcode, sendname, mobile, sendType, operatorId, operatorName, sendcontent, COMMENTS, STATE, IS_DELETEMARK, MODIFY_TIME, CREATE_TIME, CREATE_USER_ID, MODIFY_USER_ID,sendyzm, endtime, staffId, posterId, applyState
     </sql>
     <update id="updateComSms" parameterType="cc.mrbird.febs.com.entity.ComSms">
         update com_sms
@@ -46,6 +49,9 @@
             <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
             <if test="sendyzm != null">sendyzm=#{sendyzm},</if>
             <if test="endtime != null">endtime=#{endtime},</if>
+            <if test="staffId != null">staffId=#{staffId},</if>
+            <if test="posterId != null">posterId=#{posterId},</if>
+            <if test="applyState != null">applyState=#{applyState},</if>
         </trim>
         where id=#{id}
 
@@ -127,5 +133,28 @@
     </select>
     <select id="selectSmsYzmOne" resultType="cc.mrbird.febs.com.entity.ComSms">
         select * from com_sms where mobile=#{ mobile} and sendyzm = #{ sendyzm} and sendType = #{ sendType} and state = #{ state} order by CREATE_TIME desc limit 1
+    </select>
+
+    <select id="findSmsZpMaxSendType4" resultType="cc.mrbird.febs.com.entity.ComSms">
+        SELECT
+            s.*
+        FROM
+            com_sms s
+            INNER JOIN (
+                SELECT posterId, staffId, max( CREATE_TIME ) CREATE_TIME FROM com_sms
+                WHERE sendType = 4 AND posterId = #{ posterId}
+            <if test="applyState != null">
+                and applyState =#{ applyState}
+            </if>
+                GROUP BY posterId, staffId
+            ) g ON s.posterId = g.posterId
+            AND s.staffId = g.staffId
+            AND s.CREATE_TIME = g.CREATE_TIME
+        WHERE
+            s.sendType = 4
+            AND s.posterId = #{ posterId}
+        <if test="applyState != null">
+            and applyState =#{ applyState}
+        </if>
     </select>
 </mapper>

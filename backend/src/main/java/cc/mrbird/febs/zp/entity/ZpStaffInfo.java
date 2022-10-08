@@ -300,7 +300,6 @@ public class ZpStaffInfo implements Serializable, Comparable<ZpStaffInfo> {
     private transient String createTimeFrom;
     private transient String createTimeTo;
 
-
     public static final String ID = "id";
 
     public static final String USERID = "userid";

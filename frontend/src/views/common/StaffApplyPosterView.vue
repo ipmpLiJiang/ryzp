@@ -25,8 +25,8 @@
       <span slot="operationApplyState" slot-scope="text, record">
         <a-tag class="tagPadding" v-if="record.applyState === null">未申请</a-tag>
         <a-tag class="tagPadding" v-else-if="record.applyState === 0">未查看</a-tag>
-        <a-tag class="tagPadding" v-else-if="record.applyState === 1" color="orange">已查看</a-tag>
-        <a-tag class="tagPadding" v-else-if="record.applyState === 2" color="purple">跟踪</a-tag>
+        <a-tag class="tagPadding" v-else-if="record.applyState === 1" color="purple">面试</a-tag>
+        <a-tag class="tagPadding" v-else-if="record.applyState === 2" color="purple">拒绝</a-tag>
         <a-tag class="tagPadding" v-else color="green">已通过</a-tag>
       </span>
       <template slot="operation" slot-scope="text, record">
